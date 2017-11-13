@@ -7,7 +7,7 @@ namespace interactable
     {
 
         void Interact();
-
+        void Enable();
 
     }
 }

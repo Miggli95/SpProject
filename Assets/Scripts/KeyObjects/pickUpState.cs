@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace PickUp
 {
+    //states used by classes derived from IPickUp
     public enum pickUpState
     {
 

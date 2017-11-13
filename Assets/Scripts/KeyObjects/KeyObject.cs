@@ -5,8 +5,8 @@ using UnityEngine;
 public class KeyObject : MonoBehaviour {
 
     protected string id;
-    private bool isEnabled;
-    public bool IsEnabled {
+    /*private bool isEnabled;       Does keyobjects that can be picked up need to be turned on/off=
+    public bool IsEnabled {     
         get
         {
             return isEnabled;
@@ -16,9 +16,9 @@ public class KeyObject : MonoBehaviour {
             isEnabled = value;
         }
 
-    }
+    }*/
 
-    public KeyObject(string id)
+    protected void innitialize(string id)
     {
         this.id = id;
     }

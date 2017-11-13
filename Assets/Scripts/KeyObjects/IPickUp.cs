@@ -6,7 +6,7 @@ namespace PickUp
     public interface IPickUp
     {
 
-        void PickUp();
+        IPickUp PickUp();
         void Use();
         void Drop();
 
