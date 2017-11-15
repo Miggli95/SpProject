@@ -6,7 +6,7 @@ namespace interactable
     public interface IInteractable
     {
 
-        void Interact();
+        bool Interact();
         void Enable();
 
     }

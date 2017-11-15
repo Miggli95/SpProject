@@ -6,9 +6,11 @@ namespace PickUp
     public interface IPickUp
     {
 
+
         IPickUp PickUp();
-        void Use();
+        bool Use();
         void Drop();
+        string getID();
 
     }
 }
