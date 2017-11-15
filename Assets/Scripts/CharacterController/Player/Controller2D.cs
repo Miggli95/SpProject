@@ -115,16 +115,7 @@ public class Controller2D : MonoBehaviour {
 
         t += Time.fixedDeltaTime;
 
-        Rays();
-
-        if (charInput.y == -1)
-        {
-            if (bottom.collider.CompareTag("One Way"))
-            {
-                Physics.IgnoreCollision(controller, bottom.collider);
-            }
-                    
-        }
+        
 
         Vector3 destination = transform.right * charInput.x;
         RaycastHit hit;
@@ -225,6 +216,16 @@ public class Controller2D : MonoBehaviour {
             ChangeCharacterState(charInput, characterStateData);
         }
 
+        Rays();
+
+        if (charInput.y == -1)
+        {
+            if (bottom.collider.CompareTag("One Way"))
+            {
+                Physics.IgnoreCollision(controller, bottom.collider);
+            }
+
+        }
         /*if (controller.isGrounded)
         {
             jumpTimerDelay = jumpTimer;
@@ -234,8 +235,8 @@ public class Controller2D : MonoBehaviour {
         {
             jumpTimerDelay -= Time.deltaTime;
         }*/
-		
-	}
+
+    }
 
     private void ChangeCharacterState(Vector2 input, CharacterStateData characterStateData)
     {
@@ -276,8 +277,11 @@ public class Controller2D : MonoBehaviour {
 
     public void Dash()
     {
-        dashDestination = moveDir;
-        dashTimer = DashTimer;
-        dash = true;
+        if (!dash)
+        {
+            dashDestination = moveDir;
+            dashTimer = DashTimer;
+            dash = true;
+        }
     }
 }
