@@ -28,10 +28,12 @@ public class Controller2D : MonoBehaviour {
     public float dashSpeed = 10;
     private bool jump;
     public bool dash;
-    public float dashTimer = 0.5f;
+    public float DashTimer = 0.5f;
+    private float dashTimer;
     public float accelerationTime = 0.1f;
     public float deaccelrationTime = 0.8f;
-    Vector3 dashDestination;
+    public Vector3 dashDestination;
+
     private ICharacterState GetInitialCharacterState()
     {
         
@@ -63,6 +65,19 @@ public class Controller2D : MonoBehaviour {
         characterState.Enter();
 	}
 
+    public float Smooth(float target,ref float currentValue)
+    {
+        float value = 0;
+        var smoothTime = accelerationTime;
+        if (Mathf.Abs(charInput.x) < TMathHelper.FloatEpsilon)
+        {
+            smoothTime *= deaccelrationTime;
+        }
+
+        value = Mathf.SmoothDamp(currentValue, target, ref currentValue, smoothTime);
+        return value;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -91,18 +106,17 @@ public class Controller2D : MonoBehaviour {
         }
 
         //new Code
-        var smoothTime = accelerationTime;
-        if (Mathf.Abs(charInput.x) < TMathHelper.FloatEpsilon)
-        {
-            smoothTime *= deaccelrationTime;
-        }
 
+        Vector3 targetDir = Vector3.zero;
         if (dash)
         {
+
+
             if (dashTimer >= 0)
             {
-                moveDir.x = Mathf.SmoothDamp(moveDir.x,dashDestination.x * dashSpeed,ref moveDir.x,smoothTime);
-                dashTimer -= Time.fixedDeltaTime;
+                dash = dashDestination.x != 0;
+                targetDir.x = dashDestination.x * dashSpeed;
+                dashTimer -= Time.fixedDeltaTime;  
             }
 
             else
@@ -115,11 +129,11 @@ public class Controller2D : MonoBehaviour {
 
         else
         {
-            moveDir.x = Mathf.SmoothDamp(moveDir.x,destination.x * speed,ref moveDir.x,smoothTime);
+            targetDir.x = destination.x * speed;//Mathf.SmoothDamp(moveDir.x,destination.x * speed,ref moveDir.x,smoothTime);
                
         }
 
-       
+        moveDir.x = Smooth(targetDir.x,ref moveDir.x);
 
         if (controller.isGrounded)
         {
@@ -145,6 +159,12 @@ public class Controller2D : MonoBehaviour {
 
         colFlags = controller.Move(moveDir * Time.fixedDeltaTime);
 
+        if (controller.velocity.x == 0)
+        {
+            moveDir.x = 0;
+            dashDestination.x = 0;
+        }
+        //print("velocity" + controller.velocity); 
         if (transform.position.z != startZ)
         {
             Vector3 newPosition = transform.position;
@@ -221,7 +241,7 @@ public class Controller2D : MonoBehaviour {
     public void Dash()
     {
         dashDestination = moveDir;
-        dashTimer = 0.1f;
+        dashTimer = DashTimer;
         dash = true;
     }
 }
