@@ -10,8 +10,10 @@ public class Controller2D : MonoBehaviour {
     CharacterController controller;
     ICharacterState characterState;
     public bool consoleControlls = true;
+    [HideInInspector]
     public  KeyCode JumpKey = KeyCode.JoystickButton0;
-    public  KeyCode DashKey = KeyCode.Joystick1Button5; 
+    [HideInInspector]
+    public KeyCode DashKey = KeyCode.Joystick1Button5;
     Vector2 charInput;
     float jumpTimerDelay;
     float jumpTimer;
