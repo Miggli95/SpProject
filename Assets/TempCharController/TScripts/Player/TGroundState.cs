@@ -33,15 +33,15 @@ public struct TGroundState : TICharacterState
             // let the air state handle the jump.
             return new TCharacterStateData(Vector2.zero, new TAirState(controller), true);
         }
-        if (Input.GetKeyDown(controller.DashKey))
+        if (dashcd <= 0)
         {
-            if (dashcd <= 0) {
+            if (Input.GetKeyDown(controller.DashKey)) {
                     controller.dash(input);
                     dashcd = 0.5f;
-            }
-            else
-                dashcd -= Time.deltaTime;
+            }  
         }
+        else
+            dashcd = dashcd - Time.deltaTime;
 
         raycastOrigins = controller.GetUpdatedRaycastOrigins();
         var velocity = controller.CalculateVelocity(input, controller.GroundAccelerationTime);
