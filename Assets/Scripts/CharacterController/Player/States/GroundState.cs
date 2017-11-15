@@ -28,6 +28,12 @@ public class GroundState : ICharacterState
         {
             return new CharacterStateData(Vector2.zero, new AirState(controller), true);
         }
+
+        if (Input.GetKeyDown(controller.DashKey))
+        {
+            return new CharacterStateData(Vector2.zero, new DashState(controller, 5), true);
+        }
+
         var velocity = controller.getVelocity();
         var movement = Vector2.zero;
         var airborne =  !controller.getCharController().isGrounded;     

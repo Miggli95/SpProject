@@ -10,6 +10,7 @@ public class Controller2D : MonoBehaviour {
     CharacterController controller;
     ICharacterState characterState;
     public readonly KeyCode JumpKey = KeyCode.JoystickButton0;
+    public readonly KeyCode DashKey = KeyCode.Joystick1Button5; 
     Vector2 charInput;
     float jumpTimerDelay;
     float jumpTimer;
@@ -24,8 +25,11 @@ public class Controller2D : MonoBehaviour {
     public float gravityMultiplier = 1;
     private CollisionFlags colFlags;
     public float jumpSpeed = 10;
+    public float dashSpeed = 10;
     private bool jump;
-
+    public bool dash;
+    public float dashTimer = 0.5f;
+    Vector3 dashDestination;
     private ICharacterState GetInitialCharacterState()
     {
         
@@ -83,7 +87,27 @@ public class Controller2D : MonoBehaviour {
         {
             destination = Vector3.zero;
         }
-        moveDir.x = destination.x * speed;
+
+        if (dash)
+        {
+            if (dashTimer >= 0)
+            {
+                moveDir.x = dashDestination.x * dashSpeed;
+                dashTimer -= Time.fixedDeltaTime;
+            }
+
+            else
+            {
+                dash = false;
+            }
+
+
+        }
+
+        else
+        {
+            moveDir.x = destination.x * speed;
+        }
 
        
 
@@ -106,6 +130,8 @@ public class Controller2D : MonoBehaviour {
             moveDir.y = jumpSpeed;
             jump = false;
         }
+
+       
 
         colFlags = controller.Move(moveDir * Time.fixedDeltaTime);
 
@@ -136,7 +162,7 @@ public class Controller2D : MonoBehaviour {
             ChangeCharacterState(charInput, characterStateData);
         }
 
-        if (controller.isGrounded)
+        /*if (controller.isGrounded)
         {
             jumpTimerDelay = jumpTimer;
         }
@@ -144,7 +170,7 @@ public class Controller2D : MonoBehaviour {
         if (jumpTimerDelay > 0 && !controller.isGrounded)
         {
             jumpTimerDelay -= Time.deltaTime;
-        }
+        }*/
 		
 	}
 
@@ -180,5 +206,12 @@ public class Controller2D : MonoBehaviour {
     public void Jump()
     {
         jump = true;
+    }
+
+    public void Dash()
+    {
+        dashDestination = moveDir;
+        dashTimer = 0.1f;
+        dash = true;
     }
 }
