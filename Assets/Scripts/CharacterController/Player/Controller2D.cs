@@ -9,7 +9,7 @@ public class Controller2D : MonoBehaviour {
     public LayerMask CollisionMask;
     CharacterController controller;
     ICharacterState characterState;
-    public KeyCode JumpKey = KeyCode.Space;
+    public readonly KeyCode JumpKey = KeyCode.JoystickButton0;
     Vector2 charInput;
     float jumpTimerDelay;
     float jumpTimer;

@@ -28,6 +28,7 @@ public struct AirState : ICharacterState {
 
         if (Input.GetKeyDown(controller.JumpKey) && jumpCount < MaxJumpCount)
         {
+            
             if (Input.GetKeyDown(controller.JumpKey))
             {
                 if (jumpCount < MaxJumpCount)
