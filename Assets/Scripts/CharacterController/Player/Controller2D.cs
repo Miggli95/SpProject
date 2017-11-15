@@ -220,9 +220,12 @@ public class Controller2D : MonoBehaviour {
 
         if (charInput.y == -1)
         {
-            if (bottom.collider.CompareTag("One Way"))
+            if (bottom.collider != null)
             {
-                Physics.IgnoreCollision(controller, bottom.collider);
+                if (bottom.collider.CompareTag("One Way"))
+                {
+                    Physics.IgnoreCollision(controller, bottom.collider);
+                }
             }
 
         }
