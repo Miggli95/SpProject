@@ -29,6 +29,8 @@ public class Controller2D : MonoBehaviour {
     private bool jump;
     public bool dash;
     public float dashTimer = 0.5f;
+    public float accelerationTime = 0.1f;
+    public float deaccelrationTime = 0.8f;
     Vector3 dashDestination;
     private ICharacterState GetInitialCharacterState()
     {
@@ -88,11 +90,18 @@ public class Controller2D : MonoBehaviour {
             destination = Vector3.zero;
         }
 
+        //new Code
+        var smoothTime = accelerationTime;
+        if (Mathf.Abs(charInput.x) < TMathHelper.FloatEpsilon)
+        {
+            smoothTime *= deaccelrationTime;
+        }
+
         if (dash)
         {
             if (dashTimer >= 0)
             {
-                moveDir.x = dashDestination.x * dashSpeed;
+                moveDir.x = Mathf.SmoothDamp(moveDir.x,dashDestination.x * dashSpeed,ref moveDir.x,smoothTime);
                 dashTimer -= Time.fixedDeltaTime;
             }
 
@@ -106,7 +115,8 @@ public class Controller2D : MonoBehaviour {
 
         else
         {
-            moveDir.x = destination.x * speed;
+            moveDir.x = Mathf.SmoothDamp(moveDir.x,destination.x * speed,ref moveDir.x,smoothTime);
+               
         }
 
        
