@@ -33,7 +33,8 @@ public class Controller2D : MonoBehaviour {
     public float accelerationTime = 0.1f;
     public float deaccelrationTime = 0.8f;
     public Vector3 dashDestination;
-
+    public float bottomRayLength = 0.08f;
+    RaycastHit bottom;
     private ICharacterState GetInitialCharacterState()
     {
         
@@ -78,6 +79,32 @@ public class Controller2D : MonoBehaviour {
         return value;
     }
 
+    void Rays()
+    {
+   
+        if (Physics.SphereCast(transform.position, controller.radius, Vector3.up, out topHit,
+          BounceDownOnRoof, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        {
+            if (!topHit.collider.CompareTag("One Way"))
+            {
+                moveDir.y = -1;
+            }
+
+            else
+            {
+                Physics.IgnoreCollision(controller, topHit.collider, true);
+            }
+        }
+
+        if (Physics.SphereCast(transform.position, controller.radius, Vector3.down, out bottom,
+     controller.height, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        {
+            if (bottom.collider.CompareTag("One Way"))
+            {
+                Physics.IgnoreCollision(controller, bottom.collider, false);
+            }
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -88,11 +115,17 @@ public class Controller2D : MonoBehaviour {
 
         t += Time.fixedDeltaTime;
 
-        if (Physics.SphereCast(transform.position, controller.radius, Vector3.up, out topHit,
-          BounceDownOnRoof, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        Rays();
+
+        if (charInput.y == -1)
         {
-            moveDir.y = -1;
+            if (bottom.collider.CompareTag("One Way"))
+            {
+                Physics.IgnoreCollision(controller, bottom.collider);
+            }
+                    
         }
+
         Vector3 destination = transform.right * charInput.x;
         RaycastHit hit;
 
@@ -219,8 +252,11 @@ public class Controller2D : MonoBehaviour {
 
     public CharacterController getCharController()
     {
+        
         return controller;
     }
+
+   
 
     public Vector2 getVelocity()
     {
