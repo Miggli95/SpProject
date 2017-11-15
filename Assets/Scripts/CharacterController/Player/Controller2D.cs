@@ -9,8 +9,9 @@ public class Controller2D : MonoBehaviour {
     public LayerMask CollisionMask;
     CharacterController controller;
     ICharacterState characterState;
-    public readonly KeyCode JumpKey = KeyCode.JoystickButton0;
-    public readonly KeyCode DashKey = KeyCode.Joystick1Button5; 
+    public bool consoleControlls = true;
+    public  KeyCode JumpKey = KeyCode.JoystickButton0;
+    public  KeyCode DashKey = KeyCode.Joystick1Button5; 
     Vector2 charInput;
     float jumpTimerDelay;
     float jumpTimer;
@@ -60,6 +61,11 @@ public class Controller2D : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        if (!consoleControlls)
+        {
+         JumpKey = KeyCode.Space;
+         DashKey = KeyCode.LeftShift;
+    }
         controller = GetComponent<CharacterController>();
         startZ = transform.position.z;
         characterState = GetInitialCharacterState();
