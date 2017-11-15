@@ -19,7 +19,7 @@ public class StandardLevelGoal : MonoBehaviour {
         {
             if(currentposition == keyObjects.Length) //is object at the end of the level goal array?
             {
-                //Sacrifice player that completed the goal.
+                //Sacrifice player that completed the goal. Who sacrifices? StandardLevelGoal, StaticKeyObject? Does standardlevelgoal tell statickeyobject to sacrifice player?
                 //award points based on complexity(?) and position
             }
             //enable next object and increment currentposition by 1

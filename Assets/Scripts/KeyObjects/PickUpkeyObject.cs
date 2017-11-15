@@ -16,7 +16,7 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
 
     public IPickUp PickUp(){
         if (state == pickUpState.PickedUp)           //Plan is to let player keep track of the pickup's position and update it. Should pickup know anything about the player that picked it up?
-        {           
+        {                                            //Should a player be able to pick up used objects? Should used objects disappear? Should some disappear?
             return null;
         }
         state = pickUpState.PickedUp;               //Returns this object as a IPickUp if it's not in the picked up state.

@@ -12,7 +12,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
 
     private InteractableState state; // Check what state it is in to decide if methods should run their course.
     public void Interact() // Need to call base in classes derived from StaticKeyObject in general. Checks what state this interactable is in. Need to add argument player to keep track of who
-                           // interacted with the object
+                           // interacted with the object if the object should sacrifice the player.
     {
         if(state != InteractableState.Enabled)
         {
