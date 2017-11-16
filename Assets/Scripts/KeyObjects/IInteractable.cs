@@ -6,7 +6,7 @@ namespace interactable
     public interface IInteractable
     {
 
-        bool Interact();
+        bool Interact(Controller2D player);
         void Enable();
 
     }

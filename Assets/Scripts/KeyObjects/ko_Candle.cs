@@ -11,11 +11,6 @@ public class ko_Candle : PickUpKeyObject {
         innitialize("Candle");
     }
 
-    public override bool Use()
-    {
-        return false;
-    }
-
     private new void innitialize(string id)
     {
         base.innitialize(id);

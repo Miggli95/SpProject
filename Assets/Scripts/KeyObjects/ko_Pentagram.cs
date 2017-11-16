@@ -18,15 +18,17 @@ public class ko_Pentagram : StaticKeyObject {
         base.innitialize(id, requirement, state);
     }
 
-    public override bool Interact() //going to need a temporary reference to the player to check the item the player is carrying and sacrifice him.
+    public override bool Interact(Controller2D player) //going to need a temporary reference to the player to check the item the player is carrying and sacrifice him.
     {
-        if (!base.Interact())
+        if (!base.Interact(player))
         {
             return false;
         }
+        if(requirement == null || requirement.Count == 0)
+        {
+            flagComplete();
+        }
         
-
-
         return true;
 
     }

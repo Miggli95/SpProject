@@ -5,24 +5,28 @@ using interactable;
 [RequireComponent(typeof(Collider2D))]
 public abstract class StaticKeyObject : KeyObject, IInteractable
 {
-    //add in field that keeps track of the player that completed the goal.
+    //add in field that keeps track of the player that completed the goal? Or let level goal keep track of who completed the earlier stages?.
     protected List<string> requirement; //Refers to another keyobject, if requirement isn't null check what the id of the object the player is carrying is. use an array instead? 
     //(Let all objects have an id? Use a disruptive object as a key object?)
-    private bool isComplete;
-    //private player interactingPlayer
+    private bool isComplete = false;
+    protected Controller2D interactingPlayer = null;
 
     protected InteractableState state; // Check what state it is in to decide if methods should run their course.
 
-    public virtual bool Interact(/*Needs a reference to the player*/) // Need to call base in classes derived from StaticKeyObject in general. Checks what state this interactable is in. Need to add argument player to keep track of who
+    public virtual bool Interact(Controller2D player) // Need to call base in classes derived from StaticKeyObject in general. Checks what state this interactable is in. 
                            // interacted with the object if the object should sacrifice the player.
     {
         if(state != InteractableState.Enabled)
         {
             return false;
         }
+        if(interactingPlayer != null)
+        {
+            return false;
+        }
         state = InteractableState.Interacted;
-        //interactingPlayer = player
-        if (!checkRequirement("temp"))
+        interactingPlayer = player;
+        if (!checkRequirement(player.getCarryId()))
         {
             return false;
         }
@@ -74,6 +78,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         if(other.CompareTag("player"))
         {
             //Set what interactable the player is currently near, try to see if you can get information about what object the player is carrying(keyobject id), save player temporary to be able to kill him?
+            other.GetComponent<Controller2D>().setInteractableFocus(this);
         }
     }
     public void OnTriggerExit2D(Collider2D other)
@@ -81,6 +86,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         if (other.CompareTag("player"))
         {
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
+            other.GetComponent<Controller2D>().setInteractableFocus(null);
         }
     }
 
@@ -111,6 +117,11 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         requirement.Remove(id);
         requirement.TrimExcess();
         
+    }
+
+    public Controller2D getInteractingPlayer()
+    {
+        return interactingPlayer;
     }
 
 

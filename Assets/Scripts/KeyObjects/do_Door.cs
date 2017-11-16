@@ -15,9 +15,9 @@ public class do_Door : staticDisruptiveObject {
         Door.enabled = false;
 	}
 
-    public override bool Interact()
+    public override bool Interact(Controller2D player)
     {
-        if (!base.Interact())
+        if (!base.Interact(player))
         {
             return false;
         }

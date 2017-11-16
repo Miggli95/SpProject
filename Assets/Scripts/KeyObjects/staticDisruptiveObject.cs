@@ -16,7 +16,7 @@ public abstract class staticDisruptiveObject : IInteractable
     }
 
 
-    public virtual bool Interact()
+    public virtual bool Interact(Controller2D player)
     {
         if(state == InteractableState.Dormant)
         {

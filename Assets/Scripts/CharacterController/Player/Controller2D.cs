@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-
+using PickUp;
+using interactable;
 public class Controller2D : MonoBehaviour {
 
     ICharacterState currentState;
@@ -11,9 +12,15 @@ public class Controller2D : MonoBehaviour {
     ICharacterState characterState;
     public bool consoleControlls = true;
     [HideInInspector]
-    public  KeyCode JumpKey = KeyCode.JoystickButton0;
+    public KeyCode JumpKey = KeyCode.JoystickButton0;
     [HideInInspector]
     public KeyCode DashKey = KeyCode.Joystick1Button5;
+    [HideInInspector]
+    public KeyCode InteractKey = KeyCode.JoystickButton3;
+    [HideInInspector]
+    public KeyCode PickUpKey = KeyCode.JoystickButton2;
+    [HideInInspector]
+    public KeyCode UseKey = KeyCode.JoystickButton1;
     Vector2 charInput;
     float jumpTimerDelay;
     float jumpTimer;
@@ -37,7 +44,11 @@ public class Controller2D : MonoBehaviour {
     public float deaccelrationTime = 0.8f;
     public Vector3 dashDestination;
     public float bottomRayLength = 0.08f;
+    private IInteractable InteractFocus;
+    private IPickUp PickUpFocus;
+    private IPickUp PickUpCarry;
     RaycastHit bottom;
+    
     private ICharacterState GetInitialCharacterState()
     {
         
@@ -67,6 +78,10 @@ public class Controller2D : MonoBehaviour {
         {
          JumpKey = KeyCode.Space;
          DashKey = KeyCode.LeftShift;
+         UseKey = KeyCode.E;
+         InteractKey = KeyCode.Q;
+         PickUpKey = KeyCode.C;
+
     }
         controller = GetComponent<CharacterController>();
         startZ = transform.position.z;
@@ -246,7 +261,7 @@ public class Controller2D : MonoBehaviour {
         {
             jumpTimerDelay -= Time.deltaTime;
         }*/
-
+        checkAction();
     }
 
     private void ChangeCharacterState(Vector2 input, CharacterStateData characterStateData)
@@ -293,6 +308,44 @@ public class Controller2D : MonoBehaviour {
             dashDestination = moveDir;
             dashTimer = DashTimer;
             dash = true;
+        }
+    }
+
+    public string getCarryId()
+    {
+        if(PickUpCarry == null)
+        {
+            return "noobject";
+        }
+        return PickUpCarry.getID();
+    }
+    public void setPickUpFocus(IPickUp pickup)
+    {
+        PickUpFocus = pickup;
+    }
+
+    public void setInteractableFocus(IInteractable interactable)
+    {
+        InteractFocus = interactable;
+    }
+
+    private void checkAction()
+    {
+        if(Input.GetKeyDown(InteractKey) && InteractFocus != null){
+            InteractFocus.Interact(this);
+        }
+        if(Input.GetKeyDown(UseKey) && PickUpCarry != null)
+        {
+            PickUpCarry.Use();
+        }
+        if(Input.GetKeyDown(PickUpKey) && PickUpFocus != null && PickUpCarry == null)
+        {
+            PickUpCarry = PickUpFocus;
+        }
+        if(Input.GetKeyDown(PickUpKey) && PickUpCarry != null)
+        {
+            PickUpCarry.Drop();
+            PickUpCarry = null;
         }
     }
 }
