@@ -35,6 +35,8 @@ public class Controller2D : MonoBehaviour {
     private float dashTimer;
     public float accelerationTime = 0.1f;
     public float deaccelrationTime = 0.8f;
+    public float airAccelerationTime = 0.2f;
+    public float airDeaccelrationTime = 1.6f;
     public Vector3 dashDestination;
     public float bottomRayLength = 0.08f;
     RaycastHit bottom;
@@ -66,16 +68,16 @@ public class Controller2D : MonoBehaviour {
     {
         if (!consoleControlls)
         {
-         JumpKey = KeyCode.Space;
-         DashKey = KeyCode.LeftShift;
-    }
+            JumpKey = KeyCode.Space;
+            DashKey = KeyCode.LeftShift;
+        }
         controller = GetComponent<CharacterController>();
         startZ = transform.position.z;
         characterState = GetInitialCharacterState();
         characterState.Enter();
 	}
 
-    public float Smooth(float target,ref float currentValue)
+    public float Smooth(float target,ref float currentValue,float accelerationTime, float deaccelrationTime)
     {
         float value = 0;
         var smoothTime = accelerationTime;
@@ -166,16 +168,18 @@ public class Controller2D : MonoBehaviour {
                
         }
 
-        moveDir.x = Smooth(targetDir.x,ref moveDir.x);
+
+      
 
         if (controller.isGrounded)
         {
-
+            moveDir.x = Smooth(targetDir.x, ref moveDir.x,accelerationTime,deaccelrationTime);
             moveDir.y = -stickToGrouncForce;
         }
 
         else
         {
+            moveDir.x = Smooth(targetDir.x, ref moveDir.x, airAccelerationTime, airDeaccelrationTime);
             moveDir += Physics.gravity * gravityMultiplier * Time.deltaTime;
 
         }
