@@ -5,13 +5,12 @@ using interactable;
 [RequireComponent(typeof(Collider2D))]
 public abstract class StaticKeyObject : KeyObject, IInteractable
 {
-    //add in field that keeps track of the player that completed the goal? Or let level goal keep track of who completed the earlier stages?.
-    protected List<string> requirement; //Refers to another keyobject, if requirement isn't null check what the id of the object the player is carrying is. use an array instead? 
-    //(Let all objects have an id? Use a disruptive object as a key object?)
+                                                    //add in field that keeps track of the player that completed the goal? Or let level goal keep track of who completed the earlier stages?.
+    protected List<string> requirement;             //Refers to another keyobject, if requirement isn't null check what the id of the object the player is carrying is. use an array instead? 
+                                                    //(Let all objects have an id? Use a disruptive object as a key object?)
     private bool isComplete = false;
     protected Controller2D interactingPlayer = null;
-
-    protected InteractableState state; // Check what state it is in to decide if methods should run their course.
+    protected InteractableState state;              // Check what state it is in to decide if methods should run their course.
 
     public virtual bool Interact(Controller2D player) // Need to call base in classes derived from StaticKeyObject in general. Checks what state this interactable is in. 
                            // interacted with the object if the object should sacrifice the player.
