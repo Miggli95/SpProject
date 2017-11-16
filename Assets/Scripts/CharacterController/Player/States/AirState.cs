@@ -15,6 +15,7 @@ public struct AirState : ICharacterState {
         }
         MaxJumpCount = maxJumpCount;
         this.controller = controller;
+        //fell = controller.canJump;
         jumpCount = fell ? 1 : 0;
     }
 

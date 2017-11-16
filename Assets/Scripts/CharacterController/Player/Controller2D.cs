@@ -15,8 +15,8 @@ public class Controller2D : MonoBehaviour {
     [HideInInspector]
     public KeyCode DashKey = KeyCode.Joystick1Button5;
     Vector2 charInput;
-    float jumpTimerDelay;
-    float jumpTimer;
+    public float jumpTimerDelay;
+    public float jumpTimer = 0.3f;
     private float startZ;
     private float previousX;
     private float t;
@@ -38,6 +38,7 @@ public class Controller2D : MonoBehaviour {
     public Vector3 dashDestination;
     public float bottomRayLength = 0.08f;
     RaycastHit bottom;
+    public bool canJump = true;
     private ICharacterState GetInitialCharacterState()
     {
         
@@ -241,12 +242,22 @@ public class Controller2D : MonoBehaviour {
         {
             jumpTimerDelay = jumpTimer;
         }
-
+        */
         if (jumpTimerDelay > 0 && !controller.isGrounded)
         {
+            canJump = true;
             jumpTimerDelay -= Time.deltaTime;
-        }*/
+        }
 
+        if (jumpTimerDelay <= 0 && !controller.isGrounded)
+        {
+            canJump = false;
+        }
+
+        else
+        {
+            canJump = true;
+        }
     }
 
     private void ChangeCharacterState(Vector2 input, CharacterStateData characterStateData)
@@ -283,7 +294,14 @@ public class Controller2D : MonoBehaviour {
 
     public void Jump()
     {
+        //startJumpTimer();
         jump = true;
+    }
+
+    public void startJumpTimer()
+    {
+        canJump = true;
+        jumpTimerDelay = jumpTimer;
     }
 
     public void Dash()
