@@ -324,6 +324,11 @@ public class Controller2D : MonoBehaviour {
         PickUpFocus = pickup;
     }
 
+    /*public IPickUp getPickUpFocus()
+    {
+        return PickUpFocus;
+    }*/
+
     public void setInteractableFocus(IInteractable interactable)
     {
         InteractFocus = interactable;
