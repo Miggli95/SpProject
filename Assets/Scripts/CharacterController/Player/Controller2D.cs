@@ -55,7 +55,7 @@ public class Controller2D : MonoBehaviour
     private IPickUp PickUpCarry;
     private List<IPickUp> PickUpFocusList;
     private int PickUpFocusSelected;
-
+    float onewayPlatformIndex;
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -88,6 +88,7 @@ public class Controller2D : MonoBehaviour
             UseKey = KeyCode.E;
             InteractKey = KeyCode.Q;
             PickUpKey = KeyCode.C;
+            onewayPlatformIndex = 0;
         }
 
         else
@@ -100,6 +101,7 @@ public class Controller2D : MonoBehaviour
 
             PickUpKey = KeyCode.JoystickButton2;
             UseKey = KeyCode.JoystickButton1;
+            onewayPlatformIndex = -0.7f;
         }
         controller = GetComponent<CharacterController>();
         startZ = transform.position.z;
@@ -264,7 +266,7 @@ public class Controller2D : MonoBehaviour
 
         Rays();
 
-        if (charInput.y < 0)
+        if (charInput.y < onewayPlatformIndex)
         {
             if (bottom.collider != null)
             {
