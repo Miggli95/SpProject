@@ -16,9 +16,9 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     }
 
     public virtual IPickUp PickUp(){
-        if (state == pickUpState.PickedUp)           //Plan is to let player keep track of the pickup's position and update it. Should pickup know anything about the player that picked it up?
+        if (state != pickUpState.Waiting)           //Plan is to let player keep track of the pickup's position and update it. Should pickup know anything about the player that picked it up?
         {                                            //Should a player be able to pick up used objects? Should used objects disappear? Should some disappear?
-            return null;
+            return null;                             //Exists to allow items do special things when they're picked up, instead of setting the focus to pick up in controller2d
         }
         state = pickUpState.PickedUp;               //Returns this object as a IPickUp if it's not in the picked up state.
         return this;    
@@ -38,7 +38,7 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     {
         if (other.CompareTag("player"))
         {
-            other.GetComponent<Controller2D>().setPickUpFocus(this);
+            other.GetComponent<Controller2D>().addPickUpFocus(this);
             //Set pickup focus in player script to this
         }
     }
@@ -46,8 +46,8 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     {
         if (other.CompareTag("player"))
         {
-            
-            
+
+            other.GetComponent<Controller2D>().removePickUpFocus(this);
             //remove pickup focus in player script if the object that is in focus is this object.
         }
     }
@@ -55,5 +55,15 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     public string getID()
     {
         return id;
+    }
+
+    public void Outline() //Needs code to represent that an object is highlighted, need to take a value
+    {
+
+    }
+
+    public void removeOutline()
+    {
+
     }
 }

@@ -47,6 +47,8 @@ public class Controller2D : MonoBehaviour {
     private IInteractable InteractFocus;
     private IPickUp PickUpFocus;
     private IPickUp PickUpCarry;
+    private List<IPickUp> PickUpFocusList;
+    private int PickUpFocusSelected;
     RaycastHit bottom;
     
     private ICharacterState GetInitialCharacterState()
@@ -87,6 +89,9 @@ public class Controller2D : MonoBehaviour {
         startZ = transform.position.z;
         characterState = GetInitialCharacterState();
         characterState.Enter();
+        PickUpFocusList = new List<IPickUp>();
+        PickUpFocusSelected = 0;
+        
 	}
 
     public float Smooth(float target,ref float currentValue)
@@ -323,11 +328,41 @@ public class Controller2D : MonoBehaviour {
     {
         PickUpFocus = pickup;
     }
+    public void addPickUpFocus(IPickUp pickup)
+    {
+        bool highlight = PickUpFocusList.Count == 0;
+        PickUpFocusList.Add(pickup);
+        if (highlight)
+        {
+            PickUpFocusSelected = 0;
+            PickUpFocusList[PickUpFocusSelected].Outline();
+        }
 
-    /*public IPickUp getPickUpFocus()
+    }
+
+    public void removePickUpFocus(IPickUp pickup)
+    {
+        var preserve = PickUpFocusList[PickUpFocusSelected];
+        var index = PickUpFocusList.IndexOf(pickup);
+        var removed = PickUpFocusList.Remove(pickup);
+        PickUpFocusList.TrimExcess();
+
+        if (index != PickUpFocusSelected && removed)
+            PickUpFocusSelected = PickUpFocusList.IndexOf(preserve);
+        if (index == PickUpFocusSelected && removed)
+        {
+            pickup.removeOutline();
+            if (PickUpFocusSelected <= (PickUpFocusList.Count))
+                PickUpFocusSelected = PickUpFocusList.Count - 1;
+
+        }
+        
+    }
+
+    public IPickUp getPickUpFocus()
     {
         return PickUpFocus;
-    }*/
+    }
 
     public void setInteractableFocus(IInteractable interactable)
     {
@@ -353,4 +388,32 @@ public class Controller2D : MonoBehaviour {
             PickUpCarry = null;
         }
     }
+    private void cyclePickUpSelected(int i) // takes in -1 or +1 
+    {
+        if (i != 1 || i != -1)
+        {
+            return;
+        }
+        if (PickUpFocusList.Count == 0)
+        {
+            return;
+        }
+        PickUpFocusList[PickUpFocusSelected].removeOutline();
+        if (PickUpFocusSelected + i >= PickUpFocusList.Count)
+        {
+            PickUpFocusSelected = 0;
+        }
+        else if (PickUpFocusSelected + i < 0)
+        {
+            PickUpFocusSelected = PickUpFocusList.Count - 1;
+        } else
+        {
+            PickUpFocusSelected += i;
+        }
+
+        PickUpFocusList[PickUpFocusSelected].Outline();
+
+
+    }
+   
 }

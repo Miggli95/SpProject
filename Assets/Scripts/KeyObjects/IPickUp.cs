@@ -11,6 +11,7 @@ namespace PickUp
         bool Use();
         void Drop();
         string getID();
-
+        void Outline();
+        void removeOutline();
     }
 }
