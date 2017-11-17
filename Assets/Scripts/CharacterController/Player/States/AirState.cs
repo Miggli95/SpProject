@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct AirState : ICharacterState {
+public struct AirState : ICharacterState
+{
 
-	private Controller2D controller;
+    private Controller2D controller;
     private int jumpCount;
     private int MaxJumpCount;
     public AirState(Controller2D controller, bool fell = false, int maxJumpCount = 2)
@@ -15,6 +16,7 @@ public struct AirState : ICharacterState {
         }
         MaxJumpCount = maxJumpCount;
         this.controller = controller;
+        //fell = controller.canJump;
         jumpCount = fell ? 1 : 0;
     }
 
@@ -26,17 +28,15 @@ public struct AirState : ICharacterState {
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
 
-        if (Input.GetKeyDown(controller.JumpKey) && jumpCount < MaxJumpCount)
+
+        if (Input.GetKeyDown(controller.JumpKey))
         {
-            
-            if (Input.GetKeyDown(controller.JumpKey))
+            if (jumpCount < MaxJumpCount)
             {
-                if (jumpCount < MaxJumpCount)
-                {
-                    Jump();
-                }
+                Jump();
             }
         }
+
 
         else if (controller.getCharController().isGrounded)
         {
@@ -46,7 +46,7 @@ public struct AirState : ICharacterState {
         }
 
         var velocity = controller.getVelocity();
-        return HandleVerticalMovement(velocity,input,deltaTime);
+        return HandleVerticalMovement(velocity, input, deltaTime);
     }
 
     private CharacterStateData HandleVerticalMovement(Vector2 velocity, Vector2 input, float deltaTime)
@@ -69,5 +69,5 @@ public struct AirState : ICharacterState {
     {
 
     }
-    
+
 }

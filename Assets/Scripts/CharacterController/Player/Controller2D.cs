@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using interactable;
+using PickUp;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-using PickUp;
-using interactable;
-public class Controller2D : MonoBehaviour {
+
+public class Controller2D : MonoBehaviour
+{
 
     ICharacterState currentState;
     public LayerMask CollisionMask;
@@ -12,18 +14,18 @@ public class Controller2D : MonoBehaviour {
     ICharacterState characterState;
     public bool consoleControlls = true;
     [HideInInspector]
-    public KeyCode JumpKey = KeyCode.JoystickButton0;
+    public KeyCode JumpKey;
     [HideInInspector]
-    public KeyCode DashKey = KeyCode.Joystick1Button5;
+    public KeyCode DashKey;
     [HideInInspector]
-    public KeyCode InteractKey = KeyCode.JoystickButton3;
+    public KeyCode InteractKey;
     [HideInInspector]
-    public KeyCode PickUpKey = KeyCode.JoystickButton2;
+    public KeyCode PickUpKey;
     [HideInInspector]
-    public KeyCode UseKey = KeyCode.JoystickButton1;
+    public KeyCode UseKey;
     Vector2 charInput;
-    float jumpTimerDelay;
-    float jumpTimer;
+    public float jumpTimerDelay;
+    public float jumpTimer = 0.3f;
     private float startZ;
     private float previousX;
     private float t;
@@ -42,18 +44,21 @@ public class Controller2D : MonoBehaviour {
     private float dashTimer;
     public float accelerationTime = 0.1f;
     public float deaccelrationTime = 0.8f;
+    public float airAccelerationTime = 0.2f;
+    public float airDeaccelrationTime = 1.6f;
     public Vector3 dashDestination;
     public float bottomRayLength = 0.08f;
+    RaycastHit bottom;
+    public bool canJump = true;
     private IInteractable InteractFocus;
     private IPickUp PickUpFocus;
     private IPickUp PickUpCarry;
     private List<IPickUp> PickUpFocusList;
     private int PickUpFocusSelected;
-    RaycastHit bottom;
-    
+
     private ICharacterState GetInitialCharacterState()
     {
-        
+
         ICharacterState cS = null;
 
         if (controller.isGrounded)
@@ -66,35 +71,46 @@ public class Controller2D : MonoBehaviour {
             cS = new AirState(this, true);
         }
 
-        return cS;  
+        return cS;
     }
 
-   
 
 
 
-	// Use this for initialization
-	void Start ()
+
+    // Use this for initialization
+    void Start()
     {
         if (!consoleControlls)
         {
-         JumpKey = KeyCode.Space;
-         DashKey = KeyCode.LeftShift;
-         UseKey = KeyCode.E;
-         InteractKey = KeyCode.Q;
-         PickUpKey = KeyCode.C;
+            JumpKey = KeyCode.Space;
+            DashKey = KeyCode.LeftShift;
+            UseKey = KeyCode.E;
+            InteractKey = KeyCode.Q;
+            PickUpKey = KeyCode.C;
+        }
 
-    }
+        else
+        {
+            JumpKey = KeyCode.JoystickButton0;
+
+            DashKey = KeyCode.Joystick1Button5;
+
+            InteractKey = KeyCode.JoystickButton3;
+
+            PickUpKey = KeyCode.JoystickButton2;
+            UseKey = KeyCode.JoystickButton1;
+        }
         controller = GetComponent<CharacterController>();
         startZ = transform.position.z;
         characterState = GetInitialCharacterState();
         characterState.Enter();
+
         PickUpFocusList = new List<IPickUp>();
         PickUpFocusSelected = 0;
-        
-	}
+    }
 
-    public float Smooth(float target,ref float currentValue)
+    public float Smooth(float target, ref float currentValue, float accelerationTime, float deaccelrationTime)
     {
         float value = 0;
         var smoothTime = accelerationTime;
@@ -109,7 +125,7 @@ public class Controller2D : MonoBehaviour {
 
     void Rays()
     {
-   
+
         if (Physics.SphereCast(transform.position, controller.radius, Vector3.up, out topHit,
           BounceDownOnRoof, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
@@ -143,7 +159,7 @@ public class Controller2D : MonoBehaviour {
 
         t += Time.fixedDeltaTime;
 
-        
+
 
         Vector3 destination = transform.right * charInput.x;
         RaycastHit hit;
@@ -168,7 +184,7 @@ public class Controller2D : MonoBehaviour {
             {
                 dash = dashDestination.x != 0;
                 targetDir.x = dashDestination.x * dashSpeed;
-                dashTimer -= Time.fixedDeltaTime;  
+                dashTimer -= Time.fixedDeltaTime;
             }
 
             else
@@ -182,19 +198,21 @@ public class Controller2D : MonoBehaviour {
         else
         {
             targetDir.x = destination.x * speed;//Mathf.SmoothDamp(moveDir.x,destination.x * speed,ref moveDir.x,smoothTime);
-               
+
         }
 
-        moveDir.x = Smooth(targetDir.x,ref moveDir.x);
+
+
 
         if (controller.isGrounded)
         {
-
+            moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
             moveDir.y = -stickToGrouncForce;
         }
 
         else
         {
+            moveDir.x = Smooth(targetDir.x, ref moveDir.x, airAccelerationTime, airDeaccelrationTime);
             moveDir += Physics.gravity * gravityMultiplier * Time.deltaTime;
 
         }
@@ -207,7 +225,7 @@ public class Controller2D : MonoBehaviour {
             jump = false;
         }
 
-       
+
 
         colFlags = controller.Move(moveDir * Time.fixedDeltaTime);
 
@@ -226,9 +244,9 @@ public class Controller2D : MonoBehaviour {
         }
     }
 
-    void Update ()
+    void Update()
     {
-        
+        //print("jumpKEy" + JumpKey);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         charInput = new Vector2(horizontal, vertical);
@@ -261,11 +279,22 @@ public class Controller2D : MonoBehaviour {
         {
             jumpTimerDelay = jumpTimer;
         }
-
+        */
         if (jumpTimerDelay > 0 && !controller.isGrounded)
         {
+            canJump = true;
             jumpTimerDelay -= Time.deltaTime;
-        }*/
+        }
+
+        if (jumpTimerDelay <= 0 && !controller.isGrounded)
+        {
+            canJump = false;
+        }
+
+        else
+        {
+            canJump = true;
+        }
         checkAction();
     }
 
@@ -284,11 +313,11 @@ public class Controller2D : MonoBehaviour {
 
     public CharacterController getCharController()
     {
-        
+
         return controller;
     }
 
-   
+
 
     public Vector2 getVelocity()
     {
@@ -303,7 +332,14 @@ public class Controller2D : MonoBehaviour {
 
     public void Jump()
     {
+        //startJumpTimer();
         jump = true;
+    }
+
+    public void startJumpTimer()
+    {
+        canJump = true;
+        jumpTimerDelay = jumpTimer;
     }
 
     public void Dash()
@@ -318,7 +354,7 @@ public class Controller2D : MonoBehaviour {
 
     public string getCarryId()
     {
-        if(PickUpCarry == null)
+        if (PickUpCarry == null)
         {
             return "noobject";
         }
@@ -356,7 +392,7 @@ public class Controller2D : MonoBehaviour {
                 PickUpFocusSelected = PickUpFocusList.Count - 1;
 
         }
-        
+
     }
 
     public IPickUp getPickUpFocus()
@@ -371,18 +407,19 @@ public class Controller2D : MonoBehaviour {
 
     private void checkAction()
     {
-        if(Input.GetKeyDown(InteractKey) && InteractFocus != null){
+        if (Input.GetKeyDown(InteractKey) && InteractFocus != null)
+        {
             InteractFocus.Interact(this);
         }
-        if(Input.GetKeyDown(UseKey) && PickUpCarry != null)
+        if (Input.GetKeyDown(UseKey) && PickUpCarry != null)
         {
             PickUpCarry.Use();
         }
-        if(Input.GetKeyDown(PickUpKey) && PickUpFocus != null && PickUpCarry == null)
+        if (Input.GetKeyDown(PickUpKey) && PickUpFocus != null && PickUpCarry == null)
         {
             PickUpCarry = PickUpFocus;
         }
-        if(Input.GetKeyDown(PickUpKey) && PickUpCarry != null)
+        if (Input.GetKeyDown(PickUpKey) && PickUpCarry != null)
         {
             PickUpCarry.Drop();
             PickUpCarry = null;
@@ -406,7 +443,8 @@ public class Controller2D : MonoBehaviour {
         else if (PickUpFocusSelected + i < 0)
         {
             PickUpFocusSelected = PickUpFocusList.Count - 1;
-        } else
+        }
+        else
         {
             PickUpFocusSelected += i;
         }
@@ -415,5 +453,4 @@ public class Controller2D : MonoBehaviour {
 
 
     }
-   
 }

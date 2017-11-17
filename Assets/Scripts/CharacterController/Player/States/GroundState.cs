@@ -19,7 +19,7 @@ public class GroundState : ICharacterState
 
     public void Enter()
     {
-        
+
     }
 
     public CharacterStateData Update(Vector2 input, float deltaTime)
@@ -36,17 +36,17 @@ public class GroundState : ICharacterState
 
         var velocity = controller.getVelocity();
         var movement = Vector2.zero;
-        var airborne =  !controller.getCharController().isGrounded;     
+        var airborne = !controller.getCharController().isGrounded;// && !controller.canJump;     
         var characterStateData = GetCharacterStateData(movement, airborne);
 
         return characterStateData;
     }
 
-   /*rivate bool HandleMovement()
-    {
-        var airborne = !controller.getCharController().isGrounded;
-        return airborne;
-    }*/
+    /*rivate bool HandleMovement()
+     {
+         var airborne = !controller.getCharController().isGrounded;
+         return airborne;
+     }*/
 
     private CharacterStateData GetCharacterStateData(Vector2 movement, bool airborne)
     {
@@ -55,7 +55,14 @@ public class GroundState : ICharacterState
 
         if (airborne)
         {
-            characterStateData.NewState = new AirState(controller, true);
+            if (controller.canJump)
+            {
+                controller.startJumpTimer();
+            }
+            if (!controller.canJump)
+            {
+                characterStateData.NewState = new AirState(controller, true);
+            }
         }
 
         return characterStateData;
@@ -65,5 +72,5 @@ public class GroundState : ICharacterState
     {
 
     }
-    
+
 }
