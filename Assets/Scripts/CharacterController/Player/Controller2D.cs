@@ -57,6 +57,10 @@ public class Controller2D : MonoBehaviour
     private List<IPickUp> PickUpFocusList;
     private int PickUpFocusSelected;
     float onewayPlatformIndex;
+
+    public GameObject Trail; 
+
+    
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -249,6 +253,15 @@ public class Controller2D : MonoBehaviour
 
     void Update()
     {
+        if(Mathf.Abs(controller.velocity.x) > 0)
+        {
+            Trail.SetActive(true);
+
+        }else
+        {
+            Trail.SetActive(false);
+        }
+
         //temp restart code
         if (Input.GetKeyDown(KeyCode.R))
         {
