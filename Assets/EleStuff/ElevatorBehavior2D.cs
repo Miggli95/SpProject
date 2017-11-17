@@ -17,6 +17,7 @@ public class ElevatorBehavior2D : MonoBehaviour
     private float stopTimer;
     private int binar;
     private bool startDelay;
+    public Transform playerParent;
 
     public enum TransformDirection
     {
@@ -105,7 +106,7 @@ public class ElevatorBehavior2D : MonoBehaviour
             if (other.gameObject.CompareTag("Player"))
             {
                 parent = other.transform.parent;
-                other.transform.parent = transform;
+                other.transform.parent = transform.GetChild(0);
             }
         
 
@@ -120,7 +121,7 @@ public class ElevatorBehavior2D : MonoBehaviour
 
             if (other.CompareTag("Player"))
             {
-                other.transform.parent = null;
+                other.transform.parent = parent;
             }
         
        
