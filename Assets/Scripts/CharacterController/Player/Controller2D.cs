@@ -264,7 +264,7 @@ public class Controller2D : MonoBehaviour
 
         Rays();
 
-        if (charInput.y == -1)
+        if (charInput.y < 0)
         {
             if (bottom.collider != null)
             {
