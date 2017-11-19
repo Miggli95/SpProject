@@ -101,6 +101,63 @@ public class Controller2D : MonoBehaviour
 
         else
         {
+            switch (this.name)
+            {
+                case "P1":
+                    print("weplayer1");
+                    JumpKey = KeyCode.Joystick1Button0;
+
+                    DashKey = KeyCode.Joystick1Button5;
+
+                    InteractKey = KeyCode.Joystick1Button3;
+
+                    PickUpKey = KeyCode.Joystick1Button2;
+                    UseKey = KeyCode.Joystick1Button1;
+                    DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
+                    onewayPlatformIndex = -0.7f;
+                    break;
+                case "P2":
+                    print("weplayer2");
+                    JumpKey = KeyCode.Joystick2Button0;
+
+                    DashKey = KeyCode.Joystick2Button5;
+
+                    InteractKey = KeyCode.Joystick2Button3;
+
+                    PickUpKey = KeyCode.Joystick2Button2;
+                    UseKey = KeyCode.Joystick2Button1;
+                    DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                    onewayPlatformIndex = -0.7f;
+                    break;
+                case "P3":
+                    print("weplayer3");
+                    JumpKey = KeyCode.Joystick2Button0;
+
+                    DashKey = KeyCode.Joystick2Button5;
+
+                    InteractKey = KeyCode.Joystick2Button3;
+
+                    PickUpKey = KeyCode.Joystick2Button2;
+                    UseKey = KeyCode.Joystick2Button1;
+                    DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                    onewayPlatformIndex = -0.7f;
+                    break;
+
+                case "P4":
+                    print("weplayer4");
+                    JumpKey = KeyCode.Joystick2Button0;
+
+                    DashKey = KeyCode.Joystick2Button5;
+
+                    InteractKey = KeyCode.Joystick2Button3;
+
+                    PickUpKey = KeyCode.Joystick2Button2;
+                    UseKey = KeyCode.Joystick2Button1;
+                    DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                    onewayPlatformIndex = -0.7f;
+                    break;
+            }
+            /*
             JumpKey = KeyCode.JoystickButton0;
 
             DashKey = KeyCode.Joystick1Button5;
@@ -110,7 +167,7 @@ public class Controller2D : MonoBehaviour
             PickUpKey = KeyCode.JoystickButton2;
             UseKey = KeyCode.JoystickButton1;
             DieKey = KeyCode.JoystickButton4; //tempkey please remove it if you need the key
-            onewayPlatformIndex = -0.7f;
+            onewayPlatformIndex = -0.7f; */
         }
         controller = GetComponent<CharacterController>();
         startZ = transform.position.z;
@@ -275,6 +332,44 @@ public class Controller2D : MonoBehaviour
         //print("jumpKEy" + JumpKey);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
+        if (!consoleControlls)
+        {
+           
+        }
+        else
+        {
+
+        switch (this.name)
+        {
+            case "P1":
+                print("weplayer1");
+                horizontal = Input.GetAxis("Horizontal1");
+                 vertical = Input.GetAxis("Vertical1");
+                break;
+            case "P2":
+                print("weplayer2");
+                horizontal = Input.GetAxis("Horizontal2");
+                 vertical = Input.GetAxis("Vertical2");
+                break;
+            case "P3":
+                print("weplayer3");
+                horizontal = Input.GetAxis("Horizontal3");
+                 vertical = Input.GetAxis("Vertical3");
+                break;
+            case "P4":
+                print("weplayer4");
+                horizontal = Input.GetAxis("Horizontal4");
+                 vertical = Input.GetAxis("Vertical4");
+                break;
+            default:
+                print("wedefault");
+                horizontal = Input.GetAxis("Horizontal");
+                 vertical = Input.GetAxis("Vertical");
+                break;
+        }
+
+        }
+
         charInput = new Vector2(horizontal, vertical);
 
         if (charInput.sqrMagnitude > 1)
