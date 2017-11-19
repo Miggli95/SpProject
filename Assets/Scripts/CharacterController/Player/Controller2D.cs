@@ -24,6 +24,8 @@ public class Controller2D : MonoBehaviour
     public KeyCode PickUpKey;
     [HideInInspector]
     public KeyCode UseKey;
+    [HideInInspector]
+    public KeyCode DieKey; //temp key remove in future
     Vector2 charInput;
     public float jumpTimerDelay;
     public float jumpTimer = 0.3f;
@@ -57,7 +59,7 @@ public class Controller2D : MonoBehaviour
     private List<IPickUp> PickUpFocusList;
     private int PickUpFocusSelected;
     float onewayPlatformIndex;
-
+    private bool alive = true;
     public GameObject Trail; 
 
     
@@ -93,6 +95,7 @@ public class Controller2D : MonoBehaviour
             UseKey = KeyCode.E;
             InteractKey = KeyCode.Q;
             PickUpKey = KeyCode.C;
+            DieKey = KeyCode.P; 
             onewayPlatformIndex = 0;
         }
 
@@ -106,6 +109,7 @@ public class Controller2D : MonoBehaviour
 
             PickUpKey = KeyCode.JoystickButton2;
             UseKey = KeyCode.JoystickButton1;
+            DieKey = KeyCode.JoystickButton4; //tempkey please remove it if you need the key
             onewayPlatformIndex = -0.7f;
         }
         controller = GetComponent<CharacterController>();
@@ -446,6 +450,11 @@ public class Controller2D : MonoBehaviour
             PickUpCarry.Drop();
             PickUpCarry = null;
         }
+        //temp code for level manager
+        if (Input.GetKeyDown(DieKey))
+        {
+            killSelf();
+        }
     }
     private void cyclePickUpSelected(int i) // takes in -1 or +1 
     {
@@ -474,5 +483,14 @@ public class Controller2D : MonoBehaviour
         PickUpFocusList[PickUpFocusSelected].Outline();
 
 
+    }
+    public bool getAlive()
+    {
+        return alive;
+    }
+    private void killSelf()
+    {
+        print("tried to kill self");
+        alive = !alive;
     }
 }
