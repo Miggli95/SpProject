@@ -56,6 +56,9 @@ public class Controller2D : MonoBehaviour
     private IPickUp PickUpCarry;
     private List<IPickUp> PickUpFocusList;
     private int PickUpFocusSelected;
+    private float cycleSpeed = 1.5f;
+    private float timeSinceCycle;
+    private bool cycleButtonUp;
     float onewayPlatformIndex;
 
     public GameObject Trail; 
@@ -115,6 +118,8 @@ public class Controller2D : MonoBehaviour
 
         PickUpFocusList = new List<IPickUp>();
         PickUpFocusSelected = 0;
+        timeSinceCycle = 0;
+        cycleButtonUp = true;
     }
 
     public float Smooth(float target, ref float currentValue, float accelerationTime, float deaccelrationTime)
@@ -318,6 +323,9 @@ public class Controller2D : MonoBehaviour
             canJump = true;
         }
         checkAction();
+        cyclePickUpSelected(Mathf.RoundToInt(Input.GetAxis("itemCycle")));
+        updatePickUpPos();
+        
     }
 
     private void ChangeCharacterState(Vector2 input, CharacterStateData characterStateData)
@@ -388,6 +396,7 @@ public class Controller2D : MonoBehaviour
     }
     public void addPickUpFocus(IPickUp pickup)
     {
+        UnityEngine.Debug.Log("Added new pickup");
         bool highlight = PickUpFocusList.Count == 0;
         PickUpFocusList.Add(pickup);
         if (highlight)
@@ -400,6 +409,7 @@ public class Controller2D : MonoBehaviour
 
     public void removePickUpFocus(IPickUp pickup)
     {
+        UnityEngine.Debug.Log("Removed new pickup");
         var preserve = PickUpFocusList[PickUpFocusSelected];
         var index = PickUpFocusList.IndexOf(pickup);
         var removed = PickUpFocusList.Remove(pickup);
@@ -435,26 +445,47 @@ public class Controller2D : MonoBehaviour
         }
         if (Input.GetKeyDown(UseKey) && PickUpCarry != null)
         {
-            PickUpCarry.Use();
+            if (PickUpCarry.Use() && InteractFocus != null)
+            {
+                UnityEngine.Debug.Log("Interacted by trying to use a keyobject");
+                InteractFocus.Interact(this);
+            }
         }
-        if (Input.GetKeyDown(PickUpKey) && PickUpFocus != null && PickUpCarry == null)
+        if (PickUpFocusList.Count != 0)
         {
-            PickUpCarry = PickUpFocus;
+            if (Input.GetKeyDown(PickUpKey) && PickUpFocusList[PickUpFocusSelected] != null && PickUpCarry == null)
+            {
+                PickUpCarry = PickUpFocusList[PickUpFocusSelected].PickUp();
+                return;
+            }
         }
         if (Input.GetKeyDown(PickUpKey) && PickUpCarry != null)
         {
+            UnityEngine.Debug.Log("Drop");
             PickUpCarry.Drop();
             PickUpCarry = null;
         }
+      
     }
     private void cyclePickUpSelected(int i) // takes in -1 or +1 
     {
-        if (i != 1 || i != -1)
+       /* if(!(timeSinceCycle >= cycleSpeed))
         {
+            timeSinceCycle += Time.deltaTime;
+            return;
+        }*/
+
+        if (i == 0)
+        {
+            cycleButtonUp = true;
             return;
         }
+        if (!cycleButtonUp)
+            return;
+        cycleButtonUp = false;
         if (PickUpFocusList.Count == 0)
         {
+            UnityEngine.Debug.Log("List empty");
             return;
         }
         PickUpFocusList[PickUpFocusSelected].removeOutline();
@@ -470,9 +501,17 @@ public class Controller2D : MonoBehaviour
         {
             PickUpFocusSelected += i;
         }
-
+        timeSinceCycle = 0;
         PickUpFocusList[PickUpFocusSelected].Outline();
 
 
+    }
+
+    private void updatePickUpPos()
+    {
+        if (PickUpCarry == null)
+            return;
+
+        PickUpCarry.updatePos(this.transform.position);
     }
 }

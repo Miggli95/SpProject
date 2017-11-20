@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using interactable;
 using System;
-[RequireComponent(typeof(Collider2D))]
-public abstract class staticDisruptiveObject : IInteractable
+//[RequireComponent(typeof(Collider2D))]
+public abstract class staticDisruptiveObject : MonoBehaviour, IInteractable
 {
 
     private bool isOneUse;
@@ -43,10 +43,29 @@ public abstract class staticDisruptiveObject : IInteractable
     public void innitialize(bool isOneUse)
     {
         this.isOneUse = isOneUse;
+        this.state = InteractableState.Enabled;
     }
     public void innitialize(InteractableState state)
     {
         this.state = state;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            
+            other.GetComponent<Controller2D>().setInteractableFocus(this);
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            
+            other.GetComponent<Controller2D>().setInteractableFocus(null);
+        }
     }
     
 }
