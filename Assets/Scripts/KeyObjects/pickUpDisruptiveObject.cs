@@ -68,9 +68,4 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
             //remove pickup focus in controller2d
         }
     }
-
-    public void updatePos(Vector3 pos)
-    {
-        this.transform.position = pos;
-    }
 }

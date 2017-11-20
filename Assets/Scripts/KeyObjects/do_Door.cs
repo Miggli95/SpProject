@@ -4,14 +4,15 @@ using UnityEngine;
 using interactable;
 public class do_Door : staticDisruptiveObject {
 
-    public GameObject Door;
+    public Collider2D triggerZone;
+    public Collider2D Door;
     private float timeToOpen = 0.6f;
     private float timer = 0;
     private bool isInteracted;
 	
 	void Start () {
         innitialize(true);
-        Door.GetComponent<Collider>().enabled = false;
+        Door.enabled = false;
 	}
 
     public override bool Interact(Controller2D player)
@@ -20,14 +21,12 @@ public class do_Door : staticDisruptiveObject {
         {
             return false;
         }
+        if (state == InteractableState.Enabled)
+            Close();
         if (state == InteractableState.Interacted)
         {
             timer = timeToOpen;
             isInteracted = true;
-        }
-        if (state == InteractableState.Enabled)
-        {
-            Close();
         }
 
 
@@ -56,8 +55,7 @@ public class do_Door : staticDisruptiveObject {
 
     private void Open() //call animation event
     {
-        //Door.enabled = false;
-        Door.GetComponent<Collider>().enabled = false;
+        Door.enabled = false;
         state = InteractableState.Enabled;
         timer = timeToOpen;
         isInteracted = true;
@@ -71,8 +69,7 @@ public class do_Door : staticDisruptiveObject {
 
     private void Close() //call animation event
     {
-        //Door.enabled = true;
-        Door.GetComponent<Collider>().enabled = true;
+        Door.enabled = true;
         state = InteractableState.Interacted;
     }
 

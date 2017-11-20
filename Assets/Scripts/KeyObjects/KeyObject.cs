@@ -11,16 +11,6 @@ public class KeyObject : MonoBehaviour {
     {
         this.id = id;
     }
-    /*
-    public virtual void OnTriggerEnter(Collider other)
-    {
-        
-    }
 
-    public virtual void OnTriggerExit(Collider other)
-    {
-        
-    }
-    */
-
+    
 }

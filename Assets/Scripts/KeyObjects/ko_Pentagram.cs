@@ -26,8 +26,7 @@ public class ko_Pentagram : StaticKeyObject {
         }
         if(requirement == null || requirement.Count == 0)
         {
-            Debug.Log("Mission complete");
-            //flagComplete();
+            flagComplete();
         }
         
         return true;
