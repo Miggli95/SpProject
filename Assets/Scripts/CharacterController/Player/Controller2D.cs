@@ -25,6 +25,8 @@ public class Controller2D : MonoBehaviour
     [HideInInspector]
     public KeyCode UseKey;
     Vector2 charInput;
+    [HideInInspector]
+    public KeyCode DieKey; //temp key remove in future
     public float jumpTimerDelay;
     public float jumpTimer = 0.3f;
     private float startZ;
@@ -41,6 +43,7 @@ public class Controller2D : MonoBehaviour
     public float dashSpeed = 10;
     private bool jump;
     public bool dash;
+    private bool alive = true;
     public float DashTimer = 0.5f;
     private float dashTimer;
     public float accelerationTime = 0.1f;
@@ -93,22 +96,70 @@ public class Controller2D : MonoBehaviour
             UseKey = KeyCode.E;
             InteractKey = KeyCode.Q;
             PickUpKey = KeyCode.C;
+            DieKey = KeyCode.P;
             onewayPlatformIndex = 0;
         }
 
         else
         {
-            JumpKey = KeyCode.JoystickButton0;
+            switch (this.name)
+            {
+                case "P1":
+                    print("weplayer1");
+                    JumpKey = KeyCode.Joystick1Button0;
 
-            DashKey = KeyCode.Joystick1Button5;
+                    DashKey = KeyCode.Joystick1Button5;
 
-            InteractKey = KeyCode.JoystickButton3;
+                    InteractKey = KeyCode.Joystick1Button3;
 
-            PickUpKey = KeyCode.JoystickButton2;
-            UseKey = KeyCode.JoystickButton1;
-            onewayPlatformIndex = -0.7f;
+                    PickUpKey = KeyCode.Joystick1Button2;
+                    UseKey = KeyCode.Joystick1Button1;
+                    DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
+                    onewayPlatformIndex = -0.7f;
+                    break;
+                case "P2":
+                    print("weplayer2");
+                    JumpKey = KeyCode.Joystick2Button0;
+
+                    DashKey = KeyCode.Joystick2Button5;
+
+                    InteractKey = KeyCode.Joystick2Button3;
+
+                    PickUpKey = KeyCode.Joystick2Button2;
+                    UseKey = KeyCode.Joystick2Button1;
+                    DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                    onewayPlatformIndex = -0.7f;
+                    break;
+                case "P3":
+                    print("weplayer3");
+                    JumpKey = KeyCode.Joystick3Button0;
+
+                    DashKey = KeyCode.Joystick3Button5;
+
+                    InteractKey = KeyCode.Joystick3Button3;
+
+                    PickUpKey = KeyCode.Joystick3Button2;
+                    UseKey = KeyCode.Joystick3Button1;
+                    DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
+                    onewayPlatformIndex = -0.7f;
+                    break;
+
+                case "P4":
+                    print("weplayer4");
+                    JumpKey = KeyCode.Joystick4Button0;
+
+                    DashKey = KeyCode.Joystick4Button5;
+
+                    InteractKey = KeyCode.Joystick4Button3;
+
+                    PickUpKey = KeyCode.Joystick4Button2;
+                    UseKey = KeyCode.Joystick4Button1;
+                    DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
+                    onewayPlatformIndex = -0.7f;
+                    break;
+            }
         }
-        controller = GetComponent<CharacterController>();
+            controller = GetComponent<CharacterController>();
         startZ = transform.position.z;
         characterState = GetInitialCharacterState();
         characterState.Enter();
@@ -267,10 +318,47 @@ public class Controller2D : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-
-        //print("jumpKEy" + JumpKey);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
+        if (!consoleControlls)
+        {
+
+        }
+        else
+        {
+
+            switch (this.name)
+            {
+                case "P1":
+                    print("weplayer1");
+                    horizontal = Input.GetAxis("Horizontal1");
+                    vertical = Input.GetAxis("Vertical1");
+                    break;
+                case "P2":
+                    print("weplayer2");
+                    horizontal = Input.GetAxis("Horizontal2");
+                    vertical = Input.GetAxis("Vertical2");
+                    break;
+                case "P3":
+                    print("weplayer3");
+                    horizontal = Input.GetAxis("Horizontal3");
+                    vertical = Input.GetAxis("Vertical3");
+                    break;
+                case "P4":
+                    print("weplayer4");
+                    horizontal = Input.GetAxis("Horizontal4");
+                    vertical = Input.GetAxis("Vertical4");
+                    break;
+                default:
+                    print("wedefault");
+                    horizontal = Input.GetAxis("Horizontal");
+                    vertical = Input.GetAxis("Vertical");
+                    break;
+            }
+        }
+        //print("jumpKEy" + JumpKey);
+
+
         charInput = new Vector2(horizontal, vertical);
 
         if (charInput.sqrMagnitude > 1)
@@ -446,6 +534,10 @@ public class Controller2D : MonoBehaviour
             PickUpCarry.Drop();
             PickUpCarry = null;
         }
+        if (Input.GetKeyDown(DieKey))
+        {
+            killSelf();
+        }
     }
     private void cyclePickUpSelected(int i) // takes in -1 or +1 
     {
@@ -474,5 +566,14 @@ public class Controller2D : MonoBehaviour
         PickUpFocusList[PickUpFocusSelected].Outline();
 
 
+    }
+    public bool getAlive()
+    {
+        return alive;
+    }
+    private void killSelf()
+    {
+        print("tried to kill self");
+        alive = !alive;
     }
 }
