@@ -28,7 +28,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         }
         state = InteractableState.Interacted;
         interactingPlayer = player;
-        if (!checkRequirement(player.getCarryId()))
+        if (!checkRequirement(interactingPlayer.getCarryId()))
         {
             return false;
         }
@@ -112,6 +112,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
             if(s == id)
             {
                 Debug.Log(s + " removed");
+                interactingPlayer.consumeCarry(id);
                 removeRequirement(id);
                 return true;
             }

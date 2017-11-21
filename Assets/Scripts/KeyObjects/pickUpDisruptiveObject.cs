@@ -73,4 +73,8 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
     {
         this.transform.position = pos;
     }
+    public virtual void Consume()
+    {
+        Destroy(this);
+    }
 }

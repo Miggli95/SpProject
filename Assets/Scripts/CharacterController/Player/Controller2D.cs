@@ -542,4 +542,17 @@ public class Controller2D : MonoBehaviour
             return;
         PickUpCarry.updatePos(pos);
     }
+
+    public void consumeCarry(string s)
+    {
+        if(PickUpCarry != null)
+        {
+            if(s == PickUpCarry.getID())
+            {
+                removePickUpFocus(PickUpCarry);
+                PickUpCarry.Consume();
+                PickUpCarry = null;
+            }
+        }
+    }
 }

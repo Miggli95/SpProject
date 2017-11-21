@@ -70,4 +70,8 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     {
         this.transform.position = pos;
     }
+    public virtual void Consume()
+    {
+        Destroy(this);
+    }
 }
