@@ -6,6 +6,12 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum JumpDir
+{
+    JumpDown = -1,
+    JumpUp = 1
+}
+
 public class Controller2D : MonoBehaviour
 {
 
@@ -62,7 +68,7 @@ public class Controller2D : MonoBehaviour
     private int PickUpFocusSelected;
     private bool cycleButtonUp;
     float onewayPlatformIndex;
-    public int JumpDir = 1;
+    int jumpDir = 1;
     public GameObject Trail; 
 
     
@@ -86,7 +92,10 @@ public class Controller2D : MonoBehaviour
 
 
 
-
+    public int getJumpDir()
+    {
+        return jumpDir;
+    }
 
     // Use this for initialization
     void Start()
@@ -147,7 +156,7 @@ public class Controller2D : MonoBehaviour
         {
             if (bottom.collider.CompareTag("One Way"))
             {
-                if (JumpDir == 1)
+                if (jumpDir == (int)JumpDir.JumpUp)
                     Physics.IgnoreCollision(controller, bottom.collider, false);
             }
         }
@@ -333,12 +342,12 @@ public class Controller2D : MonoBehaviour
             {
                 if (bottom.collider.CompareTag("One Way"))
                 {
-                    JumpDir = -1;
+                    jumpDir = (int)JumpDir.JumpDown;
                 }
 
                 else
                 {
-                    JumpDir = 1;
+                    jumpDir = (int)JumpDir.JumpUp;
                 }
 
 
@@ -347,13 +356,13 @@ public class Controller2D : MonoBehaviour
         }
         else
         {
-            JumpDir = 1;
+            jumpDir = (int)JumpDir.JumpUp;
         }
 
 
         if (Input.GetKeyDown(JumpKey))
         {
-            if (JumpDir == -1)
+            if (jumpDir == (int)JumpDir.JumpDown)
             {
                 Physics.IgnoreCollision(controller, bottom.collider);
             }
