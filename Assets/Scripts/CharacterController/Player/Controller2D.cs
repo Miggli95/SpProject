@@ -72,6 +72,8 @@ public class Controller2D : MonoBehaviour
     public GameObject Trail;
     public float BoostSpeed = 40;
     public bool boost = false;
+    private bool canMove = true;
+    private float canMoveTimer = 0f;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -279,49 +281,10 @@ public class Controller2D : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        //float horizontal = Input.GetAxis("Horizontal");
-       // float vertical = Input.GetAxis("Vertical");
-
-      /*  if (!consoleControlls)
-        {
-
-        }
-        else
-        {
-
-            switch (this.name)
-            {
-                case "P1":
-                    print("weplayer1");
-                    horizontal = Input.GetAxis("Horizontal1");
-                    vertical = Input.GetAxis("Vertical1");
-                    break;
-                case "P2":
-                    print("weplayer2");
-                    horizontal = Input.GetAxis("Horizontal2");
-                    vertical = Input.GetAxis("Vertical2");
-                    break;
-                case "P3":
-                    print("weplayer3");
-                    horizontal = Input.GetAxis("Horizontal3");
-                    vertical = Input.GetAxis("Vertical3");
-                    break;
-                case "P4":
-                    print("weplayer4");
-                    horizontal = Input.GetAxis("Horizontal4");
-                    vertical = Input.GetAxis("Vertical4");
-                    break;
-                default:
-                    print("wedefault");
-                    horizontal = Input.GetAxis("Horizontal");
-                    vertical = Input.GetAxis("Vertical");
-                    break;
-            }
-        }*/
-        //print("jumpKEy" + JumpKey);
+ 
 
 
-        charInput = keyManager.getcharInput(this.name, consoleControlls);
+        charInput = keyManager.getcharInput(this.name, consoleControlls, canMove);
 
         if (charInput.sqrMagnitude > 1)
         {
@@ -392,6 +355,17 @@ public class Controller2D : MonoBehaviour
         checkAction();
         cyclePickUpSelected(Mathf.RoundToInt(Input.GetAxis("itemCycle")));
         updateCarryPos(this.transform.position);
+
+        if (canMoveTimer > 0)
+        {
+            canMoveTimer = canMoveTimer - Time.deltaTime;
+            print("timer at" + canMoveTimer);
+            if (canMoveTimer <= 0)
+            {
+                print("can move");
+                canMove = true;
+            }
+        }
     }
 
     private void ChangeCharacterState(Vector2 input, CharacterStateData characterStateData)
@@ -599,5 +573,13 @@ public class Controller2D : MonoBehaviour
                 PickUpCarry = null;
             }
         }
+    }
+    public void stopMove(float t)
+    {
+        canMove = false;
+        canMoveTimer = t;
+    }
+    public bool canCMove(){
+        return canMove;
     }
 }

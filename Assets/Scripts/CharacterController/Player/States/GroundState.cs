@@ -24,12 +24,12 @@ public class GroundState : ICharacterState
 
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
-        if (Input.GetKeyDown(controller.JumpKey) && controller.getJumpDir() == (int)JumpDir.JumpUp)
+        if (Input.GetKeyDown(controller.JumpKey) && controller.getJumpDir() == (int)JumpDir.JumpUp && controller.canCMove())
         { 
             return new CharacterStateData(Vector2.zero, new AirState(controller), true);
         }
 
-        if (Input.GetKeyDown(controller.DashKey))
+        if (Input.GetKeyDown(controller.DashKey) && controller.canCMove())
         {
             return new CharacterStateData(Vector2.zero, new DashState(controller, 5), true);
         }

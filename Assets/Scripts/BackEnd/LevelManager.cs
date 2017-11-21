@@ -48,7 +48,6 @@ public class LevelManager : MonoBehaviour
         {
             if (p.GetComponent<Controller2D>().getAlive())
             {
-                print("got alive");
                 i++;
             }
         }

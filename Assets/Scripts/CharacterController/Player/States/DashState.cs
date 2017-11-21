@@ -20,12 +20,12 @@ public struct DashState : ICharacterState
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
 
-        if (Input.GetKeyDown(controller.DashKey))
+        if (Input.GetKeyDown(controller.DashKey) && controller.canCMove())
         {
             Dash();
         }
 
-        if (Input.GetKeyDown(controller.JumpKey))
+        if (Input.GetKeyDown(controller.JumpKey) && controller.canCMove())
         {
             return new CharacterStateData(Vector2.zero, new AirState(controller), true);
         }
@@ -38,7 +38,24 @@ public struct DashState : ICharacterState
         {
             return new CharacterStateData(Vector2.zero, new GroundState(controller), true);
         }
-
+        RaycastHit rayhit;
+        if (input.x > 0)
+        {
+            if (Physics.Raycast(controller.transform.position, Vector3.right, out rayhit))
+            {
+                if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove())
+                    rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
+            }
+        }
+        else
+        {
+            if (Physics.Raycast(controller.transform.position, Vector3.right, out rayhit))
+            {
+                if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove())
+                    rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
+            }
+        }
+        
         return characterStateData;
     }
 

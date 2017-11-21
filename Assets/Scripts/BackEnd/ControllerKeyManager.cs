@@ -158,14 +158,14 @@ public class ControllerKeyManager : MonoBehaviour {
         }
 
     }
-    public Vector2 getcharInput(string s, bool a)
+    public Vector2 getcharInput(string s, bool a, bool c)
     {
-        if (!a)
+        if (!a && c)
         {
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
         }
-        else
+        else if(c)
         {
             switch (s)
             {
