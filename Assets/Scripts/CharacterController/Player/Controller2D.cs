@@ -51,6 +51,7 @@ public class Controller2D : MonoBehaviour
     private bool jump;
     public bool dash;
     private bool alive = true;
+    private GameObject[] players;
     public float DashTimer = 0.5f;
     private float dashTimer;
     public float accelerationTime = 0.1f;
@@ -122,6 +123,14 @@ public class Controller2D : MonoBehaviour
 
         PickUpFocusList = new List<IPickUp>();
         PickUpFocusSelected = 0;
+        players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
+        players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+            Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CapsuleCollider>(), true);
+            Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<CharacterController>(), true);
+            Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CharacterController>(), true);
+        }
     }
 
     public float Smooth(float target, ref float currentValue, float accelerationTime, float deaccelrationTime)
@@ -359,10 +368,8 @@ public class Controller2D : MonoBehaviour
         if (canMoveTimer > 0)
         {
             canMoveTimer = canMoveTimer - Time.deltaTime;
-            print("timer at" + canMoveTimer);
             if (canMoveTimer <= 0)
             {
-                print("can move");
                 canMove = true;
             }
         }

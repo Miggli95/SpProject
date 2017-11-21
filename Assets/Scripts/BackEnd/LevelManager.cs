@@ -62,4 +62,8 @@ public class LevelManager : MonoBehaviour
         level++;
         SceneManager.LoadScene(levelorder[level]);
     }
+    public GameObject[] getPlayers()
+    {
+        return players;
+    }
 }
