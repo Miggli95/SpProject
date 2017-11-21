@@ -13,5 +13,6 @@ namespace PickUp
         string getID();
         void Outline();
         void removeOutline();
+        void updatePos(Vector3 pos);
     }
 }

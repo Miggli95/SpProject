@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using interactable;
-[RequireComponent(typeof(Collider2D))]
+//[RequireComponent(typeof(Collider2D))]
 public abstract class StaticKeyObject : KeyObject, IInteractable
 {
                                                     //add in field that keeps track of the player that completed the goal? Or let level goal keep track of who completed the earlier stages?.
@@ -72,17 +72,17 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         return isComplete;
     }
 
-    public void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("player"))
+        if(other.CompareTag("Player"))
         {
             //Set what interactable the player is currently near, try to see if you can get information about what object the player is carrying(keyobject id), save player temporary to be able to kill him?
             other.GetComponent<Controller2D>().setInteractableFocus(this);
         }
     }
-    public void OnTriggerExit2D(Collider2D other)
+    public void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("player"))
+        if (other.CompareTag("Player"))
         {
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
             other.GetComponent<Controller2D>().setInteractableFocus(null);

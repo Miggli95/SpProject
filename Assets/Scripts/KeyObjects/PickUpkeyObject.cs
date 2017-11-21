@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PickUp;
-[RequireComponent(typeof(Collider2D))]
+//[RequireComponent(typeof(Collider2D))]
 public abstract class PickUpKeyObject : KeyObject, IPickUp
 {
 
@@ -34,17 +34,17 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
         state = pickUpState.Waiting;
     }
 
-    public void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("player"))
+        if (other.CompareTag("Player"))
         {
             other.GetComponent<Controller2D>().addPickUpFocus(this);
             //Set pickup focus in player script to this
         }
     }
-    public void OnTriggerExit2d(Collider2D other)
+    public void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("player"))
+        if (other.CompareTag("Player"))
         {
 
             other.GetComponent<Controller2D>().removePickUpFocus(this);
@@ -65,5 +65,9 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     public void removeOutline()
     {
 
+    }
+    public void updatePos(Vector3 pos)
+    {
+        this.transform.position = pos;
     }
 }

@@ -60,6 +60,7 @@ public class Controller2D : MonoBehaviour
     private IPickUp PickUpCarry;
     private List<IPickUp> PickUpFocusList;
     private int PickUpFocusSelected;
+    private bool cycleButtonUp;
     float onewayPlatformIndex;
 
     public GameObject Trail; 
@@ -350,6 +351,8 @@ public class Controller2D : MonoBehaviour
             canJump = true;
         }
         checkAction();
+        cyclePickUpSelected(Mathf.RoundToInt(Input.GetAxis("itemCycle")));
+        updateCarryPos(this.transform.position);
     }
 
     private void ChangeCharacterState(Vector2 input, CharacterStateData characterStateData)
@@ -467,11 +470,16 @@ public class Controller2D : MonoBehaviour
         }
         if (Input.GetKeyDown(UseKey) && PickUpCarry != null)
         {
-            PickUpCarry.Use();
+            if(PickUpCarry.Use() && InteractFocus != null) //PickUpCarry.Use() should only return true if the object is a key object. Currently pick up key objects are not planned to have a unique use method.
+            {
+                UnityEngine.Debug.Log("Interacted by trying to use a keyobject");
+                InteractFocus.Interact(this);
+            }
         }
-        if (Input.GetKeyDown(PickUpKey) && PickUpFocus != null && PickUpCarry == null)
+        if (Input.GetKeyDown(PickUpKey) && PickUpFocusList[PickUpFocusSelected] != null && PickUpCarry == null)
         {
-            PickUpCarry = PickUpFocus;
+            PickUpCarry = PickUpFocusList[PickUpFocusSelected].PickUp();
+            return;
         }
         if (Input.GetKeyDown(PickUpKey) && PickUpCarry != null)
         {
@@ -485,10 +493,14 @@ public class Controller2D : MonoBehaviour
     }
     private void cyclePickUpSelected(int i) // takes in -1 or +1 
     {
-        if (i != 1 || i != -1)
+        if (i == 0)
         {
+            cycleButtonUp = true;
             return;
         }
+        if (!cycleButtonUp)
+            return;
+        cycleButtonUp = false;
         if (PickUpFocusList.Count == 0)
         {
             return;
@@ -519,5 +531,10 @@ public class Controller2D : MonoBehaviour
     {
         print("tried to kill self");
         alive = !alive;
+    }
+
+    private void updateCarryPos(Vector3 pos)
+    {
+        PickUpCarry.updatePos(pos);
     }
 }

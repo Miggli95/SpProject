@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using interactable;
 using System;
-[RequireComponent(typeof(Collider2D))]
-public abstract class staticDisruptiveObject : IInteractable
+//[RequireComponent(typeof(Collider2D))]
+public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
 {
 
     private bool isOneUse;
@@ -48,5 +48,21 @@ public abstract class staticDisruptiveObject : IInteractable
     {
         this.state = state;
     }
-    
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            //Set what interactable the player is currently near, try to see if you can get information about what object the player is carrying(keyobject id), save player temporary to be able to kill him?
+            other.GetComponent<Controller2D>().setInteractableFocus(this);
+        }
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
+            other.GetComponent<Controller2D>().setInteractableFocus(null);
+        }
+    }
+
 }
