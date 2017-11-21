@@ -62,7 +62,7 @@ public class Controller2D : MonoBehaviour
     private int PickUpFocusSelected;
     private bool cycleButtonUp;
     float onewayPlatformIndex;
-
+    public int JumpDir = 1;
     public GameObject Trail; 
 
     
@@ -138,7 +138,7 @@ public class Controller2D : MonoBehaviour
 
             else
             {
-                Physics.IgnoreCollision(controller, topHit.collider, true);
+                    Physics.IgnoreCollision(controller, topHit.collider, true);
             }
         }
 
@@ -147,7 +147,8 @@ public class Controller2D : MonoBehaviour
         {
             if (bottom.collider.CompareTag("One Way"))
             {
-                Physics.IgnoreCollision(controller, bottom.collider, false);
+                if (JumpDir == 1)
+                    Physics.IgnoreCollision(controller, bottom.collider, false);
             }
         }
     }
@@ -318,23 +319,45 @@ public class Controller2D : MonoBehaviour
         }
 
         Rays();
-
-        if (charInput.y < onewayPlatformIndex)
-        {
-            if (bottom.collider != null)
-            {
-                if (bottom.collider.CompareTag("One Way"))
-                {
-                    Physics.IgnoreCollision(controller, bottom.collider);
-                }
-            }
-
-        }
         /*if (controller.isGrounded)
         {
             jumpTimerDelay = jumpTimer;
         }
         */
+
+        if (charInput.y < onewayPlatformIndex)
+        {
+            print("charinputY true");
+
+            if (bottom.collider != null)
+            {
+                if (bottom.collider.CompareTag("One Way"))
+                {
+                    JumpDir = -1;
+                }
+
+                else
+                {
+                    JumpDir = 1;
+                }
+
+
+            }
+
+        }
+        else
+        {
+            JumpDir = 1;
+        }
+
+
+        if (Input.GetKeyDown(JumpKey))
+        {
+            if (JumpDir == -1)
+            {
+                Physics.IgnoreCollision(controller, bottom.collider);
+            }
+        }
         if (jumpTimerDelay > 0 && !controller.isGrounded)
         {
             canJump = true;

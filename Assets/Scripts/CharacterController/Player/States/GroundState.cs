@@ -24,8 +24,8 @@ public class GroundState : ICharacterState
 
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
-        if (Input.GetKeyDown(controller.JumpKey))
-        {
+        if (Input.GetKeyDown(controller.JumpKey) && controller.JumpDir == 1)
+        { 
             return new CharacterStateData(Vector2.zero, new AirState(controller), true);
         }
 
