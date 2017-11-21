@@ -12,6 +12,7 @@ public class Controller2D : MonoBehaviour
     ICharacterState currentState;
     public LayerMask CollisionMask;
     CharacterController controller;
+    ControllerKeyManager keyManager;
     ICharacterState characterState;
     public bool consoleControlls = true;
     [HideInInspector]
@@ -89,77 +90,19 @@ public class Controller2D : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        keyManager = GetComponent<ControllerKeyManager>();
+        keyManager.getKeyCode(this.name, this);
         if (!consoleControlls)
         {
-            JumpKey = KeyCode.Space;
-            DashKey = KeyCode.LeftShift;
-            UseKey = KeyCode.E;
-            InteractKey = KeyCode.Q;
-            PickUpKey = KeyCode.C;
-            DieKey = KeyCode.P;
             onewayPlatformIndex = 0;
         }
 
         else
         {
-            switch (this.name)
-            {
-                case "P1":
-                    print("weplayer1");
-                    JumpKey = KeyCode.Joystick1Button0;
-
-                    DashKey = KeyCode.Joystick1Button5;
-
-                    InteractKey = KeyCode.Joystick1Button3;
-
-                    PickUpKey = KeyCode.Joystick1Button2;
-                    UseKey = KeyCode.Joystick1Button1;
-                    DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
-                    onewayPlatformIndex = -0.7f;
-                    break;
-                case "P2":
-                    print("weplayer2");
-                    JumpKey = KeyCode.Joystick2Button0;
-
-                    DashKey = KeyCode.Joystick2Button5;
-
-                    InteractKey = KeyCode.Joystick2Button3;
-
-                    PickUpKey = KeyCode.Joystick2Button2;
-                    UseKey = KeyCode.Joystick2Button1;
-                    DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
-                    onewayPlatformIndex = -0.7f;
-                    break;
-                case "P3":
-                    print("weplayer3");
-                    JumpKey = KeyCode.Joystick3Button0;
-
-                    DashKey = KeyCode.Joystick3Button5;
-
-                    InteractKey = KeyCode.Joystick3Button3;
-
-                    PickUpKey = KeyCode.Joystick3Button2;
-                    UseKey = KeyCode.Joystick3Button1;
-                    DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
-                    onewayPlatformIndex = -0.7f;
-                    break;
-
-                case "P4":
-                    print("weplayer4");
-                    JumpKey = KeyCode.Joystick4Button0;
-
-                    DashKey = KeyCode.Joystick4Button5;
-
-                    InteractKey = KeyCode.Joystick4Button3;
-
-                    PickUpKey = KeyCode.Joystick4Button2;
-                    UseKey = KeyCode.Joystick4Button1;
-                    DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
-                    onewayPlatformIndex = -0.7f;
-                    break;
-            }
+           onewayPlatformIndex = -0.7f;
         }
-            controller = GetComponent<CharacterController>();
+        controller = GetComponent<CharacterController>();
+
         startZ = transform.position.z;
         characterState = GetInitialCharacterState();
         characterState.Enter();
@@ -318,9 +261,10 @@ public class Controller2D : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        if (!consoleControlls)
+        //float horizontal = Input.GetAxis("Horizontal");
+       // float vertical = Input.GetAxis("Vertical");
+
+      /*  if (!consoleControlls)
         {
 
         }
@@ -355,11 +299,11 @@ public class Controller2D : MonoBehaviour
                     vertical = Input.GetAxis("Vertical");
                     break;
             }
-        }
+        }*/
         //print("jumpKEy" + JumpKey);
 
 
-        charInput = new Vector2(horizontal, vertical);
+        charInput = keyManager.getcharInput(this.name, consoleControlls);
 
         if (charInput.sqrMagnitude > 1)
         {
@@ -466,7 +410,7 @@ public class Controller2D : MonoBehaviour
     {
         if (PickUpCarry == null)
         {
-            return "noobject";
+            return "noobject"; //Heh Noob.
         }
         return PickUpCarry.getID();
     }
