@@ -476,10 +476,13 @@ public class Controller2D : MonoBehaviour
                 InteractFocus.Interact(this);
             }
         }
-        if (Input.GetKeyDown(PickUpKey) && PickUpFocusList[PickUpFocusSelected] != null && PickUpCarry == null)
+        if (PickUpFocusList.Count != 0)
         {
-            PickUpCarry = PickUpFocusList[PickUpFocusSelected].PickUp();
-            return;
+            if (Input.GetKeyDown(PickUpKey) && PickUpFocusList[PickUpFocusSelected] != null && PickUpCarry == null)
+            {
+                PickUpCarry = PickUpFocusList[PickUpFocusSelected].PickUp();
+                return;
+            }
         }
         if (Input.GetKeyDown(PickUpKey) && PickUpCarry != null)
         {
@@ -535,6 +538,8 @@ public class Controller2D : MonoBehaviour
 
     private void updateCarryPos(Vector3 pos)
     {
+        if (PickUpCarry == null)
+            return;
         PickUpCarry.updatePos(pos);
     }
 }
