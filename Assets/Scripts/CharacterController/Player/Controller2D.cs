@@ -69,9 +69,10 @@ public class Controller2D : MonoBehaviour
     private bool cycleButtonUp;
     float onewayPlatformIndex;
     int jumpDir = 1;
-    public GameObject Trail; 
+    public GameObject Trail;
+    public float BoostSpeed = 40;
+    public bool boost = false;
 
-    
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -235,6 +236,12 @@ public class Controller2D : MonoBehaviour
         {
             moveDir.y = jumpSpeed;
             jump = false;
+        }
+
+        if (boost)
+        {
+            moveDir.y = BoostSpeed;
+            boost = false;
         }
 
 
@@ -439,6 +446,11 @@ public class Controller2D : MonoBehaviour
             dashTimer = DashTimer;
             dash = true;
         }
+    }
+
+    public void Boost()
+    {
+        boost = true;
     }
 
     public string getCarryId()
