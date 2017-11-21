@@ -448,8 +448,9 @@ public class Controller2D : MonoBehaviour
         }
     }
 
-    public void Boost()
+    public void Boost(float BoostSpeed)
     {
+        this.BoostSpeed = BoostSpeed;
         boost = true;
     }
 
