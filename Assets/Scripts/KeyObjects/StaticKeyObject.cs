@@ -38,6 +38,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         Debug.Log(id + " is complete!");
         isComplete = true;
+        interactingPlayer.doDeath();
     }
 
     public void Enable()

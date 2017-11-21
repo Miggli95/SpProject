@@ -589,4 +589,12 @@ public class Controller2D : MonoBehaviour
     public bool canCMove(){
         return canMove;
     }
+    public void doDeath()
+    {
+        alive = false;
+        //do interesting death mechanics
+        this.GetComponent<MeshRenderer>().enabled = false;
+        canMove = false;
+    }
+
 }
