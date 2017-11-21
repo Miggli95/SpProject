@@ -8,12 +8,12 @@ public class ko_Candle : PickUpKeyObject {
 
     public void Start()
     {
-        innitialize("Candle");
+        Initialize("Candle");
     }
 
-    private new void innitialize(string id)
+    private new void Initialize(string id)
     {
-        base.innitialize(id);
+        base.Initialize(id);
     }
 
 }

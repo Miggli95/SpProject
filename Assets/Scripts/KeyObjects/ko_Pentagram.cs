@@ -9,13 +9,13 @@ public class ko_Pentagram : StaticKeyObject {
     void Start()
     {
 
-        innitialize("Pentagram", new List<string> { "Candle" }, InteractableState.Enabled);
+        Initialize("Pentagram", new List<string> { "Candle" }, InteractableState.Enabled);
 
     }
 
-    public new void innitialize(string id, List<string> requirements, InteractableState state)
+    public new void Initialize(string id, List<string> requirements, InteractableState state)
     {
-        base.innitialize(id, requirement, state);
+        base.Initialize(id, requirement, state);
     }
 
     public override bool Interact(Controller2D player) //going to need a temporary reference to the player to check the item the player is carrying and sacrifice him.

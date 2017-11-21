@@ -15,12 +15,15 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     public virtual bool Interact(Controller2D player) // Need to call base in classes derived from StaticKeyObject in general. Checks what state this interactable is in. 
                            // interacted with the object if the object should sacrifice the player.
     {
+        Debug.Log("Interact, super");
         if(state != InteractableState.Enabled)
         {
+            Debug.Log("Wrong state");
             return false;
         }
         if(interactingPlayer != null)
         {
+            Debug.Log("already an interacting player");
             return false;
         }
         state = InteractableState.Interacted;
@@ -33,6 +36,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     }
     protected void flagComplete()
     {
+        Debug.Log(id + " is complete!");
         isComplete = true;
     }
 
@@ -41,29 +45,29 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         state = InteractableState.Enabled;
     }
 
-    protected virtual void innitialize(string id, List<string> requirement) //innitialize method that presumes that the object should start as dormant
+    protected virtual void Initialize(string id, List<string> requirement) //innitialize method that presumes that the object should start as dormant
     {
-        base.innitialize(id);
+        base.Initialize(id);
         this.requirement = requirement;
         state = InteractableState.Dormant;
         
     }
 
-    protected virtual void innitialize(string id, List<string> requirement, InteractableState state) //innitialize method that lets you decide what state it starts in
+    protected virtual void Initialize(string id, List<string> requirement, InteractableState state) //innitialize method that lets you decide what state it starts in
     {
-        base.innitialize(id);
+        base.Initialize(id);
         this.requirement = requirement;
         this.state = state;
     }
-    protected virtual void innitialize(string id, InteractableState state)
+    protected virtual void Initialize(string id, InteractableState state)
     {
-        base.innitialize(id);
+        base.Initialize(id);
         this.requirement = null;
         this.state = state;
     }
-    protected virtual new void innitialize(string id)
+    protected virtual new void Initialize(string id)
     {
-        base.innitialize(id);
+        base.Initialize(id);
         this.requirement = null;
         this.state = InteractableState.Dormant;
     }
@@ -76,6 +80,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         if(other.CompareTag("Player"))
         {
+            Debug.Log("Player entered " + id);
             //Set what interactable the player is currently near, try to see if you can get information about what object the player is carrying(keyobject id), save player temporary to be able to kill him?
             other.GetComponent<Controller2D>().setInteractableFocus(this);
         }
@@ -84,6 +89,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Player exited " + id);
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
             other.GetComponent<Controller2D>().setInteractableFocus(null);
         }
@@ -98,16 +104,19 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         if(requirement == null)
         {
+            Debug.Log("No requirement");
             return true;
         }
         foreach(string s in requirement)
         {
             if(s == id)
             {
+                Debug.Log(s + " removed");
                 removeRequirement(id);
                 return true;
             }
         }
+        Debug.Log(id + "Wasn't found");
         return false;
     }
 
@@ -115,6 +124,8 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         requirement.Remove(id);
         requirement.TrimExcess();
+        foreach (string s in requirement)
+            Debug.Log(s);
         
     }
 

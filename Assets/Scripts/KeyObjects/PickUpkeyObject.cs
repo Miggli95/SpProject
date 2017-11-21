@@ -29,8 +29,8 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     {
         return true;                                //abstract method, each object has/needs it's own unique use function, returns false if the use is called on a keyobject with interface IPickUp
     }
-    public new void innitialize(string id) {
-        base.innitialize(id);
+    public new void Initialize(string id) {
+        base.Initialize(id);
         state = pickUpState.Waiting;
     }
 

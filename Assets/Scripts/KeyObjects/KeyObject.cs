@@ -7,7 +7,7 @@ public class KeyObject : MonoBehaviour {
     protected string id;
    
 
-    protected void innitialize(string id)
+    protected void Initialize(string id)
     {
         this.id = id;
     }
