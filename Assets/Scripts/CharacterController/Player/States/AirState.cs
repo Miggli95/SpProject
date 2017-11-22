@@ -56,7 +56,7 @@ public struct AirState : ICharacterState
 
     public void Jump()
     {
-        ++jumpCount;
+        jumpCount++;
         controller.Jump(jumpCount);
   
     }
