@@ -7,9 +7,11 @@ public class LevelManager : MonoBehaviour
 {
 
     public static LevelManager instance = null;
+    public GameObject timerText;
     private int level = 0;
     private string[] levelorder = { "CharacterControllerDevelopmentScene", "Level4(24x16) 1" };
     private GameObject[] players;
+    private int livingPlayers;
 
     void Awake()
     {
@@ -39,6 +41,32 @@ public class LevelManager : MonoBehaviour
         //loadlevelstuff
         players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
         players = GameObject.FindGameObjectsWithTag("Player");
+        livingPlayers = players.Length;
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Hub":
+                timerText.SetActive(false);
+                break;
+            case "CharacterControllerDevelopmentScene":
+                timerText.GetComponent<Timer>().setInstuctions("Dance Party");
+                timerText.GetComponent<Timer>().setTimer(60f);
+                break;
+            case "Level4(24x16) 1":
+                timerText.SetActive(true);
+                timerText.GetComponent<Timer>().setInstuctions("Drink the potions!");
+                timerText.GetComponent<Timer>().setTimer(60f);
+                break;
+            case "Level5(24x16)":
+                timerText.SetActive(true);
+                timerText.GetComponent<Timer>().setInstuctions("We Spinnin");
+                timerText.GetComponent<Timer>().setTimer(60f);
+                break;
+        }
+        if (SceneManager.GetActiveScene().name == "Level5(24x16)")
+        {
+            timerText.GetComponent<Timer>().setInstuctions("We Spinnin");
+        }
+
     }
 
     void Update()
@@ -51,7 +79,12 @@ public class LevelManager : MonoBehaviour
                 i++;
             }
         }
-        if (i < 4)
+        if(i < livingPlayers)
+        {
+            timerText.GetComponent<Timer>().playerDied();
+            livingPlayers = i;
+        }
+        if (i == 1)
         {
             print("you did die");
             loadNextLevel();
