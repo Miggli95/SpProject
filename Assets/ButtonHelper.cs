@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class ButtonHelper : MonoBehaviour {
 
-	// Use this for initialization
+    // Use this for initialization
+
+    bool checkPotion;
+
+
 	void Start () {
 
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
