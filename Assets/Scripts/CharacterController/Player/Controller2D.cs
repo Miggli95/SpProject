@@ -599,6 +599,8 @@ public class Controller2D : MonoBehaviour
 
     public void forceDrop()
     {
+        if (PickUpCarry == null)
+            return;
         PickUpCarry.Drop();
         PickUpCarry = null;
     }
