@@ -76,6 +76,7 @@ public class Controller2D : MonoBehaviour
     private bool canMove = true;
     private float canMoveTimer = 0f;
     public bool Grounded;
+    public Vector3 velocity;
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -276,6 +277,7 @@ public class Controller2D : MonoBehaviour
 
     void Update()
     {
+        velocity = controller.velocity;
         Grounded = controller.isGrounded;
         if(Mathf.Abs(controller.velocity.x) > 0)
         {
@@ -413,7 +415,7 @@ public class Controller2D : MonoBehaviour
 
         //startJumpTimer();
         jump = true;
-        print("JumpCount " + jumpCount + "Fell " + fell);
+        //print("JumpCount " + jumpCount + "Fell " + fell);
     }
 
     public void startJumpTimer()

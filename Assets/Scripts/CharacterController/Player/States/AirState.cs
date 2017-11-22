@@ -54,7 +54,7 @@ public struct AirState : ICharacterState
     private CharacterStateData HandleVerticalMovement(Vector2 velocity, Vector2 input, float deltaTime)
     {
         CharacterStateData cs = new CharacterStateData();
-        if (controller.getCharController().isGrounded && controller.getCharController().velocity.y<0.0f)
+        if (controller.getCharController().isGrounded)
         {
             cs.NewState = new GroundState(controller);
         }
