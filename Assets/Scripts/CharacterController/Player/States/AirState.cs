@@ -38,12 +38,7 @@ public struct AirState : ICharacterState
         }
 
 
-        else if (controller.getCharController().isGrounded)
-        {
-
-            return new CharacterStateData(Vector2.zero, new GroundState(controller), true);
-
-        }
+       
 
         var velocity = controller.getVelocity();
         return HandleVerticalMovement(velocity, input, deltaTime);
@@ -62,7 +57,8 @@ public struct AirState : ICharacterState
     public void Jump()
     {
         ++jumpCount;
-        controller.Jump();
+        controller.Jump(jumpCount);
+  
     }
 
     public void Exit()

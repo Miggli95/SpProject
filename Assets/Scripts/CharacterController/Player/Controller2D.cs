@@ -75,7 +75,7 @@ public class Controller2D : MonoBehaviour
     public bool boost = false;
     private bool canMove = true;
     private float canMoveTimer = 0f;
-
+    public bool Grounded;
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -276,6 +276,7 @@ public class Controller2D : MonoBehaviour
 
     void Update()
     {
+        Grounded = controller.isGrounded;
         if(Mathf.Abs(controller.velocity.x) > 0)
         {
             Trail.SetActive(true);
@@ -407,10 +408,12 @@ public class Controller2D : MonoBehaviour
         print("Switching from" + characterState.ToString() + " to " + characterStateData.NewState.ToString());
     }
 
-    public void Jump()
+    public void Jump(int jumpCount)
     {
+
         //startJumpTimer();
         jump = true;
+        print("JumpCount " + jumpCount);
     }
 
     public void startJumpTimer()
