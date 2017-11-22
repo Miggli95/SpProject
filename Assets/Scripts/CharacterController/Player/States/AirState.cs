@@ -8,7 +8,7 @@ public struct AirState : ICharacterState
     private Controller2D controller;
     private int jumpCount;
     private int MaxJumpCount;
-    public AirState(Controller2D controller, bool fell = false, int maxJumpCount = 2)
+    public AirState(Controller2D controller, bool fell = false, int maxJumpCount = 1)
     {
         if (controller == null)
         {
