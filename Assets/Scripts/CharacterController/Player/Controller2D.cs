@@ -496,7 +496,7 @@ public class Controller2D : MonoBehaviour
         }
         if (Input.GetKeyDown(UseKey) && PickUpCarry != null)
         {
-            if(PickUpCarry.Use() && InteractFocus != null) //PickUpCarry.Use() should only return true if the object is a key object. Currently pick up key objects are not planned to have a unique use method.
+            if(PickUpCarry.Use(this) && InteractFocus != null) //PickUpCarry.Use() should only return true if the object is a key object. Currently pick up key objects are not planned to have a unique use method.
             {
                 UnityEngine.Debug.Log("Interacted by trying to use a keyobject");
                 InteractFocus.Interact(this);

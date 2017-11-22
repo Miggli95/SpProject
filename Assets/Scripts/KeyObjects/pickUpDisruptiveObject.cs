@@ -14,7 +14,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
         //Need to implement so that a object falls to the ground. 
     }
 
-    public virtual void innitialize()
+    public virtual void Initialize()
     {
         state = pickUpState.Waiting;
     }
@@ -26,7 +26,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
 
     public void Outline()
     {
-        throw new NotImplementedException();
+        
     }
 
     public virtual IPickUp PickUp()
@@ -44,7 +44,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
         
     }
 
-    public abstract bool Use();
+    public abstract bool Use(Controller2D player);
 
     public virtual void respawn(Vector2 v)
     {

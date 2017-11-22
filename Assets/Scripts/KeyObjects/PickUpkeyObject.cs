@@ -25,7 +25,7 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
 
     }
 
-    public virtual bool Use()
+    public virtual bool Use(Controller2D player)
     {
         return true;                                //abstract method, each object has/needs it's own unique use function, returns false if the use is called on a keyobject with interface IPickUp
     }

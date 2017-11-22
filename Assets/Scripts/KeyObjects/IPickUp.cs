@@ -8,7 +8,7 @@ namespace PickUp
 
 
         IPickUp PickUp();
-        bool Use();
+        bool Use(Controller2D player);
         void Drop();
         string getID();
         void Outline();
