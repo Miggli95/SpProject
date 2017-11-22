@@ -51,7 +51,7 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
                         }
 
-                        else if (controllers[0].Contains("Playstation"))
+                        else if (controllers[0].Contains("PS"))
                         {
                             a.JumpKey = KeyCode.Joystick1Button1;
 
@@ -69,7 +69,7 @@ public class ControllerKeyManager : MonoBehaviour {
 
                     if (controllers.Length > 1)
                     {
-                        if (controllers[1].ToUpper().Contains("XBOX"))
+                        if (controllers[1].ToUpper().Contains("XBOX") && controllers.Length > 1)
                         {
                             a.JumpKey = KeyCode.Joystick2Button0;
 
@@ -81,7 +81,7 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.UseKey = KeyCode.Joystick2Button1;
                             a.DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
                         }
-                        else if (controllers[1].Contains("Playstation"))
+                        else if (controllers[1].Contains("PS") && controllers.Length > 1)
                         {
                             a.JumpKey = KeyCode.Joystick2Button1;
 
@@ -98,7 +98,7 @@ public class ControllerKeyManager : MonoBehaviour {
                 case "P3":
                     if (controllers.Length > 2)
                     {
-                        if (controllers[2].ToUpper().Contains("XBOX"))
+                        if (controllers[2].ToUpper().Contains("XBOX") && controllers.Length > 2)
                         {
                             a.JumpKey = KeyCode.Joystick3Button0;
 
@@ -110,7 +110,7 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.UseKey = KeyCode.Joystick3Button1;
                             a.DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
                         }
-                        else if (controllers[2].Contains("Playstation") && controllers.Length > 2)
+                        else if (controllers[2].Contains("PS") && controllers.Length > 2)
                         {
                             a.JumpKey = KeyCode.Joystick3Button1;
 
@@ -128,7 +128,7 @@ public class ControllerKeyManager : MonoBehaviour {
                 case "P4":
                     if (controllers.Length > 3)
                     {
-                        if (controllers[3].ToUpper().Contains("XBOX"))
+                        if (controllers[3].ToUpper().Contains("XBOX") && controllers.Length > 3)
                         {
                             a.JumpKey = KeyCode.Joystick4Button0;
 
@@ -140,7 +140,7 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.UseKey = KeyCode.Joystick4Button1;
                             a.DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
                         }
-                        else if (controllers[3].Contains("Playstation") && controllers.Length > 3)
+                        else if (controllers[3].Contains("PS") && controllers.Length > 3)
                         {
                             a.JumpKey = KeyCode.Joystick4Button1;
 
