@@ -48,7 +48,7 @@ public class Controller2D : MonoBehaviour
     private CollisionFlags colFlags;
     public float jumpSpeed = 10;
     public float dashSpeed = 10;
-    private bool jump;
+    public bool jump;
     public bool dash;
     private bool alive = true;
     private GameObject[] players;
@@ -601,5 +601,6 @@ public class Controller2D : MonoBehaviour
     {
         PickUpCarry = null;
     }
+
 
 }

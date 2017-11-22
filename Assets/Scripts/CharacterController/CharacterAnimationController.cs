@@ -27,9 +27,8 @@ public class CharacterAnimationController : MonoBehaviour {
 	void Update () {
 		PlayIdleOrRun();
 		PlayDashAnimation ();
-		//PlayJumpAnimation();
+		PlayJumpAnimation();
 	}
-
 
 
 	private void PlayIdleOrRun(){
@@ -48,11 +47,11 @@ public class CharacterAnimationController : MonoBehaviour {
 		animator.SetBool ("Dash", charController.dash);
 	}
 
-	/*
-	private void PlayJumpAnimation(){
+	
+	public void PlayJumpAnimation(){
 		animator.SetBool ("Jump", charController.jump);
 	}
-*/
+
 
 
 }
