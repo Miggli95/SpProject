@@ -72,6 +72,6 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     }
     public virtual void Consume()
     {
-        Destroy(this);
+        state = pickUpState.Used;
     }
 }
