@@ -12,9 +12,13 @@ public class CharacterAnimationController : MonoBehaviour {
 	private Controller2D charController;
 	private Animator animator;
 
+	private CharacterController controller;
+
+
 	void Awake(){
 		charController = gameObject.GetComponent<Controller2D>();
 		animator = gameObject.GetComponent<Animator>();
+		controller = GetComponent<CharacterController>();
 	}
 
 	// Use this for initialization
@@ -28,6 +32,7 @@ public class CharacterAnimationController : MonoBehaviour {
 		PlayIdleOrRun();
 		PlayDashAnimation ();
 		PlayJumpAnimation();
+		animator.SetFloat ("MoveDirY", charController.moveDir.y);
 	}
 
 
@@ -49,7 +54,7 @@ public class CharacterAnimationController : MonoBehaviour {
 
 	
 	public void PlayJumpAnimation(){
-		animator.SetBool ("Jump", charController.jump);
+		animator.SetBool ("Jump", controller.isGrounded);
 	}
 
 
