@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
     GameObject[] players;
-    public float minX, maxX;
+    float minX, maxX;
     float minY, maxY;
     Camera camera;
     Vector3 target;
@@ -29,7 +29,7 @@ public class CameraScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    public bool resetMinX, resetMaxX;
+    bool resetMinX, resetMaxX;
     void Update()
     {
         resetMinX = true;
