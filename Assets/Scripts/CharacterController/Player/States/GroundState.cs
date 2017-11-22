@@ -55,14 +55,14 @@ public class GroundState : ICharacterState
 
         if (airborne)
         {
-          /*  if (controller.canJump)
+            /*if (controller.canJump)
             {
                 controller.startJumpTimer();
-            }
+            }*/
             if (!controller.canJump)
-            {*/
+            {
                 characterStateData.NewState = new AirState(controller, true);
-            //}
+            }
         }
 
         return characterStateData;

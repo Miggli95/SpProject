@@ -231,6 +231,7 @@ public class Controller2D : MonoBehaviour
 
         if (controller.isGrounded)
         {
+            jumpTimerDelay = jumpTimer;
             moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
             moveDir.y = -stickToGrouncForce;
         }
@@ -421,7 +422,7 @@ public class Controller2D : MonoBehaviour
     public void startJumpTimer()
     {
         canJump = true;
-        jumpTimerDelay = jumpTimer;
+      
     }
 
     public void Dash()
