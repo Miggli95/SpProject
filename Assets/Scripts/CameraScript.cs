@@ -5,15 +5,18 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
     GameObject[] players;
-    float minX, maxX;
+    public float minX, maxX;
     float minY, maxY;
     Camera camera;
     Vector3 target;
-    float originalSize;
+    public float originalSize;
+    public float currentSize;
     public float time = 0.15f;
     // Use this for initialization
     void Start ()
     {
+        minX = float.MaxValue;
+        maxX = float.MinValue;
         camera = GetComponent<Camera>();
         target = transform.position;
         originalSize = camera.orthographicSize;
@@ -21,12 +24,13 @@ public class CameraScript : MonoBehaviour
 	}
 
     // Update is called once per frame
-    bool resetX;
+    public bool resetMinX, resetMaxX;
 	void Update ()
     {
-        resetX = true;
+        resetMinX = true;
+        resetMaxX = true;
         float y = 0;
-
+        currentSize = camera.orthographicSize;
         foreach (GameObject p in players)
         {
             Vector2 pos = p.transform.position;
@@ -34,47 +38,48 @@ public class CameraScript : MonoBehaviour
 
             if (pos.x <= minX)
             {
-                resetX = false;
+                print("min " + p.name);
+                resetMinX = false;
                 minX = pos.x;
             }
 
             else if (pos.x >= maxX)
             {
-                resetX = false;
+                print("max " + p.name);
+                resetMaxX = false;
                 maxX = pos.x;
             }
-
-            if (pos.y <= minY)
-            {
-                resetX = false;
-                minY = pos.y;
-            }
-
-            else if (pos.y >= maxY)
-            {
-                resetX = false;
-                maxY = pos.y;
-            }
         }
 
-
+        
         float newSize = (maxX - minX) / 2;
 
-        if (!(newSize < originalSize))
+
+        if (newSize > originalSize)
         {
-            camera.orthographicSize = Mathf.SmoothStep(camera.orthographicSize,newSize,time);
+            camera.orthographicSize = newSize;//Mathf.SmoothStep(camera.orthographicSize, newSize, time);
         }
+
+        else
+        {
+            camera.orthographicSize = originalSize;
+        }
+        
 
         target.y = Mathf.SmoothStep(target.y, y / players.Length,time);
 
         transform.position = target;
 
-        if (resetX)
+        if (resetMinX)
         {
             minX = float.MaxValue;
+        }
+
+        if(resetMaxX)
+        { 
             maxX = float.MinValue;
-            maxY = float.MinValue;
-            minY = float.MaxValue;
+           // maxY = float.MinValue;
+           // minY = float.MaxValue;
         }
     }
 }
