@@ -51,7 +51,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
         transform.position = v;
     }
 
-    public void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -59,7 +59,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
             //Set pickup focus in player script to this
         }
     }
-    public void OnTriggerExit(Collider other)
+    public virtual void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {

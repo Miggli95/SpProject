@@ -597,4 +597,9 @@ public class Controller2D : MonoBehaviour
         canMove = false;
     }
 
+    public void forceDrop()
+    {
+        PickUpCarry = null;
+    }
+
 }
