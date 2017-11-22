@@ -8,6 +8,7 @@ public struct AirState : ICharacterState
     private Controller2D controller;
     private int jumpCount;
     private int MaxJumpCount;
+    bool fell;
     public AirState(Controller2D controller, bool fell = false, int maxJumpCount = 1)
     {
         if (controller == null)
@@ -17,6 +18,7 @@ public struct AirState : ICharacterState
         MaxJumpCount = maxJumpCount;
         this.controller = controller;
         //fell = controller.canJump;
+        this.fell = fell;
         jumpCount = fell ? 1 : 0;
     }
 
@@ -37,6 +39,11 @@ public struct AirState : ICharacterState
             }
         }
 
+      /*  if (controller.getCharController().isGrounded)
+        {
+            //return new CharacterStateData(Vector2.zero,new GroundState(controller), true);
+        }*/
+
 
        
 
@@ -47,7 +54,7 @@ public struct AirState : ICharacterState
     private CharacterStateData HandleVerticalMovement(Vector2 velocity, Vector2 input, float deltaTime)
     {
         CharacterStateData cs = new CharacterStateData();
-        if (controller.getCharController().isGrounded)
+        if (controller.getCharController().isGrounded && controller.getCharController().velocity.y<0.0f)
         {
             cs.NewState = new GroundState(controller);
         }
@@ -56,8 +63,8 @@ public struct AirState : ICharacterState
 
     public void Jump()
     {
-        jumpCount++;
-        controller.Jump(jumpCount);
+        ++jumpCount;
+        controller.Jump(jumpCount, fell);
   
     }
 

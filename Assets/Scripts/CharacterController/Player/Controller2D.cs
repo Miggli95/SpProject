@@ -408,12 +408,12 @@ public class Controller2D : MonoBehaviour
         print("Switching from" + characterState.ToString() + " to " + characterStateData.NewState.ToString());
     }
 
-    public void Jump(int jumpCount)
+    public void Jump(int jumpCount,bool fell)
     {
 
         //startJumpTimer();
         jump = true;
-        print("JumpCount " + jumpCount);
+        print("JumpCount " + jumpCount + "Fell " + fell);
     }
 
     public void startJumpTimer()
