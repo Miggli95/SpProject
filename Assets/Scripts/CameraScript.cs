@@ -14,7 +14,7 @@ public class CameraScript : MonoBehaviour
     public float currentSize;
     public float time = 0.15f;
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         minX = float.MaxValue;
         maxX = float.MinValue;
@@ -26,11 +26,11 @@ public class CameraScript : MonoBehaviour
             minSize = originalSize;
         }
         players = GameObject.FindGameObjectsWithTag("Player");
-	}
+    }
 
     // Update is called once per frame
     public bool resetMinX, resetMaxX;
-	void Update ()
+    void Update()
     {
         resetMinX = true;
         resetMaxX = true;
@@ -56,7 +56,7 @@ public class CameraScript : MonoBehaviour
             }
         }
 
-        
+
         float newSize = (maxX - minX) / 2;
 
 
@@ -69,9 +69,9 @@ public class CameraScript : MonoBehaviour
         {
             camera.orthographicSize = Mathf.SmoothStep(camera.orthographicSize, minSize, time);
         }
-        
 
-        target.y = Mathf.SmoothStep(target.y, y / players.Length,time);
+
+        target.y = Mathf.SmoothStep(target.y, y / players.Length, time);
 
         transform.position = target;
 
@@ -80,11 +80,11 @@ public class CameraScript : MonoBehaviour
             minX = float.MaxValue;
         }
 
-        if(resetMaxX)
-        { 
+        if (resetMaxX)
+        {
             maxX = float.MinValue;
-           // maxY = float.MinValue;
-           // minY = float.MaxValue;
+            // maxY = float.MinValue;
+            // minY = float.MaxValue;
         }
     }
 }
