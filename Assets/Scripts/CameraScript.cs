@@ -9,7 +9,8 @@ public class CameraScript : MonoBehaviour
     float minY, maxY;
     Camera camera;
     Vector3 target;
-    public float originalSize;
+    float originalSize;
+    public float minSize = 0;
     public float currentSize;
     public float time = 0.15f;
     // Use this for initialization
@@ -20,6 +21,10 @@ public class CameraScript : MonoBehaviour
         camera = GetComponent<Camera>();
         target = transform.position;
         originalSize = camera.orthographicSize;
+        if (minSize == 0)
+        {
+            minSize = originalSize;
+        }
         players = GameObject.FindGameObjectsWithTag("Player");
 	}
 
@@ -55,14 +60,14 @@ public class CameraScript : MonoBehaviour
         float newSize = (maxX - minX) / 2;
 
 
-        if (newSize > originalSize)
+        if (newSize > minSize)
         {
-            camera.orthographicSize = newSize;//Mathf.SmoothStep(camera.orthographicSize, newSize, time);
+            camera.orthographicSize = Mathf.SmoothStep(camera.orthographicSize, newSize, time);
         }
 
         else
         {
-            camera.orthographicSize = originalSize;
+            camera.orthographicSize = Mathf.SmoothStep(camera.orthographicSize, minSize, time);
         }
         
 
