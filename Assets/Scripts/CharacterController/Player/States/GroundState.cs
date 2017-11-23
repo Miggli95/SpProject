@@ -29,7 +29,7 @@ public class GroundState : ICharacterState
             return new CharacterStateData(Vector2.zero, new AirState(controller), true);
         }
 
-        if (Input.GetKeyDown(controller.DashKey) && controller.canCMove())
+        if (Input.GetKeyDown(controller.DashKey) && controller.canCMove() && controller.canDash)
         {
             return new CharacterStateData(Vector2.zero, new DashState(controller, 5), true);
         }

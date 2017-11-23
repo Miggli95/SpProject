@@ -53,12 +53,12 @@ public class Controller2D : MonoBehaviour
     private bool alive = true;
     private GameObject[] players;
     public float DashTimer = 0.5f;
-    private float dashTimer;
+    float dashTimer;
     public float accelerationTime = 0.1f;
     public float deaccelrationTime = 0.8f;
     public float airAccelerationTime = 0.2f;
     public float airDeaccelrationTime = 1.6f;
-    public Vector3 dashDestination;
+   // public Vector3 dashDestination;
     public float bottomRayLength = 0.08f;
     RaycastHit bottom;
     public bool canJump = true;
@@ -77,6 +77,9 @@ public class Controller2D : MonoBehaviour
     private float canMoveTimer = 0f;
     public bool Grounded;
     public Vector3 velocity;
+    public float dashCooldown = 0.1f;
+    float dashCooldownTimer = 0;
+    public bool canDash = true;
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -205,15 +208,17 @@ public class Controller2D : MonoBehaviour
         {
 
 
-            if (dashTimer >= 0)
+            if (dashTimer >= 0 && canDash)
             {
-                dash = dashDestination.x != 0;
-                targetDir.x = dashDestination.x * dashSpeed;
+                dash = destination.x != 0;
+                targetDir.x = destination.x * (speed +  dashSpeed);
                 dashTimer -= Time.fixedDeltaTime;
             }
 
             else
             {
+                dashCooldownTimer = dashCooldown;
+                canDash = false;
                 dash = false;
             }
 
@@ -264,7 +269,7 @@ public class Controller2D : MonoBehaviour
         if (controller.velocity.x == 0)
         {
             moveDir.x = 0;
-            dashDestination.x = 0;
+            //dashDestination.x = 0;
         }
         //print("velocity" + controller.velocity); 
         if (transform.position.z != startZ)
@@ -365,6 +370,18 @@ public class Controller2D : MonoBehaviour
         {
             canJump = true;
         }
+
+        if (dashCooldownTimer >= 0)
+        {
+
+            dashCooldownTimer -= Time.deltaTime;
+        }
+
+        else
+        {
+            canDash = true;
+        }
+
         checkAction();
         cyclePickUpSelected(Mathf.RoundToInt(Input.GetAxis("itemCycle")));
         updateCarryPos(this.transform.position);
@@ -429,7 +446,7 @@ public class Controller2D : MonoBehaviour
     {
         if (!dash)
         {
-            dashDestination = moveDir;
+            //dashDestination = moveDir;
             dashTimer = DashTimer;
             dash = true;
         }
