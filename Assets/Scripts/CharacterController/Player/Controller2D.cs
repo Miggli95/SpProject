@@ -80,6 +80,7 @@ public class Controller2D : MonoBehaviour
     public float dashCooldown = 0.1f;
     float dashCooldownTimer = 0;
     public bool canDash = true;
+    public bool canInteract = false;
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -464,6 +465,7 @@ public class Controller2D : MonoBehaviour
         {
             return "noobject"; //Heh Noob.
         }
+        print("current pickup" + PickUpCarry.getID());
         return PickUpCarry.getID();
     }
     public void setPickUpFocus(IPickUp pickup)
@@ -515,6 +517,7 @@ public class Controller2D : MonoBehaviour
 
     private void checkAction()
     {
+
         if (Input.GetKeyDown(InteractKey) && InteractFocus != null)
         {
             InteractFocus.Interact(this);
