@@ -47,7 +47,7 @@ public class LevelManager : MonoBehaviour
             case "Hub(24x16)":
 
                 timerText.GetComponent<Timer>().setInstuctions("Press A to Jump" + "\n" + "Press X to Pick Up" + "\n" + "Press Y to interact");
-                timerText.GetComponent<Timer>().timerActive(false);
+                //timerText.GetComponent<Timer>().timerActive(false);
                 break;
             case "CharacterControllerDevelopmentScene":
                 timerText.GetComponent<Timer>().timerActive(true);
@@ -99,6 +99,8 @@ public class LevelManager : MonoBehaviour
     {
         level++;
         SceneManager.LoadScene(levelorder[level]);
+        timerText.GetComponent<Timer>().setInstuctions("");
+        startLevel();
     }
     public GameObject[] getPlayers()
     {
