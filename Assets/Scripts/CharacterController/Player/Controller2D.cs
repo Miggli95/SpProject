@@ -553,7 +553,7 @@ public class Controller2D : MonoBehaviour
         }
         if (Input.GetKeyDown(DieKey))
         {
-            killSelf();
+            //killSelf();
         }
     }
     private void cyclePickUpSelected(int i) // takes in -1 or +1 
@@ -620,6 +620,7 @@ public class Controller2D : MonoBehaviour
     public void stopMove(float t)
     {
         canMove = false;
+        moveDir = new Vector3(0f,0f,0f);
         canMoveTimer = t;
     }
     public bool canCMove(){

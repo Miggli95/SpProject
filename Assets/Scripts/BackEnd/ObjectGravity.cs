@@ -47,4 +47,8 @@ public class ObjectGravity : MonoBehaviour {
             riggy.velocity = v.normalized * maxVelocity;
         }
     }
+    public void knockedAway(Vector3 dir)
+    {
+        riggy.velocity = new Vector3(-dir.x, 2f, 0f);
+    }
 }
