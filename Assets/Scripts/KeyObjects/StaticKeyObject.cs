@@ -143,6 +143,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         {
             if (s == id)
             {
+                Debug.Log(s + "player carries a requirement");
                 return true;
             }
         }
