@@ -9,22 +9,22 @@ public class CharacterAnimationController : MonoBehaviour {
 	//private string lastState;
 
 	private SpriteRenderer spriteRenderer;
-	private Controller2D charController;
+	private Controller2D controller2D;
 	private Animator animator;
 
-	private CharacterController controller;
-    private ControllerKeyManager keyManager;
+	private CharacterController charController;
+    //private ControllerKeyManager keyManager;
 
 
 	void Awake(){
-		charController = gameObject.GetComponent<Controller2D>();
+		controller2D = gameObject.GetComponent<Controller2D>();
 		animator = gameObject.GetComponent<Animator>();
-		controller = GetComponent<CharacterController>();
+		charController = GetComponent<CharacterController>();
 	}
 
 	// Use this for initialization
 	void Start () {
-        keyManager = GetComponent<ControllerKeyManager>();
+		//keyManager = GetComponent<ControllerKeyManager>();
 		spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
 		
 	}
@@ -34,13 +34,14 @@ public class CharacterAnimationController : MonoBehaviour {
 		PlayIdleOrRun();
 		PlayDashAnimation ();
 		PlayJumpAnimation();
-		animator.SetFloat ("MoveDirY", charController.moveDir.y);
+		animator.SetFloat ("MoveDirY", controller2D.moveDir.y);
 	}
 
 
 	private void PlayIdleOrRun(){
 		Vector2 move = Vector2.zero;
-        move.x = keyManager.getcharInput(this.name, true, charController.canCMove()).x;
+		//move.x = keyManager.getcharInput(this.name, true, controller2D.canCMove()).x;
+		move.x = controller2D.charInput.x;
 		if (move.x != 0) {
 			bool flipSprite = (spriteRenderer.flipX ? (move.x < 0.01f) : (move.x > 0.01f));
 			if (flipSprite)
@@ -51,12 +52,12 @@ public class CharacterAnimationController : MonoBehaviour {
 	}
 
 	private void PlayDashAnimation(){
-		animator.SetBool ("Dash", charController.dash);
+		animator.SetBool ("Dash", controller2D.dash);
 	}
 
 	
 	public void PlayJumpAnimation(){
-		animator.SetBool ("Jump", controller.isGrounded);
+		animator.SetBool ("Jump", charController.isGrounded);
 	}
 
 

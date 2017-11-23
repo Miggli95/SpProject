@@ -31,7 +31,7 @@ public class Controller2D : MonoBehaviour
     public KeyCode PickUpKey;
     [HideInInspector]
     public KeyCode UseKey;
-    Vector2 charInput;
+    public Vector2 charInput;
     [HideInInspector]
     public KeyCode DieKey; //temp key remove in future
     public float jumpTimerDelay;
