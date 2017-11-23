@@ -9,13 +9,15 @@ public class do_Door : staticDisruptiveObject {
     private float timeToOpen = 0.42f;
     private float timer = 0;
     private bool isInteracted;
-    public Collider doorCol;
+    public GameObject Door;
+    public Collider DoorCol;
 	
 	void Start () {
         base.Initialize(true);
-        var list = GetComponentsInChildren<Collider>();
-        doorCol = list[1];
-        doorCol.enabled = false;
+        /*var list = GetComponentsInChildren<GameObject>();
+        Door = list[1];
+        DoorCol = Door.GetComponent<Collider>();*/
+        DoorCol.enabled = false;
 	}
 
     public override bool Interact(Controller2D player)
@@ -62,8 +64,8 @@ public class do_Door : staticDisruptiveObject {
 
     private void Open() //call animation event
     {
-        transform.Rotate(new Vector3(0, -90));
-        doorCol.enabled = false;
+        Door.transform.Rotate(new Vector3(0, -90));
+        DoorCol.enabled = false;
         state = InteractableState.Enabled;
         isInteracted = false;
     }
@@ -76,8 +78,8 @@ public class do_Door : staticDisruptiveObject {
 
     private void Close() //call animation event
     {
-        doorCol.enabled = true;
-        transform.Rotate(new Vector3(0, 90));
+        DoorCol.enabled = true;
+        Door.transform.Rotate(new Vector3(0, 90));
         state = InteractableState.Interacted;
     }
 
