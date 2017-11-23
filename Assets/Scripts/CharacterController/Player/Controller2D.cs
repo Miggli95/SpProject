@@ -81,6 +81,7 @@ public class Controller2D : MonoBehaviour
     float dashCooldownTimer = 0;
     public bool canDash = true;
     public bool canInteract = false;
+    private GameObject[] potions;
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -130,11 +131,18 @@ public class Controller2D : MonoBehaviour
         PickUpFocusSelected = 0;
         players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
         players = GameObject.FindGameObjectsWithTag("Player");
+        potions = new GameObject[GameObject.FindGameObjectsWithTag("Potion").Length];
+        potions = GameObject.FindGameObjectsWithTag("Potion");
         foreach (GameObject p in players)
         {
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CapsuleCollider>(), true);
             Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<CharacterController>(), true);
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CharacterController>(), true);
+        }
+        foreach (GameObject p in potions)
+        {
+            Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<BoxCollider>(), true);
+            Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<BoxCollider>(), true);
         }
     }
 
