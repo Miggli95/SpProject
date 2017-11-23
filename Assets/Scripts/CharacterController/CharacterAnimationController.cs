@@ -13,6 +13,7 @@ public class CharacterAnimationController : MonoBehaviour {
 	private Animator animator;
 
 	private CharacterController controller;
+    private ControllerKeyManager keyManager;
 
 
 	void Awake(){
@@ -23,6 +24,7 @@ public class CharacterAnimationController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        keyManager = GetComponent<ControllerKeyManager>();
 		spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
 		
 	}
@@ -38,7 +40,7 @@ public class CharacterAnimationController : MonoBehaviour {
 
 	private void PlayIdleOrRun(){
 		Vector2 move = Vector2.zero;
-		move.x = Input.GetAxis ("Horizontal");
+        move.x = keyManager.getcharInput(this.name, true, charController.canCMove()).x;
 		if (move.x != 0) {
 			bool flipSprite = (spriteRenderer.flipX ? (move.x < 0.01f) : (move.x > 0.01f));
 			if (flipSprite)

@@ -626,7 +626,7 @@ public class Controller2D : MonoBehaviour
     {
         alive = false;
         //do interesting death mechanics
-        this.GetComponent<MeshRenderer>().enabled = false;
+        this.GetComponent<SpriteRenderer>().enabled = false;
         canMove = false;
     }
 
