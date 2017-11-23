@@ -6,14 +6,32 @@ public class ObjectGravity : MonoBehaviour {
     private Rigidbody riggy;
     public float maxVelocity = 0.5f;
     private float sqrMaxVelocity;
-	// Use this for initialization
-	void Start () {
+    private GameObject[] potions;
+    private GameObject[] players;
+    // Use this for initialization
+    void Start () {
         riggy = this.GetComponent<Rigidbody>();
         setMaxVelocity(maxVelocity);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        potions = new GameObject[GameObject.FindGameObjectsWithTag("Potion").Length];
+        potions = GameObject.FindGameObjectsWithTag("Potion");
+        players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
+        players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in potions)
+        {
+            Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<BoxCollider>(), true);
+        }
+
+
+        foreach (GameObject p in players)
+        {
+            Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<CapsuleCollider>(), true);
+            Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<CharacterController>(), true);
+        }
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
     void setMaxVelocity(float max)
