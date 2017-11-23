@@ -44,20 +44,25 @@ public class LevelManager : MonoBehaviour
         livingPlayers = players.Length;
         switch (SceneManager.GetActiveScene().name)
         {
-            case "Hub":
-                timerText.SetActive(false);
+            case "Hub(24x16)":
+
+                timerText.GetComponent<Timer>().setInstuctions("Press A to Jump" + "\n" + "Press X to Pick Up" + "\n" + "Press Y to interact");
+                timerText.GetComponent<Timer>().timerActive(false);
                 break;
             case "CharacterControllerDevelopmentScene":
+                timerText.GetComponent<Timer>().timerActive(true);
                 timerText.GetComponent<Timer>().setInstuctions("Dance Party");
                 timerText.GetComponent<Timer>().setTimer(60f);
                 break;
             case "Level4(24x16) 1":
                 timerText.SetActive(true);
+                timerText.GetComponent<Timer>().timerActive(true);
                 timerText.GetComponent<Timer>().setInstuctions("Drink the potions!");
                 timerText.GetComponent<Timer>().setTimer(60f);
                 break;
             case "Level5(24x16)":
                 timerText.SetActive(true);
+                timerText.GetComponent<Timer>().timerActive(true);
                 timerText.GetComponent<Timer>().setInstuctions("We Spinnin");
                 timerText.GetComponent<Timer>().setTimer(60f);
                 break;
@@ -90,7 +95,7 @@ public class LevelManager : MonoBehaviour
             loadNextLevel();
         }
     }
-    void loadNextLevel()
+    public void loadNextLevel()
     {
         level++;
         SceneManager.LoadScene(levelorder[level]);

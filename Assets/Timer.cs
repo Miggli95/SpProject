@@ -6,6 +6,7 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     public static Timer instanceT = null;
+    private bool active = true;
     public Text counterText;
     private string levelInstructions = "nlsdsf";
     private float timer = 60f;
@@ -35,7 +36,12 @@ public class Timer : MonoBehaviour
     {
         minutes = (int)(Time.timeSinceLevelLoad / 60f);
         seconds = (int)(Time.timeSinceLevelLoad % 60f);
-        counterText.text =levelInstructions + "\n"  + (int)timer;
+        if (active)
+        {
+            counterText.text = levelInstructions + "\n" + (int)timer;
+        }
+        else
+            counterText.text = levelInstructions;
         timer = timer - Time.deltaTime;
     }
     public void setInstuctions(string s)
@@ -50,6 +56,9 @@ public class Timer : MonoBehaviour
     {
         timer = timer / 2;
     }
-
+    public void timerActive(bool t)
+    {
+        active = t;
+    }
 
 }
