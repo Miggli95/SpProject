@@ -83,6 +83,16 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
             Debug.Log("Player entered " + id);
             //Set what interactable the player is currently near, try to see if you can get information about what object the player is carrying(keyobject id), save player temporary to be able to kill him?
             other.GetComponent<Controller2D>().setInteractableFocus(this);
+
+            if (checkPickup(other.GetComponent<Controller2D>().getCarryId()))
+            {
+                other.GetComponent<Controller2D>().canInteract = true;
+            }
+
+            else
+            {
+                other.GetComponent<Controller2D>().canInteract = false;
+            }
         }
     }
     public void OnTriggerExit(Collider other)
@@ -90,6 +100,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player exited " + id);
+            other.GetComponent<Controller2D>().canInteract = false;
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
             other.GetComponent<Controller2D>().setInteractableFocus(null);
         }
@@ -120,6 +131,25 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         Debug.Log(id + "Wasn't found");
         return false;
     }
+
+    private bool checkPickup(string id)
+    {
+        if (requirement == null)
+        {
+            Debug.Log("No requirement");
+            return true;
+        }
+        foreach (string s in requirement)
+        {
+            if (s == id)
+            {
+                return true;
+            }
+        }
+        Debug.Log(id + "Wasn't found");
+        return false;
+    }
+
 
     private void removeRequirement(string id)
     {
