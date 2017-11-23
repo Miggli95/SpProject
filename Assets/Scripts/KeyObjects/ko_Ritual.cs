@@ -21,6 +21,7 @@ public class ko_Ritual : StaticKeyObject {
         if(requirement == null || requirement.Count == 0)
         {
             flagComplete();
+            interactingPlayer.doDeath();
         }
         else
         {
