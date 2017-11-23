@@ -29,7 +29,7 @@ public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
         return true;
     }
 
-    public void innitialize(bool isOneUse, InteractableState state)
+    public void Initialize(bool isOneUse, InteractableState state)
     {
         this.isOneUse = isOneUse;
         this.state = state;
@@ -45,7 +45,7 @@ public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
         this.isOneUse = isOneUse;
         state = InteractableState.Enabled;
     }
-    public void innitialize(InteractableState state)
+    public void Initialize(InteractableState state)
     {
         this.state = state;
     }

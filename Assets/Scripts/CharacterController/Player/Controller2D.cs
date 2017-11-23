@@ -635,5 +635,12 @@ public class Controller2D : MonoBehaviour
         PickUpCarry = null;
     }
 
+    public IPickUp GetPickUp()
+    {
+        if (PickUpCarry != null)
+            return PickUpCarry;
+        return null;
+    }
+
 
 }
