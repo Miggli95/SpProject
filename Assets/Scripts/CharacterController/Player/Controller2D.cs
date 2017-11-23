@@ -467,6 +467,8 @@ public class Controller2D : MonoBehaviour
 
     public void removePickUpFocus(IPickUp pickup)
     {
+        if (PickUpFocusList.Count == 0)
+            return;
         var preserve = PickUpFocusList[PickUpFocusSelected];
         var index = PickUpFocusList.IndexOf(pickup);
         var removed = PickUpFocusList.Remove(pickup);

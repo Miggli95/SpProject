@@ -14,9 +14,7 @@ public class do_BananaPeel : pickUpDisruptiveObject {
     public void Start()
     {
         base.Initialize();
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        rb.constraints = RigidbodyConstraints.FreezePosition;
+        
     }
 
     public override void OnTriggerEnter(Collider other)
@@ -42,36 +40,36 @@ public class do_BananaPeel : pickUpDisruptiveObject {
 
     public override bool Use(Controller2D player)
     {
-        state = pickUpState.Used;
+        
         player.forceDrop();
+        state = pickUpState.Used;
         hitSomething = false;
         var direction = player.moveDir.x > 0 ? throwSpeed : -throwSpeed;
         Debug.Log(direction);
         throwDir = new Vector3(direction, 5);
-        rb.AddForce(throwDir);
         return false;
     }
 
     public void Update()
     {
-        /*
+        
         if (state != pickUpState.Used || hitSomething)
             return;
         transform.Translate(throwDir * Time.deltaTime);
         reduceSpeed();
         RaycastHit hit;
         Physics.Raycast(transform.position, throwDir * Time.deltaTime, out hit);
-        */
+        
 
     }
 
     public void reduceSpeed()
     {
-        /*
-        throwDir.x -= (throwDir.x * 0.005f);
+        
+        throwDir.x -= 0.25f * Time.deltaTime;
         throwDir.y += -fallSpeed;
-        fallSpeed *= 1.05f;
-        */
+        fallSpeed += 1f * Time.deltaTime;
+        
     }
 
 }
