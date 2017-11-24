@@ -15,5 +15,6 @@ namespace PickUp
         void removeOutline();
         void updatePos(Vector3 pos);
         void Consume();
+        void KnockAway(Vector3 dir);
     }
 }

@@ -7,6 +7,7 @@ using System;
 public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
 {
     public pickUpState state;
+    private ObjectGravity ObjGrav;
 
     public void Drop()
     {
@@ -17,6 +18,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
     public virtual void Initialize()
     {
         state = pickUpState.Waiting;
+        ObjGrav = this.GetComponent<ObjectGravity>();
     }
 
     public virtual string getID()
@@ -76,5 +78,10 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
     public virtual void Consume()
     {
         Destroy(this);
+    }
+
+    public void KnockAway(Vector3 dir)
+    {
+        ObjGrav.knockedAway(dir);
     }
 }

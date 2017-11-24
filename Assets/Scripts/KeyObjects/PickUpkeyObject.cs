@@ -8,7 +8,7 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
 
     //private player pickUpPlayer
     public pickUpState state = pickUpState.Waiting;
-
+    private ObjectGravity ObjGrav;
 
     public void Drop() {                            //Implement functionallity to keep the object from overlapping with other IPickUp objects and make it fall to the ground. Perhaps in update?
         state = pickUpState.Waiting;
@@ -32,6 +32,7 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     public new void Initialize(string id) {
         base.Initialize(id);
         state = pickUpState.Waiting;
+        ObjGrav = this.GetComponent<ObjectGravity>();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -73,5 +74,9 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     public virtual void Consume()
     {
         state = pickUpState.Used;
+    }
+    public void KnockAway(Vector3 dir)
+    {
+        ObjGrav.knockedAway(dir);
     }
 }
