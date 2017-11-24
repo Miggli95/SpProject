@@ -14,6 +14,7 @@ public class CameraScript : MonoBehaviour
     public float currentSize;
     public float time = 0.15f;
     public bool usingDeltaX = true;
+    Vector2 aspectRatio;
     // Use this for initialization
     void Start()
     {
@@ -73,8 +74,8 @@ public class CameraScript : MonoBehaviour
                 maxY = pos.y;
             }
         }
-        float deltaX = (maxX - minX)/2;
-        float deltaY = (maxY - minY)/1.2f;
+        float deltaX = ((maxX - minX)/camera.aspect)/2;
+        float deltaY = ((maxY - minY)*camera.aspect)/2;
         float offsetY = 0;
         float newSize;
 

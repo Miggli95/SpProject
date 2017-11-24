@@ -34,7 +34,7 @@ public class Controller2D : MonoBehaviour
     public Vector2 charInput;
     [HideInInspector]
     public KeyCode DieKey; //temp key remove in future
-    public float jumpTimerDelay;
+    public float jumpTimerDelay = 0.1f;
     public float jumpTimer = 0.3f;
     private float startZ;
     private float previousX;
