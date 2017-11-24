@@ -31,13 +31,22 @@ public struct AirState : ICharacterState
     {
 
 
-        if (Input.GetKeyDown(controller.JumpKey) && controller.canCMove())
+        if (Input.GetKeyDown(controller.JumpKey))
         {
-            if (jumpCount < MaxJumpCount)
+            if (controller.canCMove())
             {
-                Jump();
+                if (jumpCount < MaxJumpCount)
+                {
+                    Jump();
+                }
             }
         }
+        else if (Input.GetKeyUp(controller.JumpKey) && controller.moveDir.y > controller.minJumpSpeed)
+        {
+            controller.moveDir.y = controller.minJumpSpeed;
+        }
+
+      
 
       /*  if (controller.getCharController().isGrounded)
         {

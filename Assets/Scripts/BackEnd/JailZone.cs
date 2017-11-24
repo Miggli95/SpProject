@@ -17,7 +17,7 @@ public class JailZone : MonoBehaviour {
     {
         if(other.GetType() == typeof(CharacterController))
         {
-            other.transform.position = new Vector3(5f, 9f, 0);
+            other.GetComponent<Controller2D>().Spawn(new Vector3(5f, 9f, 0));//other.transform.position = 
         }
     }
 }

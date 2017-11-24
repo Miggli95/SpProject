@@ -58,7 +58,7 @@ public class Controller2D : MonoBehaviour
     public float deaccelrationTime = 0.8f;
     public float airAccelerationTime = 0.2f;
     public float airDeaccelrationTime = 1.6f;
-   // public Vector3 dashDestination;
+    // public Vector3 dashDestination;
     public float bottomRayLength = 0.08f;
     RaycastHit bottom;
     public bool canJump = true;
@@ -81,6 +81,7 @@ public class Controller2D : MonoBehaviour
     float dashCooldownTimer = 0;
     public bool canDash = true;
     public bool canInteract = false;
+    public float minJumpSpeed;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -107,9 +108,17 @@ public class Controller2D : MonoBehaviour
         return jumpDir;
     }
 
+    public void Spawn(Vector3 position)
+    {
+        Vector3 target = position;
+        target.z = startZ;
+        controller.transform.position = target;
+    }
+
     // Use this for initialization
     void Start()
     {
+        minJumpSpeed = jumpSpeed / 2;
         keyManager = GetComponent<ControllerKeyManager>();
         keyManager.getKeyCode(this.name, this);
         if (!consoleControlls)
@@ -119,7 +128,7 @@ public class Controller2D : MonoBehaviour
 
         else
         {
-           onewayPlatformIndex = -0.7f;
+            onewayPlatformIndex = -0.7f;
         }
         controller = GetComponent<CharacterController>();
 
@@ -167,7 +176,7 @@ public class Controller2D : MonoBehaviour
 
             else
             {
-                    Physics.IgnoreCollision(controller, topHit.collider, true);
+                Physics.IgnoreCollision(controller, topHit.collider, true);
             }
         }
 
@@ -215,7 +224,7 @@ public class Controller2D : MonoBehaviour
             if (dashTimer >= 0 && canDash)
             {
                 dash = destination.x != 0;
-                targetDir.x = destination.x * (speed +  dashSpeed);
+                targetDir.x = destination.x * (speed + dashSpeed);
                 dashTimer -= Time.fixedDeltaTime;
             }
 
@@ -253,6 +262,10 @@ public class Controller2D : MonoBehaviour
         }
 
 
+        if (moveDir.x != targetDir.x)
+        {
+            moveDir.x = targetDir.x;
+        }
 
         if (jump)
         {
@@ -279,7 +292,7 @@ public class Controller2D : MonoBehaviour
         if (transform.position.z != startZ)
         {
             Vector3 newPosition = transform.position;
-            //newPosition.x = previousX;
+            newPosition.x = previousX;
             newPosition.z = startZ;
             transform.position = newPosition;
         }
@@ -289,11 +302,12 @@ public class Controller2D : MonoBehaviour
     {
         velocity = controller.velocity;
         Grounded = controller.isGrounded;
-        if(Mathf.Abs(controller.velocity.x) > 0)
+        if (Mathf.Abs(controller.velocity.x) > 0)
         {
             Trail.SetActive(true);
 
-        }else
+        }
+        else
         {
             Trail.SetActive(false);
         }
@@ -303,7 +317,7 @@ public class Controller2D : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
- 
+
 
 
         charInput = keyManager.getcharInput(this.name, consoleControlls, canMove);
@@ -432,7 +446,7 @@ public class Controller2D : MonoBehaviour
         print("Switching from" + characterState.ToString() + " to " + characterStateData.NewState.ToString());
     }
 
-    public void Jump(int jumpCount,bool fell)
+    public void Jump(int jumpCount, bool fell)
     {
 
         //startJumpTimer();
@@ -443,7 +457,7 @@ public class Controller2D : MonoBehaviour
     public void startJumpTimer()
     {
         canJump = true;
-      
+
     }
 
     public void Dash()
@@ -528,11 +542,12 @@ public class Controller2D : MonoBehaviour
         if (Input.GetKeyDown(UseKey) && PickUpCarry != null)
         {
             var UseResult = PickUpCarry.Use(this);
-            if(UseResult && InteractFocus != null) //PickUpCarry.Use() should only return true if the object is a key object. Currently pick up key objects are not planned to have a unique use method.
+            if (UseResult && InteractFocus != null) //PickUpCarry.Use() should only return true if the object is a key object. Currently pick up key objects are not planned to have a unique use method.
             {
                 UnityEngine.Debug.Log("Interacted by trying to use a keyobject");
                 InteractFocus.Interact(this);
-            } else if (!UseResult)
+            }
+            else if (!UseResult)
             {
                 removePickUpFocus(PickUpCarry);
                 PickUpCarry = null;
@@ -607,9 +622,9 @@ public class Controller2D : MonoBehaviour
 
     public void consumeCarry(string s)
     {
-        if(PickUpCarry != null)
+        if (PickUpCarry != null)
         {
-            if(s == PickUpCarry.getID())
+            if (s == PickUpCarry.getID())
             {
                 removePickUpFocus(PickUpCarry);
                 PickUpCarry.Consume();
@@ -620,10 +635,11 @@ public class Controller2D : MonoBehaviour
     public void stopMove(float t)
     {
         canMove = false;
-        moveDir = new Vector3(0f,0f,0f);
+        moveDir = new Vector3(0f, 0f, 0f);
         canMoveTimer = t;
     }
-    public bool canCMove(){
+    public bool canCMove()
+    {
         return canMove;
     }
     public void doDeath()

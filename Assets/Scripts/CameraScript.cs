@@ -13,6 +13,7 @@ public class CameraScript : MonoBehaviour
     public float minSize = 0;
     public float currentSize;
     public float time = 0.15f;
+    public bool usingDeltaX = true;
     // Use this for initialization
     void Start()
     {
@@ -29,11 +30,13 @@ public class CameraScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    bool resetMinX, resetMaxX;
+    bool resetMinX, resetMaxX, resetMinY, resetMaxY;
     void Update()
     {
         resetMinX = true;
         resetMaxX = true;
+        resetMinY = true;
+        resetMaxY = true;
         float y = 0;
         float x = 0;
         currentSize = camera.orthographicSize;
@@ -55,10 +58,39 @@ public class CameraScript : MonoBehaviour
                 resetMaxX = false;
                 maxX = pos.x;
             }
+
+            if (pos.y <= minY)
+            {
+                print("min " + p.name);
+                resetMinY = false;
+                minY = pos.y;
+            }
+
+            else if (pos.y >= maxY)
+            {
+                print("max " + p.name);
+                resetMaxY = false;
+                maxY = pos.y;
+            }
+        }
+        float deltaX = (maxX - minX)/2;
+        float deltaY = (maxY - minY)/1.2f;
+        float offsetY = 0;
+        float newSize;
+
+        if (deltaX >= deltaY)
+        {
+            usingDeltaX = true;
+            //offsetY = 0;
+            newSize = deltaX;
         }
 
-
-        float newSize = (maxX - minX) / 2;
+        else
+        {
+            usingDeltaX = false;
+           // offsetY = 5;
+            newSize = deltaY;
+        }
 
 
         if (newSize > minSize)
@@ -72,7 +104,8 @@ public class CameraScript : MonoBehaviour
         }
 
 
-        target.y = Mathf.SmoothStep(target.y, y / players.Length, time);
+        target.y = Mathf.SmoothStep(target.y, (y / players.Length) + offsetY, time);
+   
         target.x = Mathf.SmoothStep(target.x, x / players.Length, time);
         transform.position = target;
 
@@ -84,6 +117,18 @@ public class CameraScript : MonoBehaviour
         if (resetMaxX)
         {
             maxX = float.MinValue;
+            // maxY = float.MinValue;
+            // minY = float.MaxValue;
+        }
+
+        if (resetMinY)
+        {
+            minY = float.MaxValue;
+        }
+
+        if (resetMaxY)
+        {
+            maxY = float.MinValue;
             // maxY = float.MinValue;
             // minY = float.MaxValue;
         }
