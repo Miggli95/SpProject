@@ -34,7 +34,7 @@ public class CharacterAnimationController : MonoBehaviour {
 		PlayIdleOrRun();
 		PlayDashAnimation ();
 		PlayJumpAnimation();
-		animator.SetFloat ("MoveDirY", controller2D.moveDir.y);
+
 	}
 
 
@@ -58,6 +58,7 @@ public class CharacterAnimationController : MonoBehaviour {
 	
 	public void PlayJumpAnimation(){
 		animator.SetBool ("Jump", charController.isGrounded);
+		animator.SetFloat ("MoveDirY", Mathf.Abs(controller2D.moveDir.y));
 	}
 
 
