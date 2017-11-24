@@ -279,7 +279,7 @@ public class Controller2D : MonoBehaviour
         if (transform.position.z != startZ)
         {
             Vector3 newPosition = transform.position;
-            newPosition.x = previousX;
+            //newPosition.x = previousX;
             newPosition.z = startZ;
             transform.position = newPosition;
         }

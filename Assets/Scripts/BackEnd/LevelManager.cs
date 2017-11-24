@@ -84,6 +84,18 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SceneManager.LoadScene("Hub(24x16)");
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            SceneManager.LoadScene("Level4(24x16) 1");
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            SceneManager.LoadScene("ControllTestLevel");
+        }
         int i = 0;
         foreach (GameObject p in players)
         {
@@ -110,6 +122,9 @@ public class LevelManager : MonoBehaviour
     }
     public void loadNextLevel()
     {
+
+       
+
         if (SceneManager.GetActiveScene().name == "Hub(24x16)")
         {
             SceneManager.LoadScene("ControllTestLevel");
