@@ -5,13 +5,18 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
+    /*private string[] players = new string[] { "Player 1", "Player2", "Player 3", "Player 4" };
+    private int[] highscoreValues;*/
     public static Timer instanceT = null;
     private bool active = true;
     public Text counterText;
+    public Text[] scoreBoard;
     private string levelInstructions = "nlsdsf";
     private float timer = 60f;
-
-    public float seconds, minutes;
+    private int player1Score;
+    private int player2Score;
+    private int player3Score;
+    private int player4Score;
     // Use this for initialization
     void Awake()
     {
@@ -28,21 +33,22 @@ public class Timer : MonoBehaviour
 
     void Start()
     {
-        
+       /* highscoreValues = new int[scoreBoard.Length];
+        for (int x = 0; x < scoreBoard.Length; x++)
+        {
+            highscoreValues[x] = PlayerPrefs.GetInt("highScoreValues" + x);
+        }
+        drawScores();*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        minutes = (int)(Time.timeSinceLevelLoad / 60f);
-        seconds = (int)(Time.timeSinceLevelLoad % 60f);
-        if (active)
-        {
+
             counterText.text = levelInstructions + "\n" + (int)timer;
-        }
-        else
-            counterText.text = levelInstructions;
         timer = timer - Time.deltaTime;
+        
+       
     }
     public void setInstuctions(string s)
     {
@@ -60,5 +66,20 @@ public class Timer : MonoBehaviour
     {
         active = t;
     }
+    private void drawScores()
+    {
+        for(int x = 0; x<scoreBoard.Length; x++)
+        {
+            //scoreBoard[x].text = players[x] + ":" + highscoreValues[x].ToString();
+        }
+    }
+   /* private void saveScores()
+    {
+        for (int x = 0; x < scoreBoard.Length; x++)
+        {
+            PlayerPrefs.SetInt("highScoreValues" + x, highscoreValues[x]);
+            PlayerPrefs.SetString("highScoreNames" + x, players[x]);
+        }
+    }*/
 
 }

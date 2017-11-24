@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     private string[] levelorder = { "CharacterControllerDevelopmentScene", "Level4(24x16) 1" };
     private GameObject[] players;
     private int livingPlayers;
+    private GameObject deadPlayer;
 
     void Awake()
     {
@@ -41,6 +42,7 @@ public class LevelManager : MonoBehaviour
         //loadlevelstuff
         players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
         players = GameObject.FindGameObjectsWithTag("Player");
+        
         livingPlayers = players.Length;
         switch (SceneManager.GetActiveScene().name)
         {
@@ -66,6 +68,12 @@ public class LevelManager : MonoBehaviour
                 timerText.GetComponent<Timer>().setInstuctions("We Spinnin");
                 timerText.GetComponent<Timer>().setTimer(60f);
                 break;
+            case "ControllTestLevel":
+                timerText.SetActive(true);
+                timerText.GetComponent<Timer>().timerActive(true);
+                timerText.GetComponent<Timer>().setInstuctions("Feed the bear!");
+                timerText.GetComponent<Timer>().setTimer(60f);
+                break;
         }
         if (SceneManager.GetActiveScene().name == "Level5(24x16)")
         {
@@ -83,11 +91,16 @@ public class LevelManager : MonoBehaviour
             {
                 i++;
             }
+            else
+            {
+                deadPlayer = p;
+            }
         }
         if(i < livingPlayers)
         {
             timerText.GetComponent<Timer>().playerDied();
             livingPlayers = i;
+            //doscoreboardshit(deadPlayer)
         }
         if (i == 1)
         {
@@ -97,8 +110,19 @@ public class LevelManager : MonoBehaviour
     }
     public void loadNextLevel()
     {
-        level++;
-        SceneManager.LoadScene(levelorder[level]);
+        if (SceneManager.GetActiveScene().name == "Hub(24x16)")
+        {
+            SceneManager.LoadScene("ControllTestLevel");
+        }
+        if (SceneManager.GetActiveScene().name == "Level4(24x16) 1")
+        {
+            SceneManager.LoadScene("ControllTestLevel");
+        }
+        if (SceneManager.GetActiveScene().name == "ControllTestLevel")
+        {
+            SceneManager.LoadScene("Level4(24x16) 1");
+        }
+
         timerText.GetComponent<Timer>().setInstuctions("");
         startLevel();
     }
