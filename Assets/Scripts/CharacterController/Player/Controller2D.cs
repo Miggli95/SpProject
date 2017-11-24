@@ -634,6 +634,15 @@ public class Controller2D : MonoBehaviour
         canMove = false;
     }
 
+    public void forceDrop(Vector3 dir)
+    {
+        var c = PickUpCarry;
+        if (PickUpCarry == null)
+            return;
+        PickUpCarry.Drop();
+        PickUpCarry = null;
+        c.KnockAway(dir);
+    }
     public void forceDrop()
     {
         if (PickUpCarry == null)

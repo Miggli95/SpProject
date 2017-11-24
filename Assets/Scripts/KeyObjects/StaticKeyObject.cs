@@ -15,15 +15,15 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     public virtual bool Interact(Controller2D player) // Need to call base in classes derived from StaticKeyObject in general. Checks what state this interactable is in. 
                            // interacted with the object if the object should sacrifice the player.
     {
-        Debug.Log("Interact, super");
+        //Debug.Log("Interact, super");
         if(state != InteractableState.Enabled)
         {
-            Debug.Log("Wrong state");
+            //Debug.Log("Wrong state");
             return false;
         }
         if(interactingPlayer != null)
         {
-            Debug.Log("already an interacting player");
+            //Debug.Log("already an interacting player");
             return false;
         }
         state = InteractableState.Interacted;
@@ -36,7 +36,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     }
     protected void flagComplete()
     {
-        Debug.Log(id + " is complete!");
+        //Debug.Log(id + " is complete!");
         isComplete = true;
     }
 
@@ -80,7 +80,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         if(other.CompareTag("Player"))
         {
-            Debug.Log("Player entered " + id);
+            //Debug.Log("Player entered " + id);
             //Set what interactable the player is currently near, try to see if you can get information about what object the player is carrying(keyobject id), save player temporary to be able to kill him?
             other.GetComponent<Controller2D>().setInteractableFocus(this);
 
@@ -99,7 +99,7 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player exited " + id);
+            //Debug.Log("Player exited " + id);
             other.GetComponent<Controller2D>().canInteract = false;
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
             other.GetComponent<Controller2D>().setInteractableFocus(null);
@@ -115,20 +115,20 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         if(requirement == null)
         {
-            Debug.Log("No requirement");
+            //Debug.Log("No requirement");
             return true;
         }
         foreach(string s in requirement)
         {
             if(s == id)
             {
-                Debug.Log(s + " removed");
+                //Debug.Log(s + " removed");
                 interactingPlayer.consumeCarry(id);
                 removeRequirement(id);
                 return true;
             }
         }
-        Debug.Log(id + "Wasn't found");
+        //Debug.Log(id + "Wasn't found");
         return false;
     }
 
@@ -136,18 +136,18 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         if (requirement == null)
         {
-            Debug.Log("No requirement");
+            //Debug.Log("No requirement");
             return true;
         }
         foreach (string s in requirement)
         {
             if (s == id)
             {
-                Debug.Log(s + "player carries a requirement");
+                //Debug.Log(s + "player carries a requirement");
                 return true;
             }
         }
-        Debug.Log(id + "Wasn't found");
+        //Debug.Log(id + "Wasn't found");
         return false;
     }
 

@@ -46,7 +46,7 @@ public struct DashState : ICharacterState
                 if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove())
                 {
                     rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
-                    rayhit.collider.GetComponent<Controller2D>().forceDrop();
+                    rayhit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
                 }
             }
         }
@@ -56,7 +56,7 @@ public struct DashState : ICharacterState
             {
                 {
                     rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
-                    rayhit.collider.GetComponent<Controller2D>().forceDrop();
+                    rayhit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
                 }
             }
         }
