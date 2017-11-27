@@ -53,7 +53,7 @@ public class Timer : MonoBehaviour
             counterText.text = levelInstructions + "\n" + (int)timer;
         timer = timer - Time.deltaTime;
         //displayScore();
-
+        
 
 
     }
@@ -88,24 +88,24 @@ public class Timer : MonoBehaviour
             PlayerPrefs.SetString("highScoreNames" + x, players[x]);
         }
     }*/
-    public void runeGet(string name)
+    public void runeGet(string name , int value)
     {
         switch (name)
         {
             case "P1":
-                score[0] = score[0] +10;
+                score[0] = score[0] +10*value;
                 displayScore();
                 break;
             case "P2":
-                score[1] = score[1] +10;
+                score[1] = score[1] +10 * value;
                 displayScore();
                 break;
             case "P3":
-                score[2] = score[2] + 10;
+                score[2] = score[2] + 10 * value;
                 displayScore();
                 break;
             case "P4":
-                score[3] = score[3] + 10;
+                score[3] = score[3] + 10 * value;
                 displayScore();
                 break;
         }
@@ -113,12 +113,9 @@ public class Timer : MonoBehaviour
 
     private void displayScore()
     {
-        print("OG ::"+ score[0]+"::" + score[1] + "::" + score[2] + "::" + score[3]);
         dScore = new int[] { score[0], score[1], score[2], score[3] };
         Array.Sort(dScore);
-        print("Sorted ::" + dScore[0] + "::" + dScore[1] + "::" + dScore[2] + "::" + dScore[3]);
         int[] switchA = new int[] { dScore[0]%10, dScore[1]%10, dScore[2]%10, dScore[3]%10 };
-        print("Switch ::" +switchA[0] + "::" + switchA[1] + "::" + switchA[2] + "::" + switchA[3]);
         for (int x =0; x<score.Length; x++)
         {
             switch  (switchA[x])

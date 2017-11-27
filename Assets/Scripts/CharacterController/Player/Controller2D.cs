@@ -677,7 +677,7 @@ public class Controller2D : MonoBehaviour
     }
     public void sizeUp()
     {
-        transform.localScale += new Vector3(0.1F, 0.1F, 0.1F);
+        transform.localScale += new Vector3(0.01F, 0.01F, 0.0F);
     }
 
 }
