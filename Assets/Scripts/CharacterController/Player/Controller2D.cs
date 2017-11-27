@@ -410,6 +410,7 @@ public class Controller2D : MonoBehaviour
             if (canMoveTimer <= 0)
             {
                 canMove = true;
+                this.transform.GetChild(0).gameObject.SetActive(false);
             }
         }
     }
@@ -636,6 +637,7 @@ public class Controller2D : MonoBehaviour
     {
         canMove = false;
         moveDir = new Vector3(0f, 0f, 0f);
+        this.transform.GetChild(0).gameObject.SetActive(true);
         canMoveTimer = t;
     }
     public bool canCMove()

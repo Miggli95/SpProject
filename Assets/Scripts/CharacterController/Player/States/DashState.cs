@@ -43,23 +43,23 @@ public struct DashState : ICharacterState
         {
             if (Physics.Raycast(controller.transform.position, Vector3.right, out rayhit))
             {
-                if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove())
+                if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove() && rayhit.collider.GetComponent<Controller2D>() != controller)
                 {
                     rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
                     rayhit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
                 }
             }
         }
-        else
-        {
-            if (Physics.Raycast(controller.transform.position, Vector3.right, out rayhit))
+            if (Physics.Raycast(controller.transform.position, Vector3.left, out rayhit))
             {
+                if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove() && rayhit.collider.GetComponent<Controller2D>() != controller)
                 {
-                    rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
-                    rayhit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
+                    {
+                        rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
+                        rayhit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
+                    }
                 }
             }
-        }
         
         return characterStateData;
     }
