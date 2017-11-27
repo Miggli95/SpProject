@@ -675,6 +675,9 @@ public class Controller2D : MonoBehaviour
             return PickUpCarry;
         return null;
     }
-
+    public void sizeUp()
+    {
+        transform.localScale += new Vector3(0.1F, 0.1F, 0.1F);
+    }
 
 }
