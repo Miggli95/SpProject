@@ -13,6 +13,8 @@ public class CameraScript : MonoBehaviour
     public float minSize = 0;
     public float currentSize;
     public float time = 0.15f;
+    public float offsetSizeX, offsetSizeY = 0;
+    public float offsetX, offsetY, offset = 0;
     public bool usingDeltaX = true;
     Vector2 aspectRatio;
     // Use this for initialization
@@ -40,7 +42,7 @@ public class CameraScript : MonoBehaviour
         resetMaxY = true;
         float y = 0;
         float x = 0;
-        currentSize = camera.orthographicSize;
+        //currentSize = camera.orthographicSize;
         foreach (GameObject p in players)
         {
             Vector2 pos = p.transform.position;
@@ -74,9 +76,10 @@ public class CameraScript : MonoBehaviour
                 maxY = pos.y;
             }
         }
-        float deltaX = ((maxX - minX)/camera.aspect)/2;
-        float deltaY = ((maxY - minY)*camera.aspect)/2;
-        float offsetY = 0;
+        float deltaX = Mathf.Abs(((maxX - minX) / camera.aspect) / 2);
+        float deltaY = Mathf.Abs(((maxY - minY) * camera.aspect) / 2);
+
+        //float offsetY = 0;
         float newSize;
 
         if (deltaX >= deltaY)
@@ -84,30 +87,33 @@ public class CameraScript : MonoBehaviour
             usingDeltaX = true;
             //offsetY = 0;
             newSize = deltaX;
+            offset = offsetSizeX;
         }
 
         else
         {
             usingDeltaX = false;
-           // offsetY = 5;
+            // offsetY = 5;
             newSize = deltaY;
+            offset = offsetSizeY;
         }
 
 
         if (newSize > minSize)
         {
-            camera.orthographicSize = Mathf.SmoothStep(camera.orthographicSize, newSize, time);
+            camera.orthographicSize = Mathf.Abs(Mathf.SmoothStep(camera.orthographicSize, newSize + offset, time));
         }
 
         else
         {
-            camera.orthographicSize = Mathf.SmoothStep(camera.orthographicSize, minSize, time);
+            camera.orthographicSize = Mathf.Abs(Mathf.SmoothStep(camera.orthographicSize, minSize + offset, time));
         }
 
 
+
         target.y = Mathf.SmoothStep(target.y, (y / players.Length) + offsetY, time);
-   
-        target.x = Mathf.SmoothStep(target.x, x / players.Length, time);
+
+        target.x = Mathf.SmoothStep(target.x, (x / players.Length) + offsetX, time);
         transform.position = target;
 
         if (resetMinX)
