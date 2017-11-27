@@ -169,7 +169,7 @@ public class Controller2D : MonoBehaviour
         if (Physics.SphereCast(transform.position, controller.radius, Vector3.up, out topHit,
           BounceDownOnRoof, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
-            if (!topHit.collider.CompareTag("One Way"))
+            if (!topHit.collider.CompareTag("One Way") && !topHit.collider.CompareTag("Player"))
             {
                 moveDir.y = -1;
             }
