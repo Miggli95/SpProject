@@ -50,7 +50,7 @@ public class Controller2D : MonoBehaviour
     public float dashSpeed = 10;
     public bool jump;
     public bool dash;
-    private bool alive = true;
+    public bool alive = true;
     private GameObject[] players;
     public float DashTimer = 0.5f;
     float dashTimer;

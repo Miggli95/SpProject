@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class CharacterAnimationController : MonoBehaviour {
 
-	//private Sprite sprite;
-	//private Controller2D charController;
-	//private string lastState;
 
 	private SpriteRenderer spriteRenderer;
 	private Controller2D controller2D;
@@ -59,6 +56,14 @@ public class CharacterAnimationController : MonoBehaviour {
 	public void PlayJumpAnimation(){
 		animator.SetBool ("Jump", charController.isGrounded);
 		animator.SetFloat ("MoveDirY", Mathf.Abs(controller2D.moveDir.y));
+	}
+
+	private void PlayDeathAnimation(){
+		if (controller2D.alive)
+			return;
+		else{
+			animator.SetBool ("Die", true);
+		}
 	}
 
 
