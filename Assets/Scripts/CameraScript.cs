@@ -42,7 +42,7 @@ public class CameraScript : MonoBehaviour
         resetMaxY = true;
         float y = 0;
         float x = 0;
-        //currentSize = camera.orthographicSize;
+        currentSize = camera.orthographicSize;
         foreach (GameObject p in players)
         {
             Vector2 pos = p.transform.position;
@@ -76,8 +76,12 @@ public class CameraScript : MonoBehaviour
                 maxY = pos.y;
             }
         }
-        float deltaX = Mathf.Abs(((maxX - minX) / camera.aspect) / 2);
-        float deltaY = Mathf.Abs(((maxY - minY) * camera.aspect) / 2);
+
+        float deltaX = 0, deltaY = 0;
+        if (minX != float.MaxValue && maxX != float.MinValue)
+            deltaX = Mathf.Abs(((maxX - minX) / camera.aspect) / 2);
+        if (minY != float.MaxValue && maxY != float.MinValue)
+            deltaY = Mathf.Abs(((maxY - minY) * camera.aspect) / 2);
 
         //float offsetY = 0;
         float newSize;
