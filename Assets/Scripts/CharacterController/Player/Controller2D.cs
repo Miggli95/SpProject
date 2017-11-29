@@ -379,6 +379,7 @@ public class Controller2D : MonoBehaviour
 
         if (jump || Grounded && savedJumpInputTimer>=0)
         {
+            jumpTimerDelay = 0;
             moveDir.y = jumpSpeed;
             onPlayerHead = false;
             jump = false;
@@ -537,7 +538,7 @@ public class Controller2D : MonoBehaviour
         characterState.Exit();
         characterState = characterStateData.NewState;
         characterState.Enter();
-
+        print("newstate" + characterState);
         if (characterStateData.RunNewStateSameUpdate)
         {
             characterState.Update(charInput, Time.deltaTime);
