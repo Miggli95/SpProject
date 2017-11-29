@@ -492,15 +492,13 @@ public class Controller2D : MonoBehaviour
         if (PickUpFocusList.Contains(pickup)) //temp solution current issues with ontriggerenter being called twice when a player enters a potion because of players having double colliders
             return;
         bool highlight = PickUpFocusList.Count == 0;
-        UnityEngine.Debug.Log("Adding pickup to list");
         PickUpFocusList.Add(pickup);
-        UnityEngine.Debug.Log(PickUpFocusList.Count + " Pickup focus added to player " + pickup.getID());
         if (highlight)
         {
             PickUpFocusSelected = 0;
             PickUpFocusList[PickUpFocusSelected].Outline();
         }
-        UnityEngine.Debug.Log("Added finished");
+
 
     }
 

@@ -5,6 +5,7 @@ using interactable;
 public class ko_Ritual : StaticKeyObject {
 
     public List<string> potions;
+    public string requiredPlayer;
 
     public void Start()
     {
@@ -13,6 +14,8 @@ public class ko_Ritual : StaticKeyObject {
 
     public override bool Interact(Controller2D player)
     {
+        if (player.name != requiredPlayer)
+            return false;
         Debug.Log("Interact called, derived");
         if (!base.Interact(player))
         {
