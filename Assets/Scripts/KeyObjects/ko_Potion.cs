@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using PickUp;
 public class ko_Potion : PickUpKeyObject {
 
     public string colour;
@@ -17,6 +17,7 @@ public class ko_Potion : PickUpKeyObject {
     public override void Consume()
     {
         liquid.GetComponent<MeshRenderer>().enabled = false;
+        state = pickUpState.Used;
     }
 
 }

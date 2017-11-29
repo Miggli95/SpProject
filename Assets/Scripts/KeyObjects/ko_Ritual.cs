@@ -16,6 +16,8 @@ public class ko_Ritual : StaticKeyObject {
         Debug.Log("Interact called, derived");
         if (!base.Interact(player))
         {
+            interactingPlayer = null;
+            state = InteractableState.Enabled;
             return false;
         }
         if(requirement == null || requirement.Count == 0)
