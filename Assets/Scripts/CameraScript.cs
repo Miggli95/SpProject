@@ -50,28 +50,28 @@ public class CameraScript : MonoBehaviour
             x += pos.x;
             if (pos.x <= minX)
             {
-                print("min " + p.name);
+               // print("min " + p.name);
                 resetMinX = false;
                 minX = pos.x;
             }
 
             else if (pos.x >= maxX)
             {
-                print("max " + p.name);
+               // print("max " + p.name);
                 resetMaxX = false;
                 maxX = pos.x;
             }
 
             if (pos.y <= minY)
             {
-                print("min " + p.name);
+               // print("min " + p.name);
                 resetMinY = false;
                 minY = pos.y;
             }
 
             else if (pos.y >= maxY)
             {
-                print("max " + p.name);
+              //  print("max " + p.name);
                 resetMaxY = false;
                 maxY = pos.y;
             }
