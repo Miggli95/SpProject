@@ -89,6 +89,7 @@ public class Controller2D : MonoBehaviour
     public float savedJumpInputValue= 0.3f;
     public float savedJumpInputTimer = 0;
     public bool isGhost = false;
+    public bool XBOX = false;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -127,7 +128,7 @@ public class Controller2D : MonoBehaviour
     {
         minJumpSpeed = jumpSpeed / 2;
         keyManager = GetComponent<ControllerKeyManager>();
-        keyManager.getKeyCode(this.name, this);
+        keyManager.getKeyCode(this.name, this, ref XBOX);
 
         if (!consoleControlls)
         {
@@ -228,12 +229,17 @@ public class Controller2D : MonoBehaviour
     float getTriggerInput()
     {
         float triggerInput = 0;
-        if (!consoleControlls && Input.GetKeyDown(DashKey))
+        if (!consoleControlls && Input.GetKeyDown(DashKey) || consoleControlls && !XBOX && Input.GetKeyDown(DashKey))
         {
             triggerInput = 1;
         }
 
-        else if (consoleControlls)
+        else
+        {
+            triggerInput = 0;
+        }
+
+        if (consoleControlls && XBOX)
         {
             triggerInput =  keyManager.getTriggerInput(this.name, consoleControlls);
         }

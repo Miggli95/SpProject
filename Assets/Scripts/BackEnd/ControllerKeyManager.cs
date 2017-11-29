@@ -24,10 +24,10 @@ public class ControllerKeyManager : MonoBehaviour {
         }*/
 
     }
-    public void getKeyCode(string s, Controller2D a)
+    public void getKeyCode(string s, Controller2D a, ref bool XBOX)
     {
         controllers = Input.GetJoystickNames();
-        if (!a.consoleControlls)
+        if (!a.consoleControlls || controllers.Length == 0)
         {
             
             a.JumpKey = KeyCode.Space;
@@ -56,13 +56,14 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.PickUpKey = KeyCode.Joystick1Button2;
                             a.UseKey = KeyCode.Joystick1Button1;
                             a.DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
+                            XBOX = true;
                         }
 
                         else if (controllers[0].ToUpper().Contains("WIRELESS"))
                         {
                             a.JumpKey = KeyCode.Joystick1Button1;
 
-                            a.DashKey = KeyCode.Joystick1Button5;
+                            a.DashKey = KeyCode.Joystick1Button7;
 
                             a.InteractKey = KeyCode.Joystick1Button3;
 
@@ -70,7 +71,10 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.UseKey = KeyCode.Joystick1Button2;
                             a.DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
                         }
+
                     }
+
+
                     break;
                 case "P2":
 
@@ -87,12 +91,13 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.PickUpKey = KeyCode.Joystick2Button2;
                             a.UseKey = KeyCode.Joystick2Button1;
                             a.DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                            XBOX = true;
                         }
                         else if (controllers[1].ToUpper().Contains("WIRELESS"))
                         {
                             a.JumpKey = KeyCode.Joystick2Button1;
 
-                            a.DashKey = KeyCode.Joystick2Button5;
+                            a.DashKey = KeyCode.Joystick2Button7;
 
                             a.InteractKey = KeyCode.Joystick2Button3;
 
@@ -116,12 +121,13 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.PickUpKey = KeyCode.Joystick3Button2;
                             a.UseKey = KeyCode.Joystick3Button1;
                             a.DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
+                            XBOX = true;
                         }
                         else if (controllers[2].ToUpper().Contains("WIRELESS"))
                         {
                             a.JumpKey = KeyCode.Joystick3Button1;
 
-                            a.DashKey = KeyCode.Joystick3Button5;
+                            a.DashKey = KeyCode.Joystick3Button7;
 
                             a.InteractKey = KeyCode.Joystick3Button3;
 
@@ -146,12 +152,13 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.PickUpKey = KeyCode.Joystick4Button2;
                             a.UseKey = KeyCode.Joystick4Button1;
                             a.DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
+                            XBOX = true;
                         }
                         else if (controllers[3].ToUpper().Contains("WIRELESS"))
                         {
                             a.JumpKey = KeyCode.Joystick4Button1;
 
-                            a.DashKey = KeyCode.Joystick4Button5;
+                            a.DashKey = KeyCode.Joystick4Button7;
 
                             a.InteractKey = KeyCode.Joystick4Button3;
 
@@ -160,8 +167,10 @@ public class ControllerKeyManager : MonoBehaviour {
                             a.DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
                         }
                     }
-                        break;
-                    }
+                    break;
+            }
+
+            a.XBOX = XBOX;
         }
 
     }
