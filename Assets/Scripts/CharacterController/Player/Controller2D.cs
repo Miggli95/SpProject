@@ -212,7 +212,6 @@ public class Controller2D : MonoBehaviour
                     {
                         onPlayerHead = true;
                         moveDir.y = 0;
-                        print("player name " + gameObject.name + " " + bottom.collider.gameObject.name);
                     }
 
                 }
@@ -433,8 +432,6 @@ public class Controller2D : MonoBehaviour
 
         if (charInput.y < onewayPlatformIndex)
         {
-            print("charinputY true");
-
             if (bottom.collider != null)
             {
                 if (bottom.collider.CompareTag("One Way") || onPlayerHead)
@@ -536,7 +533,7 @@ public class Controller2D : MonoBehaviour
     [Conditional("UNITY_EDITOR")]
     private void PrintStateSwitching(CharacterStateData characterStateData)
     {
-        print("Switching from" + characterState.ToString() + " to " + characterStateData.NewState.ToString());
+       // print("Switching from" + characterState.ToString() + " to " + characterStateData.NewState.ToString());
     }
 
     public void Jump(int jumpCount, bool fell)
@@ -575,7 +572,7 @@ public class Controller2D : MonoBehaviour
         {
             return "noobject"; //Heh Noob.
         }
-        print("current pickup" + PickUpCarry.getID());
+        //print("current pickup" + PickUpCarry.getID());
         return PickUpCarry.getID();
     }
 
