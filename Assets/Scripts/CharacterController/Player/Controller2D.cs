@@ -369,8 +369,11 @@ public class Controller2D : MonoBehaviour
 
         else
         {
-            moveDir.x = Smooth(targetDir.x, ref moveDir.x, airAccelerationTime, airDeaccelrationTime);
-            moveDir += Physics.gravity * gravityMultiplier * Time.deltaTime;
+            if (!dash)
+            {
+                moveDir.x = Smooth(targetDir.x, ref moveDir.x, airAccelerationTime, airDeaccelrationTime);
+                moveDir += Physics.gravity * gravityMultiplier * Time.deltaTime;
+            }
 
         }
 
