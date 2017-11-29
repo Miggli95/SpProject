@@ -7,7 +7,7 @@ using System;
 public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
 {
     public pickUpState state;
-    private ObjectGravity ObjGrav;
+    protected ObjectGravity ObjGrav;
 
     public void Drop()
     {
@@ -84,5 +84,15 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
     public void KnockAway(Vector3 dir)
     {
         ObjGrav.knockedAway(dir);
+    }
+
+    public virtual IPickUp PickUp(Controller2D player)
+    {
+        if (state != pickUpState.Waiting)
+        {
+            return null;
+        }
+        state = pickUpState.PickedUp;
+        return this;
     }
 }

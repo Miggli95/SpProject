@@ -81,4 +81,14 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     {
         ObjGrav.knockedAway(dir);
     }
+
+    public IPickUp PickUp(Controller2D player)
+    {
+        if (state != pickUpState.Waiting)
+        {
+            return null;
+        }
+        state = pickUpState.PickedUp;
+        return this;
+    }
 }
