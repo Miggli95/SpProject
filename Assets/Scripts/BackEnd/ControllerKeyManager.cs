@@ -6,6 +6,8 @@ public class ControllerKeyManager : MonoBehaviour {
 
     float horizontal ;
     float vertical;
+    float triggerInput;
+
     string[] controllers = { "a", "", "", "" };
     // Use this for initialization
     void Start () {
@@ -192,5 +194,33 @@ public class ControllerKeyManager : MonoBehaviour {
             }
         }
         return new Vector2(horizontal, vertical);
+    }
+
+    public float getTriggerInput(string s, bool c)
+    { 
+        if (c)
+        {
+            switch (s)
+            {
+                case "P1":
+                    triggerInput = Input.GetAxis("Trigger1");
+                    break;
+                case "P2":
+                    triggerInput = Input.GetAxis("Trigger2");
+                    break;
+                case "P3":
+                    triggerInput = Input.GetAxis("Trigger3");
+                    break;
+                case "P4":
+                    triggerInput = Input.GetAxis("Trigger4");
+                    break;
+
+                default:
+                    triggerInput = 0;
+                    break;
+            }
+        }
+
+        return triggerInput;
     }
 }

@@ -20,7 +20,7 @@ public struct DashState : ICharacterState
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
 
-        if (Input.GetKeyDown(controller.DashKey) && controller.canCMove())
+        if (controller.triggerInput > 0 && controller.canCMove())
         {
             Dash();
         }

@@ -33,6 +33,7 @@ public class Controller2D : MonoBehaviour
     [HideInInspector]
     public KeyCode UseKey;
     public Vector2 charInput;
+    public float triggerInput;
     [HideInInspector]
     public KeyCode DieKey; //temp key remove in future
     public float jumpTimerDelay = 0.1f;
@@ -224,7 +225,21 @@ public class Controller2D : MonoBehaviour
 
         return onPlayerHead;
     }
+    float getTriggerInput()
+    {
+        float triggerInput = 0;
+        if (!consoleControlls && Input.GetKeyDown(DashKey))
+        {
+            triggerInput = 1;
+        }
 
+        else if (consoleControlls)
+        {
+            triggerInput =  keyManager.getTriggerInput(this.name, consoleControlls);
+        }
+      //  print("console " + consoleControlls + " triggerInput " + triggerInput);
+        return triggerInput;
+    }
     bool updateGrounded = false;
     // Update is called once per frame
     void FixedUpdate()
@@ -436,11 +451,15 @@ public class Controller2D : MonoBehaviour
 
 
         charInput = keyManager.getcharInput(this.name, consoleControlls, canMove);
+        triggerInput = getTriggerInput();
 
         if (charInput.sqrMagnitude > 1)
         {
             charInput.Normalize();
         }
+
+
+
 
         var characterStateData = characterState.Update(charInput, Time.deltaTime);
         if (characterStateData.NewState != null)
