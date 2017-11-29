@@ -18,10 +18,10 @@ public class ControllerKeyManager : MonoBehaviour {
 	void Update () {
         controllers = Input.GetJoystickNames();
 
-        for(int i = 0; i< controllers.Length;i++)
+      /*  for(int i = 0; i< controllers.Length;i++)
         {
             print("name " + controllers[i]);
-        }
+        }*/
 
     }
     public void getKeyCode(string s, Controller2D a)
