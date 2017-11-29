@@ -17,6 +17,7 @@ public class Controller2D : MonoBehaviour
 
     ICharacterState currentState;
     public LayerMask CollisionMask;
+    public LayerMask Ghost;
     CharacterController controller;
     ControllerKeyManager keyManager;
     ICharacterState characterState;
@@ -86,6 +87,7 @@ public class Controller2D : MonoBehaviour
     public bool savedJumpInput = false;
     public float savedJumpInputValue= 0.3f;
     public float savedJumpInputTimer = 0;
+    public bool isGhost = false;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -125,6 +127,7 @@ public class Controller2D : MonoBehaviour
         minJumpSpeed = jumpSpeed / 2;
         keyManager = GetComponent<ControllerKeyManager>();
         keyManager.getKeyCode(this.name, this);
+
         if (!consoleControlls)
         {
             onewayPlatformIndex = 0;
@@ -135,7 +138,6 @@ public class Controller2D : MonoBehaviour
             onewayPlatformIndex = -0.7f;
         }
         controller = GetComponent<CharacterController>();
-
         startZ = transform.position.z;
         characterState = GetInitialCharacterState();
         characterState.Enter();
@@ -237,15 +239,29 @@ public class Controller2D : MonoBehaviour
 
         t += Time.fixedDeltaTime;
 
-
-
-        Vector3 destination = transform.right * charInput.x;
+        Vector3 destination;
+        Vector3 targetDir = Vector3.zero;
         RaycastHit hit;
+        if (isGhost)
+        {
+            //controller.gameObject.layer = Ghost;
+            destination = transform.up * charInput.y + transform.right * charInput.x;
+            gravityMultiplier = 0;
+            Physics.SphereCast(transform.position, controller.radius, Vector3.down, out hit,
+               controller.height / 2, Ghost, QueryTriggerInteraction.Ignore);
+        }
 
-        Physics.SphereCast(transform.position, controller.radius, Vector3.down, out hit,
-            controller.height / 2, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        else
+        {
+            destination = transform.right * charInput.x;
+          
 
-        destination = Vector3.ProjectOnPlane(destination, hit.normal).normalized;
+            Physics.SphereCast(transform.position, controller.radius, Vector3.down, out hit,
+                controller.height / 2, CollisionMask, QueryTriggerInteraction.Ignore);
+
+            destination = Vector3.ProjectOnPlane(destination, hit.normal).normalized;
+        }
+       
         if (charInput.x == 0 && charInput.y == 0)
         {
             destination = Vector3.zero;
@@ -253,7 +269,7 @@ public class Controller2D : MonoBehaviour
 
         //new Code
 
-        Vector3 targetDir = Vector3.zero;
+        
         if (dash)
         {
 
@@ -280,9 +296,14 @@ public class Controller2D : MonoBehaviour
             targetDir.x = destination.x * speed;//Mathf.SmoothDamp(moveDir.x,destination.x * speed,ref moveDir.x,smoothTime);
 
         }
+
+        if (isGhost)
+        {
+            targetDir.y = destination.y * speed;
+        }
         //Rays();
         onPlayerHead = OnPlayerHead();
-        if (onPlayerHead)
+        if (onPlayerHead && !isGhost)
         {
             if (!jumpDown)
             {
@@ -307,11 +328,19 @@ public class Controller2D : MonoBehaviour
             jumpDown = false;
         }
 
+        if (isGhost)
+        {
+            moveDir.y = Smooth(targetDir.y, ref moveDir.y, accelerationTime, deaccelrationTime);
+            //controller.GetComponent<Collider>().isTrigger = true;
+            //controller.GetComponent<CapsuleCollider>().isTrigger = true;
+        }
+
+
         if (Grounded)
         {
             jumpTimerDelay = jumpTimer;
             moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
-            if (!onPlayerHead)
+            if (!onPlayerHead && !isGhost)
             {
                 moveDir.y = -stickToGrouncForce;
             }
@@ -330,7 +359,13 @@ public class Controller2D : MonoBehaviour
             moveDir.x = targetDir.x;
         }
 
-        if(savedJumpInput)
+        if(isGhost)
+        if (moveDir.y != targetDir.y)
+        {
+                moveDir.y = targetDir.y;
+        }
+
+        if (savedJumpInput)
         {
             savedJumpInputTimer = savedJumpInputValue;
             savedJumpInput = false;
@@ -350,14 +385,6 @@ public class Controller2D : MonoBehaviour
             savedJumpInputTimer = 0;
 
         }
-
-        if (!(moveDir.y > 0))
-        {
-
-        }
-
-
-
 
         if (boost)
         {
@@ -420,8 +447,8 @@ public class Controller2D : MonoBehaviour
             ChangeCharacterState(charInput, characterStateData);
         }
 
-
-        Rays();
+        if(!isGhost)
+            Rays();
 
 
         /*if (controller.isGrounded)
@@ -769,6 +796,16 @@ public class Controller2D : MonoBehaviour
     public void sizeUp()
     {
         transform.localScale += new Vector3(0.01F, 0.01F, 0.0F);
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+
+        if (isGhost)
+        {
+            Physics.IgnoreCollision(controller, hit.collider,true);
+            print("Collision");
+        }
     }
 
 }
