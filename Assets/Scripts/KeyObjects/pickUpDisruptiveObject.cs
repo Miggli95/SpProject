@@ -57,6 +57,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Disruptive");
             other.GetComponent<Controller2D>().addPickUpFocus(this);
             //Set pickup focus in player script to this
         }

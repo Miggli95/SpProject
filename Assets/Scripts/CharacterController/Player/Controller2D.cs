@@ -486,19 +486,21 @@ public class Controller2D : MonoBehaviour
         print("current pickup" + PickUpCarry.getID());
         return PickUpCarry.getID();
     }
-    public void setPickUpFocus(IPickUp pickup)
-    {
-        PickUpFocus = pickup;
-    }
+
     public void addPickUpFocus(IPickUp pickup)
     {
+        if (PickUpFocusList.Contains(pickup)) //temp solution current issues with ontriggerenter being called twice when a player enters a potion because of players having double colliders
+            return;
         bool highlight = PickUpFocusList.Count == 0;
+        UnityEngine.Debug.Log("Adding pickup to list");
         PickUpFocusList.Add(pickup);
+        UnityEngine.Debug.Log(PickUpFocusList.Count + " Pickup focus added to player " + pickup.getID());
         if (highlight)
         {
             PickUpFocusSelected = 0;
             PickUpFocusList[PickUpFocusSelected].Outline();
         }
+        UnityEngine.Debug.Log("Added finished");
 
     }
 
@@ -509,6 +511,7 @@ public class Controller2D : MonoBehaviour
         var preserve = PickUpFocusList[PickUpFocusSelected];
         var index = PickUpFocusList.IndexOf(pickup);
         var removed = PickUpFocusList.Remove(pickup);
+        UnityEngine.Debug.Log("Pickup removed " + PickUpFocusList.Count);
         PickUpFocusList.TrimExcess();
 
         if (index != PickUpFocusSelected && removed)
@@ -589,11 +592,14 @@ public class Controller2D : MonoBehaviour
         PickUpFocusList[PickUpFocusSelected].removeOutline();
         if (PickUpFocusSelected + i >= PickUpFocusList.Count)
         {
+            UnityEngine.Debug.Log(PickUpFocusSelected + " " + PickUpFocusList.Count);
             PickUpFocusSelected = 0;
+            UnityEngine.Debug.Log("Moved to front");
         }
         else if (PickUpFocusSelected + i < 0)
         {
             PickUpFocusSelected = PickUpFocusList.Count - 1;
+            UnityEngine.Debug.Log("Moved to back " + PickUpFocusSelected + ":index " + PickUpFocusList.Count + ":list size");
         }
         else
         {

@@ -39,6 +39,7 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Player Enter");
             other.GetComponent<Controller2D>().addPickUpFocus(this);
             //Set pickup focus in player script to this
         }
@@ -47,8 +48,9 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     {
         if (other.CompareTag("Player"))
         {
-
+            Debug.Log("Player Exit");
             other.GetComponent<Controller2D>().removePickUpFocus(this);
+            
             //remove pickup focus in player script if the object that is in focus is this object.
         }
     }
