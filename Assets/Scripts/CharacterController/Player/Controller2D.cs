@@ -82,6 +82,7 @@ public class Controller2D : MonoBehaviour
     public bool canDash = true;
     public bool canInteract = false;
     public float minJumpSpeed;
+    public bool onPlayerHead = false;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -166,6 +167,9 @@ public class Controller2D : MonoBehaviour
     void Rays()
     {
 
+        topHit = new RaycastHit();
+        bottom = new RaycastHit();
+
         if (Physics.SphereCast(transform.position, controller.radius, Vector3.up, out topHit,
           BounceDownOnRoof, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
@@ -190,9 +194,40 @@ public class Controller2D : MonoBehaviour
             }
         }
     }
+
+    public bool OnPlayerHead()
+    {
+        bool onPlayerHead = false;
+        if (bottom.collider != null)
+        {
+            if (bottom.collider.CompareTag("Player"))
+            {
+                if (bottom.collider.gameObject.name != gameObject.name)
+                {
+                    float distance = Mathf.Abs(controller.transform.position.y - bottom.collider.transform.position.y);
+                    if (distance <= controller.height * 0.6f)
+                    {
+                        onPlayerHead = true;
+                        moveDir.y = 0;
+                        print("player name " + gameObject.name + " " + bottom.collider.gameObject.name);
+                    }
+
+                }
+
+
+            }
+        }
+
+        return onPlayerHead;
+    }
+
+    bool updateGrounded = false;
     // Update is called once per frame
     void FixedUpdate()
     {
+
+
+
         if (transform.position.z == startZ)
         {
             previousX = transform.position.x;
@@ -243,15 +278,41 @@ public class Controller2D : MonoBehaviour
             targetDir.x = destination.x * speed;//Mathf.SmoothDamp(moveDir.x,destination.x * speed,ref moveDir.x,smoothTime);
 
         }
+        //Rays();
+        onPlayerHead = OnPlayerHead();
+        if (onPlayerHead)
+        {
+            if (!jumpDown)
+            {
+                Grounded = onPlayerHead;
+            }
+            else
+            {
+                Grounded = controller.isGrounded;
+                //onPlayerHead = false;
+                jumpDown = !controller.isGrounded;
+            }
+        }
 
+        else
+        {
+            //onPlayerHead = false;
+            Grounded = controller.isGrounded;
+        }
 
+        if (jumpDown && Grounded)
+        {
+            jumpDown = false;
+        }
 
-
-        if (controller.isGrounded)
+        if (Grounded)
         {
             jumpTimerDelay = jumpTimer;
             moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
-            moveDir.y = -stickToGrouncForce;
+            if (!onPlayerHead)
+            {
+                moveDir.y = -stickToGrouncForce;
+            }
         }
 
         else
@@ -270,16 +331,24 @@ public class Controller2D : MonoBehaviour
         if (jump)
         {
             moveDir.y = jumpSpeed;
+            onPlayerHead = false;
             jump = false;
+
         }
+
+        if (!(moveDir.y > 0))
+        {
+
+        }
+
+
+
 
         if (boost)
         {
             moveDir.y = BoostSpeed;
             boost = false;
         }
-
-
 
         colFlags = controller.Move(moveDir * Time.fixedDeltaTime);
 
@@ -298,10 +367,12 @@ public class Controller2D : MonoBehaviour
         }
     }
 
+    public bool jumpDown = false;
+
     void Update()
     {
         velocity = controller.velocity;
-        Grounded = controller.isGrounded;
+        //Grounded = controller.isGrounded;
         if (Mathf.Abs(controller.velocity.x) > 0)
         {
             Trail.SetActive(true);
@@ -333,7 +404,10 @@ public class Controller2D : MonoBehaviour
             ChangeCharacterState(charInput, characterStateData);
         }
 
+
         Rays();
+
+
         /*if (controller.isGrounded)
         {
             jumpTimerDelay = jumpTimer;
@@ -346,7 +420,7 @@ public class Controller2D : MonoBehaviour
 
             if (bottom.collider != null)
             {
-                if (bottom.collider.CompareTag("One Way"))
+                if (bottom.collider.CompareTag("One Way") || onPlayerHead)
                 {
                     jumpDir = (int)JumpDir.JumpDown;
                 }
@@ -370,16 +444,17 @@ public class Controller2D : MonoBehaviour
         {
             if (jumpDir == (int)JumpDir.JumpDown)
             {
+                jumpDown = true;
                 Physics.IgnoreCollision(controller, bottom.collider);
             }
         }
-        if (jumpTimerDelay > 0 && !controller.isGrounded)
+        if (jumpTimerDelay > 0 && !Grounded)
         {
             canJump = true;
             jumpTimerDelay -= Time.deltaTime;
         }
 
-        if (jumpTimerDelay <= 0 && !controller.isGrounded)
+        if (jumpTimerDelay <= 0 && !Grounded)
         {
             canJump = false;
         }
@@ -498,8 +573,6 @@ public class Controller2D : MonoBehaviour
             PickUpFocusSelected = 0;
             PickUpFocusList[PickUpFocusSelected].Outline();
         }
-
-
     }
 
     public void removePickUpFocus(IPickUp pickup)

@@ -31,7 +31,7 @@ public struct DashState : ICharacterState
         }
         var velocity = controller.getVelocity();
         var movement = Vector2.zero;
-        var airborne = !controller.getCharController().isGrounded;
+        var airborne = !controller.Grounded;
         var characterStateData = GetCharacterStateData(movement, airborne);
 
         if (!controller.dash && !airborne)

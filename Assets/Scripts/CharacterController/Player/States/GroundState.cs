@@ -36,7 +36,7 @@ public class GroundState : ICharacterState
 
         var velocity = controller.getVelocity();
         var movement = Vector2.zero;
-        var airborne = !controller.getCharController().isGrounded;// && !controller.canJump;     
+        var airborne = !controller.Grounded;// && !controller.canJump;     
         var characterStateData = GetCharacterStateData(movement, airborne);
 
         return characterStateData;
