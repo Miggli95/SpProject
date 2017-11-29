@@ -27,8 +27,7 @@ public class ControllerKeyManager : MonoBehaviour {
     public void getKeyCode(string s, Controller2D a, ref bool XBOX)
     {
         controllers = Input.GetJoystickNames();
-        if (!a.consoleControlls || controllers.Length == 0)
-        {
+       
             
             a.JumpKey = KeyCode.Space;
             a.DashKey = KeyCode.LeftShift;
@@ -36,9 +35,9 @@ public class ControllerKeyManager : MonoBehaviour {
             a.InteractKey = KeyCode.Q;
             a.PickUpKey = KeyCode.C;
             a.DieKey = KeyCode.P;
-        }
+        
 
-        else
+        if(a.consoleControlls && controllers.Length>0)
         {
             switch (s)
             {
