@@ -83,6 +83,9 @@ public class Controller2D : MonoBehaviour
     public bool canInteract = false;
     public float minJumpSpeed;
     public bool onPlayerHead = false;
+    public bool savedJumpInput = false;
+    public float savedJumpInputValue= 0.3f;
+    public float savedJumpInputTimer = 0;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -328,11 +331,24 @@ public class Controller2D : MonoBehaviour
             moveDir.x = targetDir.x;
         }
 
-        if (jump)
+        if(savedJumpInput)
+        {
+            savedJumpInputTimer = savedJumpInputValue;
+            savedJumpInput = false;
+        }
+
+        if (savedJumpInputTimer >= 0)
+        {
+            savedJumpInputTimer -= Time.fixedDeltaTime;
+        }
+
+
+        if (jump || Grounded && savedJumpInputTimer>=0)
         {
             moveDir.y = jumpSpeed;
             onPlayerHead = false;
             jump = false;
+            savedJumpInputTimer = 0;
 
         }
 
@@ -371,6 +387,7 @@ public class Controller2D : MonoBehaviour
 
     void Update()
     {
+        
         velocity = controller.velocity;
         //Grounded = controller.isGrounded;
         if (Mathf.Abs(controller.velocity.x) > 0)

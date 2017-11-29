@@ -39,6 +39,11 @@ public struct AirState : ICharacterState
                 {
                     Jump();
                 }
+
+                else
+                {
+                    controller.savedJumpInput = true;
+                }
             }
         }
         else if (Input.GetKeyUp(controller.JumpKey) && controller.moveDir.y > controller.minJumpSpeed)
