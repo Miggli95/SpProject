@@ -20,7 +20,9 @@ public class do_Brain : pickUpDisruptiveObject {
     public override void OnTriggerEnter(Collider other)
 
     {
-        base.OnTriggerEnter(other);
+        if(state == pickUpState.Waiting)
+            base.OnTriggerEnter(other);
+
         if (state == pickUpState.Used && other.CompareTag("Player"))
         {
             var HitPlayer = other.GetComponent<Controller2D>();
