@@ -311,6 +311,7 @@ public class Controller2D : MonoBehaviour
                 dashCooldownTimer = dashCooldown;
                 canDash = false;
                 dash = false;
+                this.transform.GetChild(3).gameObject.SetActive(false);
             }
 
 
@@ -596,6 +597,7 @@ public class Controller2D : MonoBehaviour
         jump = true;
         dash = false;
         dashTimer = 0;
+        this.transform.GetChild(3).gameObject.SetActive(false);
         //print("jumpcount " + jumpCount + "Fell " + fell);
     }
 
@@ -609,6 +611,7 @@ public class Controller2D : MonoBehaviour
     {
         if (!dash)
         {
+            this.transform.GetChild(3).gameObject.SetActive(true);
             dashInput = charInput;
             //dashDestination = moveDir;
             dashTimer = DashTimer;
