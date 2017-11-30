@@ -18,6 +18,7 @@ public class DeathPortal : MonoBehaviour {
             {
                 p.doDeath();
             }
+            Destroy(this.gameObject);
         }
         else
         {

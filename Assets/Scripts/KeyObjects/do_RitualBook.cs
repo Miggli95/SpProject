@@ -5,17 +5,22 @@ using UnityEngine;
 public class do_RitualBook : PickUpKeyObject {
 
     private float Timer;
+    public GameObject portal;
 
 	// Use this for initialization
 	void Start () {
         base.Initialize("RitualBook");
-        Timer = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>().timerText.GetComponent<Timer>().getTimer();
+        Timer = 3f;
+        //TODO add so that this object can know what the level timer is.
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(Timer <= 0)
         {
+            var obj = Instantiate(portal, this.transform.position, this.transform.rotation);
+            obj.GetComponent<DeathPortal>().Spawn(0.25f);
+            Destroy(this.gameObject);
             //create death portal
         }
         else
