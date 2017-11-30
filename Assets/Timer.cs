@@ -110,6 +110,28 @@ public class Timer : MonoBehaviour
                 break;
         }
     }
+    public void ghostSteal(string ghostName, string playerName, int value)
+    {
+        switch (playerName)
+        {
+            case "P1":
+                score[0] = score[0] - 10 * value;
+                runeGet(ghostName, value);
+                break;
+            case "P2":
+                score[1] = score[1] - 10 * value;
+                runeGet(ghostName, value);
+                break;
+            case "P3":
+                score[2] = score[2] - 10 * value;
+                runeGet(ghostName, value);
+                break;
+            case "P4":
+                score[3] = score[3] - 10 * value;
+                runeGet(ghostName, value);
+                break;
+        }
+    }
 
     private void displayScore()
     {

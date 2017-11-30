@@ -791,6 +791,7 @@ public class Controller2D : MonoBehaviour
     public void stopMove(float t)
     {
         canMove = false;
+        velocity.x = 0f;
         moveDir.x = 0f;
         this.transform.GetChild(0).gameObject.SetActive(true);
         canMoveTimer = t;
