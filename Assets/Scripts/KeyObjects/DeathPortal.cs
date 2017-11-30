@@ -2,12 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlowZone : MonoBehaviour {
+public class DeathPortal : MonoBehaviour {
 
     private List<Controller2D> players;
     private float LifeTime;
     private float TimeAlive;
-    
+
+	
+	// Update is called once per frame
+	void Update ()
+    {
+        if (TimeAlive >= LifeTime)
+        {
+            foreach (Controller2D p in players)
+            {
+                p.doDeath();
+            }
+        }
+        else
+        {
+            TimeAlive += Time.deltaTime;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,12 +31,8 @@ public class SlowZone : MonoBehaviour {
         {
             var player = other.GetComponent<Controller2D>();
             players.Add(player);
-            Debug.Log("Player entered and added");
-            player.speed = 2;
-            //slow down player speed
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -29,33 +41,11 @@ public class SlowZone : MonoBehaviour {
             if (players.Contains(player))
             {
                 players.Remove(player);
-                Debug.Log("Player exit");
-                player.speed = 5;
-                //return player speed to normal
             }
-
         }
     }
 
-    void Update()
-    {
-        if(TimeAlive >= LifeTime)
-        {
-
-            foreach(Controller2D p in players)
-            {
-                p.speed = 5;
-            }
-            Destroy(this.gameObject);
-            //reset players speed
-            //remove all players from list
-            //remove this object
-        }
-        else
-        {
-            TimeAlive += Time.deltaTime;
-        }
-    }
+   
 
     public void Spawn(float LifeTime)
     {
@@ -63,7 +53,4 @@ public class SlowZone : MonoBehaviour {
         this.LifeTime = LifeTime;
         TimeAlive = 0;
     }
-
-
-
 }

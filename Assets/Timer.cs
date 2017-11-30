@@ -159,4 +159,9 @@ public class Timer : MonoBehaviour
 
 
     }
+
+    public float getTimer()
+    {
+        return timer;
+    }
 }
