@@ -17,6 +17,8 @@ public class CameraScript : MonoBehaviour
     public float offsetX, offsetY, offset = 0;
     public bool usingDeltaX = true;
     Vector2 aspectRatio;
+    bool updateCamera = false;
+    public int size = 0;
     // Use this for initialization
     void Start()
     {
@@ -30,6 +32,7 @@ public class CameraScript : MonoBehaviour
             minSize = originalSize;
         }
         players = GameObject.FindGameObjectsWithTag("Player");
+        size = players.Length;
     }
 
     public bool Contains(string name,GameObject[] array)
@@ -58,6 +61,9 @@ public class CameraScript : MonoBehaviour
                 }
             }
             players = newList.ToArray();
+            size = players.Length;
+            updateCamera = true;
+            return true;
         }
 
         return false;
@@ -79,10 +85,12 @@ public class CameraScript : MonoBehaviour
                     {
                         newList.Add(g);
                         success = true;
+                        updateCamera = true;
                         break;
                     }
                 }
                 players = newList.ToArray();
+                size = players.Length;
             }
         }
 
@@ -178,6 +186,13 @@ public class CameraScript : MonoBehaviour
         target.x = Mathf.SmoothStep(target.x, (x / players.Length) + offsetX, time);
         transform.position = target;
 
+        if (updateCamera)
+        {
+            resetMinX = true;
+            resetMaxX = true;
+            resetMinY = true;
+            resetMaxY = true;
+        }
         if (resetMinX)
         {
             minX = float.MaxValue;
