@@ -92,7 +92,7 @@ public class Controller2D : MonoBehaviour
     public bool XBOX = false;
     public Vector2 dashInput;
     public Ghost ghost;
-
+    bool jumping = false;
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -352,6 +352,10 @@ public class Controller2D : MonoBehaviour
 
         if (Grounded)
         {
+            if (jumping)
+            {
+                jumping = false;
+            }
             jumpTimerDelay = jumpTimer;
             moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
             if (!onPlayerHead)
@@ -362,7 +366,7 @@ public class Controller2D : MonoBehaviour
 
         else
         {
-            if (!dash)
+            if (!dash || jumping)
             {
                 moveDir.x = Smooth(targetDir.x, ref moveDir.x, airAccelerationTime, airDeaccelrationTime);
                 moveDir += Physics.gravity * gravityMultiplier * Time.deltaTime;
@@ -393,6 +397,7 @@ public class Controller2D : MonoBehaviour
             jumpTimerDelay = 0;
             moveDir.y = jumpSpeed;
             onPlayerHead = false;
+            jumping = true;
             jump = false;
             savedJumpInputTimer = 0;
 
@@ -589,7 +594,9 @@ public class Controller2D : MonoBehaviour
 
         //startJumpTimer();
         jump = true;
-        //print("JumpCount " + jumpCount + "Fell " + fell);
+        dash = false;
+        dashTimer = 0;
+        //print("jumpcount " + jumpCount + "Fell " + fell);
     }
 
     public void startJumpTimer()

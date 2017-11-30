@@ -35,6 +35,7 @@ public struct DashState : ICharacterState
 
         if (Input.GetKeyDown(controller.JumpKey) && controller.canCMove())
         {
+            controller.dash = false;
             return new CharacterStateData(Vector2.zero, new AirState(controller), true);
         }
         var velocity = controller.getVelocity();
