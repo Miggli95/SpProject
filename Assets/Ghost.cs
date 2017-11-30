@@ -60,7 +60,7 @@ public class Ghost : MonoBehaviour
        
             if (controller2D.dash)
             {
-                destination = transform.right * controller2D.dashInput.x;
+                destination = transform.up * controller2D.dashInput.y + transform.right * controller2D.dashInput.x;
             }
             
 
