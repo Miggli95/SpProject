@@ -90,7 +90,7 @@ public class Controller2D : MonoBehaviour
     public float savedJumpInputTimer = 0;
     public bool isGhost = false;
     public bool XBOX = false;
-
+    public Vector2 dashInput;
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -274,7 +274,14 @@ public class Controller2D : MonoBehaviour
 
         else
         {
-            destination = transform.right * charInput.x;
+            if (dash)
+            {
+                destination = transform.right * dashInput.x;
+            }
+            else
+            {
+                destination = transform.right * charInput.x;
+            }
           
 
             Physics.SphereCast(transform.position, controller.radius, Vector3.down, out hit,
@@ -610,6 +617,7 @@ public class Controller2D : MonoBehaviour
     {
         if (!dash)
         {
+            dashInput = charInput;
             //dashDestination = moveDir;
             dashTimer = DashTimer;
             dash = true;

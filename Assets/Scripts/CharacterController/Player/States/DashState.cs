@@ -39,7 +39,7 @@ public struct DashState : ICharacterState
             return new CharacterStateData(Vector2.zero, new GroundState(controller), true);
         }
         RaycastHit rayhit;
-        if (input.x > 0)
+        if (controller.dashInput.x > 0)
         {
             if (Physics.Raycast(controller.transform.position, Vector3.right, out rayhit))
             {
@@ -50,6 +50,9 @@ public struct DashState : ICharacterState
                 }
             }
         }
+
+        else
+        {
             if (Physics.Raycast(controller.transform.position, Vector3.left, out rayhit))
             {
                 if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove() && rayhit.collider.GetComponent<Controller2D>() != controller)
@@ -60,7 +63,7 @@ public struct DashState : ICharacterState
                     }
                 }
             }
-        
+        }
         return characterStateData;
     }
 
