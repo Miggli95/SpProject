@@ -29,7 +29,10 @@ public struct AirState : ICharacterState
 
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
-
+        if (!controller.getAlive())
+        {
+            return new CharacterStateData(Vector2.zero, new GhostState(controller), true);
+        }
 
         if (Input.GetKeyDown(controller.JumpKey))
         {

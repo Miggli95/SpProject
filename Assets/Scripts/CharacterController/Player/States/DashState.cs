@@ -20,9 +20,17 @@ public struct DashState : ICharacterState
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
 
+      
+
         if (controller.triggerInput > 0 && controller.canCMove())
         {
             Dash();
+            DashCollision();
+        }
+
+        else if (!controller.getAlive())
+        {
+            return new CharacterStateData(Vector2.zero, new GhostState(controller), true);
         }
 
         if (Input.GetKeyDown(controller.JumpKey) && controller.canCMove())
@@ -38,6 +46,31 @@ public struct DashState : ICharacterState
         {
             return new CharacterStateData(Vector2.zero, new GroundState(controller), true);
         }
+       
+        return characterStateData;
+    }
+
+    /*rivate bool HandleMovement()
+     {
+         var airborne = !controller.getCharController().isGrounded;
+         return airborne;
+     }*/
+
+    private CharacterStateData GetCharacterStateData(Vector2 movement, bool airborne)
+    {
+        var characterStateData = new CharacterStateData();
+        characterStateData.Movement = movement;
+
+        if (airborne)
+        {
+            characterStateData.NewState = new AirState(controller, true);
+        }
+
+        return characterStateData;
+    }
+
+    void DashCollision()
+    {
         RaycastHit rayhit;
         if (controller.dashInput.x > 0)
         {
@@ -64,26 +97,6 @@ public struct DashState : ICharacterState
                 }
             }
         }
-        return characterStateData;
-    }
-
-    /*rivate bool HandleMovement()
-     {
-         var airborne = !controller.getCharController().isGrounded;
-         return airborne;
-     }*/
-
-    private CharacterStateData GetCharacterStateData(Vector2 movement, bool airborne)
-    {
-        var characterStateData = new CharacterStateData();
-        characterStateData.Movement = movement;
-
-        if (airborne)
-        {
-            characterStateData.NewState = new AirState(controller, true);
-        }
-
-        return characterStateData;
     }
 
     void Dash()

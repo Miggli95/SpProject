@@ -2,38 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundState : ICharacterState
+public class GhostState : ICharacterState
 {
     private Controller2D controller;
 
-
-    public GroundState(Controller2D controller)
+    bool isGhost;
+    public GhostState(Controller2D controller)
     {
         if (controller == null)
         {
 
         }
 
+        isGhost = true;
         this.controller = controller;
+        controller.isGhost = true;
     }
 
     public void Enter()
     {
-
+        controller.gameObject.GetComponent<Ghost>().InitializeGhost();
     }
 
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
-        if (!controller.getAlive())
-        {
-            return new CharacterStateData(Vector2.zero,new GhostState(controller),true);
-        }
-
-        if (Input.GetKeyDown(controller.JumpKey) && controller.getJumpDir() == (int)JumpDir.JumpUp && controller.canCMove())
-        { 
-            return new CharacterStateData(Vector2.zero, new AirState(controller), true);
-        }
-
         //if (Input.GetKeyDown(controller.DashKey) && controller.canCMove() && controller.canDash)
         if (controller.triggerInput > 0 && controller.canCMove() && controller.canDash)
         {
@@ -42,8 +34,9 @@ public class GroundState : ICharacterState
 
         var velocity = controller.getVelocity();
         var movement = Vector2.zero;
-        var airborne = !controller.Grounded;// && !controller.canJump;     
-        var characterStateData = GetCharacterStateData(movement, airborne);
+        var airborne = !controller.Grounded;// && !controller.canJump;   
+        var isGhost = !controller.getAlive();  
+        var characterStateData = GetCharacterStateData(movement, isGhost, airborne);
 
         return characterStateData;
     }
@@ -54,20 +47,26 @@ public class GroundState : ICharacterState
          return airborne;
      }*/
 
-    private CharacterStateData GetCharacterStateData(Vector2 movement, bool airborne)
+    private CharacterStateData GetCharacterStateData(Vector2 movement, bool isGhost, bool airborne)
     {
         var characterStateData = new CharacterStateData();
         characterStateData.Movement = movement;
 
-        if (airborne)
+        if (!isGhost)
         {
             /*if (controller.canJump)
             {
                 controller.startJumpTimer();
             }*/
-            if (!controller.canJump)
+            controller.isGhost = isGhost;
+            if (airborne)
             {
                 characterStateData.NewState = new AirState(controller, true);
+            }
+
+            else
+            {
+                characterStateData.NewState = new GroundState(controller);
             }
         }
 
@@ -76,7 +75,7 @@ public class GroundState : ICharacterState
 
     public void Exit()
     {
-
+        controller.gameObject.GetComponent<Ghost>().Exit();
     }
 
 }

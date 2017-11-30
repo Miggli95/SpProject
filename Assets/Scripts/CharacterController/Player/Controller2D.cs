@@ -55,7 +55,7 @@ public class Controller2D : MonoBehaviour
     public bool alive = true;
     private GameObject[] players;
     public float DashTimer = 0.5f;
-    float dashTimer;
+    public float dashTimer;
     public float accelerationTime = 0.1f;
     public float deaccelrationTime = 0.8f;
     public float airAccelerationTime = 0.2f;
@@ -80,7 +80,7 @@ public class Controller2D : MonoBehaviour
     public bool Grounded;
     public Vector3 velocity;
     public float dashCooldown = 0.1f;
-    float dashCooldownTimer = 0;
+    public float dashCooldownTimer = 0;
     public bool canDash = true;
     public bool canInteract = false;
     public float minJumpSpeed;
@@ -91,6 +91,8 @@ public class Controller2D : MonoBehaviour
     public bool isGhost = false;
     public bool XBOX = false;
     public Vector2 dashInput;
+    public Ghost ghost;
+
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -148,7 +150,7 @@ public class Controller2D : MonoBehaviour
         PickUpFocusSelected = 0;
         players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
         players = GameObject.FindGameObjectsWithTag("Player");
-
+        ghost = GetComponent<Ghost>();
         foreach (GameObject p in players)
         {
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CapsuleCollider>(), true);
@@ -251,7 +253,12 @@ public class Controller2D : MonoBehaviour
     void FixedUpdate()
     {
 
-
+        if (isGhost)
+        {
+            ghost.FixedUpdate();
+            moveDir = Vector3.zero;
+            return;
+        }
 
         if (transform.position.z == startZ)
         {
@@ -263,33 +270,23 @@ public class Controller2D : MonoBehaviour
         Vector3 destination;
         Vector3 targetDir = Vector3.zero;
         RaycastHit hit;
-        if (isGhost)
-        {
-            //controller.gameObject.layer = Ghost;
-            destination = transform.up * charInput.y + transform.right * charInput.x;
-            gravityMultiplier = 0;
-            Physics.SphereCast(transform.position, controller.radius, Vector3.down, out hit,
-               controller.height / 2, Ghost, QueryTriggerInteraction.Ignore);
-        }
 
+        if (dash)
+        {
+            destination = transform.right * dashInput.x;
+        }
         else
         {
-            if (dash)
-            {
-                destination = transform.right * dashInput.x;
-            }
-            else
-            {
-                destination = transform.right * charInput.x;
-            }
-          
-
-            Physics.SphereCast(transform.position, controller.radius, Vector3.down, out hit,
-                controller.height / 2, CollisionMask, QueryTriggerInteraction.Ignore);
-
-            destination = Vector3.ProjectOnPlane(destination, hit.normal).normalized;
+            destination = transform.right * charInput.x;
         }
-       
+
+
+        Physics.SphereCast(transform.position, controller.radius, Vector3.down, out hit,
+            controller.height / 2, CollisionMask, QueryTriggerInteraction.Ignore);
+
+        destination = Vector3.ProjectOnPlane(destination, hit.normal).normalized;
+
+
         if (charInput.x == 0 && charInput.y == 0)
         {
             destination = Vector3.zero;
@@ -297,7 +294,7 @@ public class Controller2D : MonoBehaviour
 
         //new Code
 
-        
+
         if (dash)
         {
 
@@ -325,13 +322,10 @@ public class Controller2D : MonoBehaviour
 
         }
 
-        if (isGhost)
-        {
-            targetDir.y = destination.y * speed;
-        }
+
         //Rays();
         onPlayerHead = OnPlayerHead();
-        if (onPlayerHead && !isGhost)
+        if (onPlayerHead)
         {
             if (!jumpDown)
             {
@@ -356,19 +350,11 @@ public class Controller2D : MonoBehaviour
             jumpDown = false;
         }
 
-        if (isGhost)
-        {
-            moveDir.y = Smooth(targetDir.y, ref moveDir.y, accelerationTime, deaccelrationTime);
-            //controller.GetComponent<Collider>().isTrigger = true;
-            //controller.GetComponent<CapsuleCollider>().isTrigger = true;
-        }
-
-
         if (Grounded)
         {
             jumpTimerDelay = jumpTimer;
             moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
-            if (!onPlayerHead && !isGhost)
+            if (!onPlayerHead)
             {
                 moveDir.y = -stickToGrouncForce;
             }
@@ -390,12 +376,6 @@ public class Controller2D : MonoBehaviour
             moveDir.x = targetDir.x;
         }
 
-        if(isGhost)
-        if (moveDir.y != targetDir.y)
-        {
-                moveDir.y = targetDir.y;
-        }
-
         if (savedJumpInput)
         {
             savedJumpInputTimer = savedJumpInputValue;
@@ -408,7 +388,7 @@ public class Controller2D : MonoBehaviour
         }
 
 
-        if (jump || Grounded && savedJumpInputTimer>=0)
+        if (jump || Grounded && savedJumpInputTimer >= 0)
         {
             jumpTimerDelay = 0;
             moveDir.y = jumpSpeed;
@@ -445,7 +425,7 @@ public class Controller2D : MonoBehaviour
 
     void Update()
     {
-        
+
         velocity = controller.velocity;
         //Grounded = controller.isGrounded;
         if (Mathf.Abs(controller.velocity.x) > 0)
@@ -483,8 +463,13 @@ public class Controller2D : MonoBehaviour
             ChangeCharacterState(charInput, characterStateData);
         }
 
-        if(!isGhost)
-            Rays();
+        if (isGhost)
+        {
+            ghost.GhostUpdate(charInput, triggerInput);
+            return;
+        }
+
+        Rays();
 
 
         /*if (controller.isGrounded)
