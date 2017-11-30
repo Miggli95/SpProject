@@ -32,6 +32,64 @@ public class CameraScript : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
     }
 
+    public bool Contains(string name,GameObject[] array)
+    {
+        foreach (GameObject g in array)
+        {
+            if (g.name == name)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool RemovePlayer(string name)
+    {
+        if (Contains(name,players))
+        {
+            List<GameObject> newList = new List<GameObject>();
+            foreach (GameObject g in players)
+            {
+                if (g.name != name)
+                {
+                    newList.Add(g);
+                }
+            }
+            players = newList.ToArray();
+        }
+
+        return false;
+    }
+
+    public bool AddPlayer(string name,string tag = "Player")
+    {
+        bool success = false;
+        GameObject[] array = GameObject.FindGameObjectsWithTag(tag);
+        if (Contains(name,array))
+        {
+            if (!Contains(name, players))
+            {
+                List<GameObject> newList = new List<GameObject>();
+                newList.AddRange(players);
+                foreach (GameObject g in array)
+                {
+                    if (g.name == name)
+                    {
+                        newList.Add(g);
+                        success = true;
+                        break;
+                    }
+                }
+                players = newList.ToArray();
+            }
+        }
+
+        return success;
+    }
+
+
     // Update is called once per frame
     bool resetMinX, resetMaxX, resetMinY, resetMaxY;
     void Update()

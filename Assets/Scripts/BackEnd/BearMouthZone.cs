@@ -22,6 +22,8 @@ public class BearMouthZone : MonoBehaviour
 
         if (other.GetType() == typeof(CharacterController))
         {
+            CameraScript camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
+            camera.RemovePlayer(other.gameObject.name);
             switch (this.name)
             {
                 case "30point":
