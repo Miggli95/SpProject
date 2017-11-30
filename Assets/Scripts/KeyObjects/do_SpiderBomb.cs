@@ -42,7 +42,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         state = pickUpState.Used;
         var ren = player.GetComponent<SpriteRenderer>();
         int dir = ren.flipX ? 1 : -1;
-        KnockAway(new Vector3(dir * throwX, throwY));
+        KnockAway(new Vector3(throwX * dir, throwY));
         return false;
     }
 
