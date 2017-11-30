@@ -789,8 +789,8 @@ public class Controller2D : MonoBehaviour
     {
         alive = false;
         //do interesting death mechanics
-        this.GetComponent<SpriteRenderer>().enabled = false;
-        canMove = false;
+        //this.GetComponent<SpriteRenderer>().enabled = false;
+        //canMove = false;
     }
 
     public void forceDrop(Vector3 dir)
