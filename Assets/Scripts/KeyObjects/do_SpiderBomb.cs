@@ -14,10 +14,11 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 	
 	void Start () {
         base.Initialize();
+        fuseLit = false;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
         if (!fuseLit)
             return;
 		if(timer <= 0)
@@ -38,6 +39,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 
     public override bool Use(Controller2D player)
     {
+        state = pickUpState.Used;
         var ren = player.GetComponent<SpriteRenderer>();
         int dir = ren.flipX ? 1 : -1;
         KnockAway(new Vector3(dir * throwX, throwY));
@@ -51,7 +53,20 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
             return null;
         }
         this.player = player;
+        fuseLit = true;
         timer = fuse;
+        Debug.Log(fuseLit);
         return this;
+    }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        if(state != pickUpState.PickedUp && fuseLit && other.CompareTag("Player"))
+        {
+            var obj = Instantiate(SlowZone, this.transform.position, this.transform.rotation);
+            obj.GetComponent<SlowZone>().Spawn(5f);
+            Destroy(this.gameObject);
+        }
     }
 }

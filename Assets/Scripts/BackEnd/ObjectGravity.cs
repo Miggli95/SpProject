@@ -49,6 +49,6 @@ public class ObjectGravity : MonoBehaviour {
     }
     public void knockedAway(Vector3 dir)
     {
-        riggy.velocity = new Vector3(dir.x, 2f , 0f);
+        riggy.velocity = new Vector3(dir.x, dir.y , 0f);
     }
 }

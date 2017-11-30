@@ -6,7 +6,7 @@ public class do_Pipe : staticDisruptiveObject {
 
     private Vector3 ExitPosition;
     public do_Pipe Exit;
-    public IPickUp Obj;
+    public GameObject Obj;
     public float Timer;
     public float TransferTime;
 
@@ -25,7 +25,7 @@ public class do_Pipe : staticDisruptiveObject {
 
         if(Timer <= 0)
         {
-            Obj.updatePos(Exit.GetExitPosition());
+            //Obj.updatePos(Exit.GetExitPosition());
             Obj = null;
         }
         else
@@ -33,15 +33,16 @@ public class do_Pipe : staticDisruptiveObject {
             Timer -= Time.deltaTime;
         }
     }
+    //TODO change so that players can travel through pipes.
     public override bool Interact(Controller2D player)
     {
         if (!base.Interact(player))
             return false;
-        Obj = player.GetPickUp();
+        //Obj = player.GetPickUp();
         if (Obj == null)
             return false;
         player.forceDrop();
-        Obj.updatePos(new Vector3(-100, -100));
+        //Obj.updatePos(new Vector3(-100, -100));
         Timer = TransferTime;
         return true;
     }

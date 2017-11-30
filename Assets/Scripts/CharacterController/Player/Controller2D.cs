@@ -702,7 +702,7 @@ public class Controller2D : MonoBehaviour
         {
             if (Input.GetKeyDown(PickUpKey) && PickUpFocusList[PickUpFocusSelected] != null && PickUpCarry == null)
             {
-                PickUpCarry = PickUpFocusList[PickUpFocusSelected].PickUp();
+                PickUpCarry = PickUpFocusList[PickUpFocusSelected].PickUp(this);
                 return;
             }
         }
