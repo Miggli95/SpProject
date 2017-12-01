@@ -69,4 +69,15 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
             Destroy(this.gameObject);
         }
     }
+
+    public override void Drop()
+    {
+        if (fuseLit)
+        {
+            state = pickUpState.Used;
+        } else
+        {
+            state = pickUpState.Waiting;
+        }
+    }
 }

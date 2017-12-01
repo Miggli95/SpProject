@@ -9,7 +9,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
     public pickUpState state;
     protected ObjectGravity ObjGrav;
 
-    public void Drop()
+    public virtual void Drop()
     {
         state = pickUpState.Waiting;
         //Need to implement so that a object falls to the ground. 
