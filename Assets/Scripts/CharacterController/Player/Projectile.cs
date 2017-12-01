@@ -32,14 +32,15 @@ public class Projectile : MonoBehaviour
             Vector3 dir = Quaternion.AngleAxis(angle, transform.forward) * transform.right;
             transform.Translate(dir * speed * Time.fixedDeltaTime);
             Ray ray = new Ray(transform.position, dir);
-            RaycastHit rayhit;
-            if (Physics.Raycast(ray, out rayhit, 0.1f))
-            {
-                if (rayhit.collider.CompareTag("Target"))
+            RaycastHit[] rayHit = Physics.RaycastAll(ray,0.1f);
+           foreach (RaycastHit hit in rayHit)
+            { 
+                if (hit.collider.CompareTag("Target"))
                 {
-                    if (rayhit.collider.gameObject.GetComponent<Target>() == this.target)
+                    if (hit.collider.gameObject.GetComponent<Target>() == target)
                     {
                         target.ReachedTarget(gameObject);
+                        break;
                     }
                 }
             }
