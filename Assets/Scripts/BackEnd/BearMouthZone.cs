@@ -20,7 +20,7 @@ public class BearMouthZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.GetType() == typeof(CharacterController))
+        if (other.GetType() == typeof(CharacterController) && !other.GetComponent<Controller2D>().isGhost)
         {
            // CameraScript camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
            // camera.RemovePlayer(other.gameObject.name);
