@@ -57,7 +57,7 @@ public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
             other.GetComponent<Controller2D>().setInteractableFocus(this);
         }
     }
-    public void OnTriggerExit(Collider other)
+    public virtual void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {

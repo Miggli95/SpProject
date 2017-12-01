@@ -11,6 +11,8 @@ public class do_Door : staticDisruptiveObject {
     private bool isInteracted;
     public GameObject Door;
     public Collider DoorCol;
+    private bool grace;
+    private Controller2D player;
 	
 	void Start () {
         base.Initialize(true);
@@ -18,6 +20,7 @@ public class do_Door : staticDisruptiveObject {
         Door = list[1];
         DoorCol = Door.GetComponent<Collider>();*/
         DoorCol.enabled = false;
+        grace = false;
 	}
 
     public override bool Interact(Controller2D player)
@@ -28,6 +31,8 @@ public class do_Door : staticDisruptiveObject {
         }
         if (state == InteractableState.Enabled)
         {
+            this.player = player;
+            grace = true;
             Close();
             return true;
         }
@@ -37,8 +42,6 @@ public class do_Door : staticDisruptiveObject {
             timer = timeToOpen;
             isInteracted = true;
         }
-
-
         return true;
     }
 
@@ -64,7 +67,7 @@ public class do_Door : staticDisruptiveObject {
 
     private void Open() //call animation event
     {
-        Door.transform.Rotate(new Vector3(0, -90));
+        Door.transform.Rotate(new Vector3(0, 90));
         DoorCol.enabled = false;
         state = InteractableState.Enabled;
         isInteracted = false;
@@ -78,9 +81,26 @@ public class do_Door : staticDisruptiveObject {
 
     private void Close() //call animation event
     {
+        Physics.IgnoreCollision(player.GetComponent<CapsuleCollider>(), DoorCol, true);
+        Physics.IgnoreCollision(player.GetComponent<CharacterController>(), DoorCol, true);
         DoorCol.enabled = true;
-        Door.transform.Rotate(new Vector3(0, 90));
+        Door.transform.Rotate(new Vector3(0, -90));
         state = InteractableState.Interacted;
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+        if (other.CompareTag("Player"))
+        {
+            var p = other.GetComponent<Controller2D>();
+            if (p == player && grace)
+            {
+                Physics.IgnoreCollision(player.GetComponent<CapsuleCollider>(), DoorCol, false);
+                Physics.IgnoreCollision(player.GetComponent<CharacterController>(), DoorCol, false);
+                grace = false;
+            }
+        }
     }
 
 }
