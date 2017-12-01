@@ -100,9 +100,13 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
         if (other.CompareTag("Player"))
         {
             //Debug.Log("Player exited " + id);
-            other.GetComponent<Controller2D>().canInteract = false;
+            var player = other.GetComponent<Controller2D>();
+            player.canInteract = false;
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
-            other.GetComponent<Controller2D>().setInteractableFocus(null);
+            if (player.GetInteractable() == this)
+            {
+                other.GetComponent<Controller2D>().setInteractableFocus(null);
+            }
         }
     }
 

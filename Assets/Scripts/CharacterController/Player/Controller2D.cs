@@ -841,4 +841,9 @@ public class Controller2D : MonoBehaviour
         }
     }
 
+    public IInteractable GetInteractable()
+    {
+        return InteractFocus;
+    }
+
 }
