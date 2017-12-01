@@ -20,13 +20,33 @@ public class Ghost : MonoBehaviour
     public float accelerationTime = 0.1f;
     public float deaccelerationTime = 0.2f;
     public bool initialized = false;
+    public float dashTimer;
+    public float dashDuration;
+    public bool canDash = true;
+    public Vector2 dashInput;
+    public float dashCooldown = 0.1f;
+    public float dashCooldownTimer;
+    public bool dash;
+
+    void Start()
+    {
+        controller2D = GetComponent<Controller2D>();
+        dashDuration = controller2D.DashTimer;
+        dashCooldown = controller2D.dashCooldown;
+    }
+
     // Use this for initialization
     public void InitializeGhost ()
     {
-        controller2D = GetComponent<Controller2D>();
-        charController = GetComponent<CharacterController>();
-        startZ = transform.position.z;
-        initialized = true;
+        if (!controller2D.getAlive())
+        {
+           
+            charController = GetComponent<CharacterController>();
+            startZ = transform.position.z;
+            initialized = true;
+        }
+        
+
 	}
 	
 	// Update is called once per frame
@@ -34,11 +54,22 @@ public class Ghost : MonoBehaviour
     {
         this.charInput = charInput;
         this.triggerInput = triggerInput;
-	}
+
+        if (dashCooldownTimer >= 0)
+        {
+
+            dashCooldownTimer -= Time.deltaTime;
+        }
+
+        else
+        {
+            canDash = true;
+        }
+    }
 
     public void FixedUpdate()
     {
-        if (controller2D == null)
+        if (charController == null)
             return;
 
         if (transform.position.z == startZ)
@@ -58,9 +89,9 @@ public class Ghost : MonoBehaviour
         
 
        
-            if (controller2D.dash)
+            if (dash)
             {
-                destination = transform.up * controller2D.dashInput.y + transform.right * controller2D.dashInput.x;
+                destination = transform.up * dashInput.y + transform.right * dashInput.x;
             }
             
 
@@ -75,23 +106,24 @@ public class Ghost : MonoBehaviour
         //new Code
 
 
-        if (controller2D.dash)
+        if (dash)
         {
 
 
-            if (controller2D.dashTimer >= 0 && controller2D.canDash)
+            if (dashTimer >= 0 && canDash)
             {
-                controller2D.dash = destination.x != 0;
+                dash = destination.x != 0;
                 targetDir.x = destination.x *  dashSpeed;
                 targetDir.y = destination.y * dashSpeed;
-                controller2D.dashTimer -= Time.fixedDeltaTime;
+                dashTimer -= Time.fixedDeltaTime;
             }
 
             else
             {
-                controller2D.dashCooldownTimer = controller2D.dashCooldown;
-                controller2D.canDash = false;
-                controller2D.dash = false;
+                dashCooldownTimer = dashCooldown;
+                canDash = false;
+                dash = false;
+                this.transform.GetChild(3).gameObject.SetActive(false);
             }
 
 
@@ -158,10 +190,24 @@ public class Ghost : MonoBehaviour
         }
     }
 
+    public void Dash()
+    {
+        if (!dash)
+        {
+            this.transform.GetChild(3).gameObject.SetActive(true);
+            dashInput = charInput;
+            //dashDestination = moveDir;
+            dashTimer = dashDuration;
+            dash = true;
+        }
+    }
+
     public void Exit()
     {
-        controller2D = null;
-        charController = null;
-        initialized = false;
+        if (controller2D.getAlive())
+        {
+            charController = null;
+            initialized = false;
+        }
     }
 }

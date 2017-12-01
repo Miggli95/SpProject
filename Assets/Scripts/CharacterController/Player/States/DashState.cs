@@ -28,7 +28,7 @@ public struct DashState : ICharacterState
             DashCollision();
         }
 
-        else if (!controller.getAlive())
+        if (!controller.getAlive())
         {
             return new CharacterStateData(Vector2.zero, new GhostState(controller), true);
         }
@@ -102,7 +102,15 @@ public struct DashState : ICharacterState
 
     void Dash()
     {
-        controller.Dash();
+        if (controller.isGhost)
+        {
+            controller.gameObject.GetComponent<Ghost>().Dash();
+        }
+
+        else
+        {
+            controller.Dash();
+        }
     }
 
     public void Exit()
