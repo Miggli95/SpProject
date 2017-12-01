@@ -9,6 +9,7 @@ public class Ghost : MonoBehaviour
     public LayerMask CollisionMask;
     private CollisionFlags colFlags;
     public Vector3 moveDir;
+    Vector3 aimDir;
     Vector3 targetDir;
     float startZ;
     float previousX;
@@ -16,6 +17,8 @@ public class Ghost : MonoBehaviour
     float triggerInput;
     float gravityMultiplier = 0;
     public float speed = 5;
+    public float aimSpeed = 5;
+    public float projectileSpeed = 5;
     public float dashSpeed = 10;
     public float accelerationTime = 0.1f;
     public float deaccelerationTime = 0.2f;
@@ -27,12 +30,30 @@ public class Ghost : MonoBehaviour
     public float dashCooldown = 0.1f;
     public float dashCooldownTimer;
     public bool dash;
+    public bool stationary = false;
+    public GameObject mortarAim;
+    public GameObject projectile;
+    public float shootAngle;
+    bool shoot = false;
 
     void Start()
     {
         controller2D = GetComponent<Controller2D>();
         dashDuration = controller2D.DashTimer;
         dashCooldown = controller2D.dashCooldown;
+
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.name == "MortarAim")
+            {
+                mortarAim = transform.GetChild(i).gameObject;
+            }
+
+            else if (transform.GetChild(i).gameObject.name == "MortarProjectile")
+            {
+                projectile = transform.GetChild(i).gameObject;
+            }
+        }
     }
 
     // Use this for initialization
@@ -40,7 +61,7 @@ public class Ghost : MonoBehaviour
     {
         if (!controller2D.getAlive())
         {
-           
+            mortarAim.SetActive(stationary);
             charController = GetComponent<CharacterController>();
             startZ = transform.position.z;
             initialized = true;
@@ -65,12 +86,97 @@ public class Ghost : MonoBehaviour
         {
             canDash = true;
         }
+
+        if (stationary)
+        {
+            MortarAim();
+            return;
+        }
+
     }
+
+    public void MortarAim()
+    {
+        Vector3 aim ,targetDir;
+         aim = transform.up * charInput.y + transform.right * charInput.x;
+
+
+        targetDir.x = aim.x * speed;
+        targetDir.y = aim.y * speed;
+
+        aimDir.y = controller2D.Smooth(targetDir.y, ref moveDir.y, accelerationTime, deaccelerationTime);
+
+        aimDir.x = controller2D.Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelerationTime);
+            
+
+        if (aimDir.x != targetDir.x)
+        {
+            aimDir.x = targetDir.x;
+        }
+
+
+        if (aimDir.y != targetDir.y)
+        {
+            aimDir.y = targetDir.y;
+        }
+
+        mortarAim.transform.Translate(aimDir*Time.deltaTime);
+
+        if (triggerInput > 0)
+        {
+            shoot = true;
+            stationary = false;
+        }
+    }
+
+    public void MortarShoot(float Angle = 0, float Speed = 0)
+    {
+       float angle;
+        float speed;
+
+        if (Angle == 0)
+        {
+
+            angle = transform.GetComponent<AimAssist>().angle;
+
+        }
+
+        else
+        {
+            angle = Angle;
+        }
+
+        if (Speed == 0)
+        {
+            speed = projectileSpeed;
+        }
+
+        else
+        {
+            speed = Speed;
+        }
+
+        shootAngle = angle;
+        projectile.SetActive(true);
+        projectile.transform.rotation = transform.GetComponent<AimAssist>().rotation;
+        Vector3 dir = Quaternion.AngleAxis(shootAngle, transform.forward) * transform.right;
+        projectile.transform.Translate(dir * speed*Time.fixedDeltaTime);
+}
 
     public void FixedUpdate()
     {
         if (charController == null)
             return;
+
+        if (shoot)
+        {
+            MortarShoot();
+        }
+
+        if (stationary)
+        {
+            return;
+        }
 
         if (transform.position.z == startZ)
         {
@@ -200,6 +306,12 @@ public class Ghost : MonoBehaviour
             dashTimer = dashDuration;
             dash = true;
         }
+    }
+
+    public void MortarState()
+    {
+        stationary = true;
+        mortarAim.SetActive(stationary);
     }
 
     public void Exit()
