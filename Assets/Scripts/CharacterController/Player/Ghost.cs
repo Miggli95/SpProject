@@ -36,7 +36,10 @@ public class Ghost : MonoBehaviour
     public GameObject mortarTarget;
     public float shootAngle;
     bool shoot = false;
-
+    public float minDistance = 0.7f;
+    public float maxDistance = 10f;
+    public Vector3 previousAimPosition;
+    Transform preview;
     void Start()
     {
         controller2D = GetComponent<Controller2D>();
@@ -60,6 +63,8 @@ public class Ghost : MonoBehaviour
                 mortarTarget = transform.GetChild(i).gameObject;
             }
         }
+
+        preview = Instantiate(mortarAim.transform);
     }
 
     // Use this for initialization
@@ -101,11 +106,18 @@ public class Ghost : MonoBehaviour
 
     }
 
+    public float distance;
+
     public void MortarAim()
     {
+        preview.position = mortarAim.transform.position;
+        
         Vector3 aim ,targetDir;
          aim = transform.up * charInput.y + transform.right * charInput.x;
-
+        /*if (distance >= maxDistance)
+        {
+            mortarAim.transform.position = previousAimPosition;
+        }*/
 
         targetDir.x = aim.x * speed;
         targetDir.y = aim.y * speed;
@@ -126,13 +138,30 @@ public class Ghost : MonoBehaviour
             aimDir.y = targetDir.y;
         }
 
-        mortarAim.transform.Translate(aimDir*Time.deltaTime);
 
+       preview.Translate(aimDir*Time.deltaTime);
+        distance = Vector3.Distance(transform.position, preview.transform.position);
+
+        if (distance <= maxDistance)
+        {
+            mortarAim.transform.Translate(aimDir * Time.deltaTime);
+            preview.position = mortarAim.transform.position;
+        }
         if (triggerInput > 0)
         {
-            MortarShoot();
-            stationary = false;
+            //float distance = Vector3.Distance(transform.position, mortarAim.transform.position);
+            if (distance>minDistance && distance<maxDistance)
+            {
+                MortarShoot();
+                stationary = false;
+            }
         }
+
+        if (distance < maxDistance)
+        {
+            previousAimPosition = mortarAim.transform.position;
+        }
+
     }
 
     public void MortarShoot(float Angle = 0, float Speed = 0)
@@ -322,6 +351,7 @@ public class Ghost : MonoBehaviour
         stationary = true;
         mortarAim.transform.localPosition = Vector3.zero;
         mortarAim.SetActive(stationary);
+        previousAimPosition = mortarAim.transform.position;
     }
 
     public void Exit()

@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
             Vector3 dir = Quaternion.AngleAxis(angle, transform.forward) * transform.right;
             transform.Translate(dir * speed * Time.fixedDeltaTime);
             Ray ray = new Ray(transform.position, dir);
-            RaycastHit[] rayHit = Physics.RaycastAll(ray,0.1f);
+            RaycastHit[] rayHit = Physics.RaycastAll(ray,0.2f);
            foreach (RaycastHit hit in rayHit)
             { 
                 if (hit.collider.CompareTag("Target"))
