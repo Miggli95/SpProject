@@ -33,6 +33,7 @@ public class Ghost : MonoBehaviour
     public bool stationary = false;
     public GameObject mortarAim;
     public GameObject projectile;
+    public GameObject mortarTarget;
     public float shootAngle;
     bool shoot = false;
 
@@ -52,6 +53,11 @@ public class Ghost : MonoBehaviour
             else if (transform.GetChild(i).gameObject.name == "MortarProjectile")
             {
                 projectile = transform.GetChild(i).gameObject;
+            }
+
+            else if (transform.GetChild(i).gameObject.name == "MortarTarget")
+            {
+                mortarTarget = transform.GetChild(i).gameObject;
             }
         }
     }
@@ -124,7 +130,7 @@ public class Ghost : MonoBehaviour
 
         if (triggerInput > 0)
         {
-            shoot = true;
+            MortarShoot();
             stationary = false;
         }
     }
@@ -156,11 +162,14 @@ public class Ghost : MonoBehaviour
             speed = Speed;
         }
 
-        shootAngle = angle;
-        projectile.SetActive(true);
-        projectile.transform.rotation = transform.GetComponent<AimAssist>().rotation;
-        Vector3 dir = Quaternion.AngleAxis(shootAngle, transform.forward) * transform.right;
-        projectile.transform.Translate(dir * speed*Time.fixedDeltaTime);
+        //shootAngle = angle;
+        GameObject target = Instantiate(mortarTarget, mortarAim.transform.position, new Quaternion());
+        target.SetActive(true);
+        GameObject bullet = Instantiate(projectile,transform.position,new Quaternion());
+        Quaternion rotation = transform.GetComponent<AimAssist>().rotation;
+        bullet.GetComponent<Projectile>().Shoot(angle, projectileSpeed, rotation, target.GetComponent<Target>());
+        bullet.SetActive(true);
+        target.GetComponent<Target>().setProjectile(bullet.GetComponent<Projectile>());
 }
 
     public void FixedUpdate()
@@ -168,10 +177,10 @@ public class Ghost : MonoBehaviour
         if (charController == null)
             return;
 
-        if (shoot)
+        /*if (shoot)
         {
             MortarShoot();
-        }
+        }*/
 
         if (stationary)
         {

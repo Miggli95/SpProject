@@ -22,7 +22,7 @@ public class AimAssist : MonoBehaviour
             aim = GetComponent<Ghost>().mortarAim;
         }
 
-        Vector3 aimPos = aim.transform.position;
+        Vector3 aimPos = Camera.main.WorldToScreenPoint(aim.transform.position);
         Vector3 origin = Camera.main.WorldToScreenPoint(transform.position);//kanske vara parent transform
         aimPos.x = aimPos.x - origin.x;
         aimPos.y = aimPos.y - origin.y;
