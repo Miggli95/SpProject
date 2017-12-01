@@ -5,6 +5,7 @@ using PickUp;
 public class do_SpiderBomb : pickUpDisruptiveObject {
 
     private Controller2D player;
+    private List<Controller2D> players;
     public float timer;
     public float fuse;
     public float throwX;
@@ -15,6 +16,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 	void Start () {
         base.Initialize();
         fuseLit = false;
+        players = new List<Controller2D>();
 	}
 	
 	// Update is called once per frame
@@ -27,6 +29,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
                 player.forceDrop();
             var obj = Instantiate(SlowZone, this.transform.position, this.transform.rotation);
             obj.GetComponent<SlowZone>().Spawn(5f);
+            clearFocus();
             Destroy(this.gameObject);
         }
         else
@@ -36,6 +39,12 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 
 
 	}
+
+    private void clearFocus()
+    {
+        foreach (Controller2D p in players)
+            p.removePickUpFocus(this);
+    }
 
     public override bool Use(Controller2D player)
     {
@@ -61,13 +70,23 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 
     public override void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other);
         if(state != pickUpState.PickedUp && fuseLit && other.CompareTag("Player"))
         {
             var obj = Instantiate(SlowZone, this.transform.position, this.transform.rotation);
             obj.GetComponent<SlowZone>().Spawn(5f);
             Destroy(this.gameObject);
+        } else if(other.CompareTag("Player"))
+        {
+            base.OnTriggerEnter(other);
+            players.Add(other.GetComponent<Controller2D>());
         }
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+        if (other.CompareTag("Player"))
+            players.Remove(other.GetComponent<Controller2D>());
     }
 
     public override void Drop()
