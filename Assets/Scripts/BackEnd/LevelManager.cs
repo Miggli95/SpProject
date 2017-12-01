@@ -10,21 +10,18 @@ public class LevelManager : MonoBehaviour
     public GameObject timerText;
     private int level = 0;
     private string[] levelorder = { "CharacterControllerDevelopmentScene", "Level4(24x16) 1" };
-    private GameObject[] players;
+    List<GameObject> players;
     private int livingPlayers;
     private GameObject deadPlayer;
+    private bool dontcheckplayers = true;
 
     void Awake()
     {
-        if (instance == null)
-            instance = this;
 
-        else if (instance != this)
-
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
-
+        players = new List<GameObject> { };
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++) {
+            players.Add(GameObject.FindGameObjectsWithTag("Player")[i]);
+        }
         InitGame();
     }
 
@@ -38,12 +35,14 @@ public class LevelManager : MonoBehaviour
 
     public void startLevel()
     {
-
-        //loadlevelstuff
-        players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
-        players = GameObject.FindGameObjectsWithTag("Player");
-        
-        livingPlayers = players.Length;
+        players.Clear();
+        timerText = GameObject.FindGameObjectsWithTag("UICamera")[0];
+        players = new List<GameObject> { };
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
+        {
+            players.Add(GameObject.FindGameObjectsWithTag("Player")[i]);
+        }
+        livingPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
         switch (SceneManager.GetActiveScene().name)
         {
             case "Hub(24x16)":
@@ -56,7 +55,7 @@ public class LevelManager : MonoBehaviour
                 timerText.GetComponent<Timer>().setInstuctions("Dance Party");
                 timerText.GetComponent<Timer>().setTimer(60f);
                 break;
-            case "Level4(24x16) 1":
+            case "Level4(36x18) 1":
                 timerText.SetActive(true);
                 timerText.GetComponent<Timer>().timerActive(true);
                 timerText.GetComponent<Timer>().setInstuctions("Drink the potions!");
@@ -74,19 +73,21 @@ public class LevelManager : MonoBehaviour
                 timerText.GetComponent<Timer>().setInstuctions("Feed the bear!");
                 timerText.GetComponent<Timer>().setTimer(60f);
                 break;
+            case "Level7(BigxSmaller)":
+                timerText.SetActive(true);
+                timerText.GetComponent<Timer>().timerActive(true);
+                timerText.GetComponent<Timer>().setInstuctions("Keep the grimoire away from the others!");
+                timerText.GetComponent<Timer>().setTimer(60f);
+                break;
         }
-        if (SceneManager.GetActiveScene().name == "Level5(24x16)")
-        {
-            timerText.GetComponent<Timer>().setInstuctions("We Spinnin");
-        }
-
+        dontcheckplayers = false;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            SceneManager.LoadScene("Hub(24x16)");
+            loadNextLevel();
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
@@ -97,51 +98,60 @@ public class LevelManager : MonoBehaviour
             SceneManager.LoadScene("ControllTestLevel");
         }
         int i = 0;
-        foreach (GameObject p in players)
+        if (!dontcheckplayers)
         {
-            if (p.GetComponent<Controller2D>().getAlive())
+            foreach (GameObject p in players)
             {
-                i++;
+                if (p.GetComponent<Controller2D>().getAlive())
+                {
+                    i++;
+                }
+                else
+                {
+                    deadPlayer = p;
+                }
             }
-            else
+            if (i < livingPlayers)
             {
-                deadPlayer = p;
+                timerText.GetComponent<Timer>().playerDied();
+                livingPlayers = i;
+                //doscoreboardshit(deadPlayer)
             }
-        }
-        if(i < livingPlayers)
-        {
-            timerText.GetComponent<Timer>().playerDied();
-            livingPlayers = i;
-            //doscoreboardshit(deadPlayer)
-        }
-        if (i == 1)
-        {
-            print("you did die");
-            loadNextLevel();
+            if (i == 1)
+            {
+                print("you did die");
+                loadNextLevel();
+            }
         }
     }
     public void loadNextLevel()
     {
 
-       
+        players.Clear();
+        dontcheckplayers = true;
 
         if (SceneManager.GetActiveScene().name == "Hub(24x16)")
         {
-            SceneManager.LoadScene("ControllTestLevel");
+            SceneManager.LoadScene("Level4(36x18) 1");
         }
-        if (SceneManager.GetActiveScene().name == "Level4(24x16) 1")
+        if (SceneManager.GetActiveScene().name == "Level4(36x18) 1")
         {
             SceneManager.LoadScene("ControllTestLevel");
         }
         if (SceneManager.GetActiveScene().name == "ControllTestLevel")
         {
-            SceneManager.LoadScene("Level4(24x16) 1");
+            SceneManager.LoadScene("Level7(BigxSmaller)");
+        }
+        if(SceneManager.GetActiveScene().name== "Level7(BigxSmaller)")
+        {
+            SceneManager.LoadScene("Hub(24x16)");
         }
 
         timerText.GetComponent<Timer>().setInstuctions("");
+
         startLevel();
     }
-    public GameObject[] getPlayers()
+    public List<GameObject> getPlayers()
     {
         return players;
     }
