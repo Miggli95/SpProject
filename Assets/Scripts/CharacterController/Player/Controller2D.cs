@@ -250,7 +250,7 @@ public class Controller2D : MonoBehaviour
         {
             triggerInput =  keyManager.getTriggerInput(this.name, consoleControlls);
         }
-      //  print("console " + consoleControlls + " triggerInput " + triggerInput);
+ 
         return triggerInput;
     }
     bool updateGrounded = false;
@@ -502,16 +502,21 @@ public class Controller2D : MonoBehaviour
 
         if (charInput.y < onewayPlatformIndex)
         {
-
-            if (onOneWay || onPlayerHead)
+            if (bottom.collider != null)
             {
-                jumpDir = (int)JumpDir.JumpDown;
+                if (bottom.collider.CompareTag("One Way") || onPlayerHead)
+                {
+                    jumpDir = (int)JumpDir.JumpDown;
+                }
+
+                else
+                {
+                    jumpDir = (int)JumpDir.JumpUp;
+                }
+
+
             }
 
-            else
-            {
-                jumpDir = (int)JumpDir.JumpUp;
-            }
         }
         else
         {
@@ -524,9 +529,7 @@ public class Controller2D : MonoBehaviour
             if (jumpDir == (int)JumpDir.JumpDown)
             {
                 jumpDown = true;
-
-               if(bottom.collider.CompareTag("One way"))
-                Physics.IgnoreCollision(controller,bottom.collider);
+                Physics.IgnoreCollision(controller, bottom.collider);
             }
         }
         if (jumpTimerDelay > 0 && !Grounded)
