@@ -22,8 +22,8 @@ public class BearMouthZone : MonoBehaviour
 
         if (other.GetType() == typeof(CharacterController))
         {
-            CameraScript camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
-            camera.RemovePlayer(other.gameObject.name);
+           // CameraScript camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
+           // camera.RemovePlayer(other.gameObject.name);
 
             if (other.GetComponent<Controller2D>().getAlive())
             {
