@@ -48,13 +48,15 @@ public class ControllerKeyManager : MonoBehaviour {
                         {
                             a.JumpKey = KeyCode.Joystick1Button0;
 
-                            a.DashKey = KeyCode.Joystick1Button5;
+                            //a.DashKey = KeyCode.Joystick1Button5;
 
                             a.InteractKey = KeyCode.Joystick1Button3;
 
                             a.PickUpKey = KeyCode.Joystick1Button2;
                             a.UseKey = KeyCode.Joystick1Button1;
-                            a.DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
+                            //a.DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
+                            a.CycleLeftKey = KeyCode.Joystick1Button4;
+                            a.CycleRightKey = KeyCode.Joystick1Button5;
                             XBOX = true;
                         }
 
@@ -62,13 +64,15 @@ public class ControllerKeyManager : MonoBehaviour {
                         {
                             a.JumpKey = KeyCode.Joystick1Button1;
 
-                            a.DashKey = KeyCode.Joystick1Button7;
+                            //a.DashKey = KeyCode.Joystick1Button7;
 
                             a.InteractKey = KeyCode.Joystick1Button3;
 
                             a.PickUpKey = KeyCode.Joystick1Button0;
                             a.UseKey = KeyCode.Joystick1Button2;
-                            a.DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
+                            //a.DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
+                            a.CycleLeftKey = KeyCode.Joystick1Button4;
+                            a.CycleRightKey = KeyCode.Joystick1Button7;
                         }
 
                     }
@@ -83,26 +87,30 @@ public class ControllerKeyManager : MonoBehaviour {
                         {
                             a.JumpKey = KeyCode.Joystick2Button0;
 
-                            a.DashKey = KeyCode.Joystick2Button5;
+                            //a.DashKey = KeyCode.Joystick2Button5;
 
                             a.InteractKey = KeyCode.Joystick2Button3;
 
                             a.PickUpKey = KeyCode.Joystick2Button2;
                             a.UseKey = KeyCode.Joystick2Button1;
-                            a.DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                            //a.DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                            a.CycleLeftKey = KeyCode.Joystick2Button4;
+                            a.CycleRightKey = KeyCode.Joystick2Button5;
                             XBOX = true;
                         }
                         else if (controllers[1].ToUpper().Contains("WIRELESS"))
                         {
                             a.JumpKey = KeyCode.Joystick2Button1;
 
-                            a.DashKey = KeyCode.Joystick2Button7;
+                            //a.DashKey = KeyCode.Joystick2Button7;
 
                             a.InteractKey = KeyCode.Joystick2Button3;
 
                             a.PickUpKey = KeyCode.Joystick2Button0;
                             a.UseKey = KeyCode.Joystick2Button2;
-                            a.DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                            //a.DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
+                            a.CycleLeftKey = KeyCode.Joystick2Button4;
+                            a.CycleRightKey = KeyCode.Joystick2Button7;
                         }
                     }
                     break;
@@ -113,26 +121,30 @@ public class ControllerKeyManager : MonoBehaviour {
                         {
                             a.JumpKey = KeyCode.Joystick3Button0;
 
-                            a.DashKey = KeyCode.Joystick3Button5;
+                            //a.DashKey = KeyCode.Joystick3Button5;
 
                             a.InteractKey = KeyCode.Joystick3Button3;
 
                             a.PickUpKey = KeyCode.Joystick3Button2;
                             a.UseKey = KeyCode.Joystick3Button1;
-                            a.DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
+                            //a.DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
+                            a.CycleLeftKey = KeyCode.Joystick3Button4;
+                            a.CycleRightKey = KeyCode.Joystick3Button5;
                             XBOX = true;
                         }
                         else if (controllers[2].ToUpper().Contains("WIRELESS"))
                         {
                             a.JumpKey = KeyCode.Joystick3Button1;
 
-                            a.DashKey = KeyCode.Joystick3Button7;
+                            //a.DashKey = KeyCode.Joystick3Button7;
 
                             a.InteractKey = KeyCode.Joystick3Button3;
 
                             a.PickUpKey = KeyCode.Joystick3Button0;
                             a.UseKey = KeyCode.Joystick3Button2;
-                            a.DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
+                            //a.DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
+                            a.CycleLeftKey = KeyCode.Joystick3Button4;
+                            a.CycleRightKey = KeyCode.Joystick3Button7;
                         }
                     }
                     break;
@@ -144,26 +156,30 @@ public class ControllerKeyManager : MonoBehaviour {
                         {
                             a.JumpKey = KeyCode.Joystick4Button0;
 
-                            a.DashKey = KeyCode.Joystick4Button5;
+                            //a.DashKey = KeyCode.Joystick4Button5;
 
                             a.InteractKey = KeyCode.Joystick4Button3;
 
                             a.PickUpKey = KeyCode.Joystick4Button2;
                             a.UseKey = KeyCode.Joystick4Button1;
-                            a.DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
+                            //a.DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
+                            a.CycleLeftKey = KeyCode.Joystick4Button4;
+                            a.CycleRightKey = KeyCode.Joystick4Button5;
                             XBOX = true;
                         }
                         else if (controllers[3].ToUpper().Contains("WIRELESS"))
                         {
                             a.JumpKey = KeyCode.Joystick4Button1;
 
-                            a.DashKey = KeyCode.Joystick4Button7;
+                            //a.DashKey = KeyCode.Joystick4Button7;
 
                             a.InteractKey = KeyCode.Joystick4Button3;
 
                             a.PickUpKey = KeyCode.Joystick4Button0;
                             a.UseKey = KeyCode.Joystick4Button2;
-                            a.DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
+                            //a.DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
+                            a.CycleLeftKey = KeyCode.Joystick4Button4;
+                            a.CycleRightKey = KeyCode.Joystick4Button7;
                         }
                     }
                     break;

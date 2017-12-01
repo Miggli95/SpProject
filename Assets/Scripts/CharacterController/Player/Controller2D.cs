@@ -32,6 +32,9 @@ public class Controller2D : MonoBehaviour
     public KeyCode PickUpKey;
     [HideInInspector]
     public KeyCode UseKey;
+    [HideInInspector]
+    public KeyCode CycleLeftKey;
+    public KeyCode CycleRightKey;
     public Vector2 charInput;
     public float triggerInput;
     [HideInInspector]
@@ -544,7 +547,7 @@ public class Controller2D : MonoBehaviour
         }
 
         checkAction();
-        cyclePickUpSelected(Mathf.RoundToInt(Input.GetAxis("itemCycle")));
+        cyclePickUpSelected(CheckBumper());
         updateCarryPos(this.transform.position);
 
         if (canMoveTimer > 0)
@@ -723,12 +726,12 @@ public class Controller2D : MonoBehaviour
     {
         if (i == 0)
         {
-            cycleButtonUp = true;
+            //cycleButtonUp = true;
             return;
         }
-        if (!cycleButtonUp)
+        /*if (!cycleButtonUp)
             return;
-        cycleButtonUp = false;
+        cycleButtonUp = false;*/
         if (PickUpFocusList.Count == 0)
         {
             return;
@@ -844,6 +847,16 @@ public class Controller2D : MonoBehaviour
     public IInteractable GetInteractable()
     {
         return InteractFocus;
+    }
+
+    private int CheckBumper()
+    {
+        if (Input.GetKeyDown(CycleLeftKey))
+            return -1;
+        if (Input.GetKeyDown(CycleRightKey))
+            return 1;
+
+        return 0;
     }
 
 }
