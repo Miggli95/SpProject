@@ -72,31 +72,34 @@ public struct DashState : ICharacterState
 
     void DashCollision()
     {
-        RaycastHit rayhit;
+        RaycastHit[] rayhit;
+        Ray right = new Ray(controller.transform.position, Vector3.right);
+        Ray left = new Ray(controller.transform.position, Vector3.left);
+
         if (controller.dashInput.x > 0)
         {
-            if (Physics.Raycast(controller.transform.position, Vector3.right, out rayhit))
+            rayhit = Physics.RaycastAll(right, 0.5f);
+            foreach (RaycastHit hit in rayhit)
             {
-                if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove() && rayhit.collider.GetComponent<Controller2D>() != controller)
-                {
-                    rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
-                    rayhit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
-                }
+                    if (hit.collider.tag == "Player" && hit.distance < 0.4f && hit.collider is CapsuleCollider && hit.collider.GetComponent<Controller2D>().canCMove() && hit.collider.GetComponent<Controller2D>() != controller)
+                    {
+                        hit.collider.GetComponent<Controller2D>().stopMove(1.0f);
+                        hit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
+                    }
             }
         }
 
         else
         {
-            if (Physics.Raycast(controller.transform.position, Vector3.left, out rayhit))
-            {
-                if (rayhit.collider.tag == "Player" && rayhit.distance < 0.4f && rayhit.collider is CapsuleCollider && rayhit.collider.GetComponent<Controller2D>().canCMove() && rayhit.collider.GetComponent<Controller2D>() != controller)
-                {
+            rayhit = Physics.RaycastAll(left, 0.5f);
+            foreach (RaycastHit hit in rayhit)
+                    if (hit.collider.tag == "Player" && hit.distance < 0.4f && hit.collider is CapsuleCollider && hit.collider.GetComponent<Controller2D>().canCMove() && hit.collider.GetComponent<Controller2D>() != controller)
                     {
-                        rayhit.collider.GetComponent<Controller2D>().stopMove(1.0f);
-                        rayhit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
+                        {
+                            hit.collider.GetComponent<Controller2D>().stopMove(1.0f);
+                            hit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
+                        }
                     }
-                }
-            }
         }
     }
 
