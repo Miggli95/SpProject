@@ -320,6 +320,7 @@ public class Ghost : MonoBehaviour
     public void MortarState()
     {
         stationary = true;
+        mortarAim.transform.localPosition = Vector3.zero;
         mortarAim.SetActive(stationary);
     }
 
