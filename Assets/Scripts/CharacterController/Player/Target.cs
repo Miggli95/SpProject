@@ -21,15 +21,18 @@ public class Target : MonoBehaviour
         this.projectile = projectile;
     }
 
-    void OnTriggerEnter(Collider other)
+    public void ReachedTarget(GameObject other)
     {
-        print("other " + other.gameObject.name + "projectile " + projectile.gameObject.name);
-        if (other.gameObject.name == projectile.gameObject.name)
+        if (projectile != null)
         {
-            targetReached = true;
-            //Spawn Bomb stuff
-            Destroy(projectile.gameObject);
-            Destroy(gameObject);
+            print("other " + other.gameObject.name + "projectile " + projectile.gameObject.name);
+            if (other.GetComponent<Projectile>() == projectile)
+            {
+                targetReached = true;
+                //Spawn Bomb stuff
+                Destroy(projectile.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }
