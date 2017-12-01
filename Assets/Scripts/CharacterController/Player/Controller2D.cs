@@ -97,6 +97,7 @@ public class Controller2D : MonoBehaviour
     public Ghost ghost;
     public bool jumping = false;
     bool onOneWay = false;
+    private float selectedSpeed;
     List<GameObject> oneways = new List<GameObject>();
 
     private ICharacterState GetInitialCharacterState()
@@ -163,7 +164,7 @@ public class Controller2D : MonoBehaviour
             Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<CharacterController>(), true);
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CharacterController>(), true);
         }
-
+        selectedSpeed = speed;
     }
 
     public float Smooth(float target, ref float currentValue, float accelerationTime, float deaccelrationTime)
@@ -257,7 +258,7 @@ public class Controller2D : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        
         if (isGhost)
         {
             ghost.FixedUpdate();
@@ -432,6 +433,15 @@ public class Controller2D : MonoBehaviour
         {
             moveDir.x = 0;
             //dashDestination.x = 0;
+        }
+        if (canMove)
+        {
+            speed = selectedSpeed;
+
+        }
+        else
+        {
+            speed = 0;
         }
         //print("velocity" + controller.velocity); 
         if (transform.position.z != startZ)
