@@ -51,6 +51,7 @@ public class Ghost : MonoBehaviour
             if (transform.GetChild(i).gameObject.name == "MortarAim")
             {
                 mortarAim = transform.GetChild(i).gameObject;
+                preview = Instantiate(mortarAim.transform);
             }
 
             else if (transform.GetChild(i).gameObject.name == "MortarProjectile")
@@ -64,7 +65,7 @@ public class Ghost : MonoBehaviour
             }
         }
 
-        preview = Instantiate(mortarAim.transform);
+        
     }
 
     // Use this for initialization
