@@ -11,12 +11,18 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
     public float throwX;
     public float throwY;
     private bool fuseLit;
+    private float gracePeriod;
+    private float graceTimer;
+    private bool grace;
     public GameObject SlowZone;
 	
 	void Start () {
         base.Initialize();
         fuseLit = false;
         players = new List<Controller2D>();
+        gracePeriod = 0.3f;
+        graceTimer = 0f;
+        grace = false;
 	}
 	
 	// Update is called once per frame
@@ -37,6 +43,17 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
             timer -= Time.deltaTime;
         }
 
+        if (!grace)
+            return;
+        if(graceTimer >= gracePeriod)
+        {
+            grace = false;
+        }
+        else
+        {
+            graceTimer += Time.deltaTime;
+        }
+
 
 	}
 
@@ -48,10 +65,19 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 
     public override bool Use(Controller2D player)
     {
-        state = pickUpState.Used;
-        var ren = player.GetComponent<SpriteRenderer>();
-        int dir = ren.flipX ? 1 : -1;
-        KnockAway(new Vector3(throwX * dir, throwY));
+        if (player.charInput.y < 0)
+        {
+            player.forceDrop();
+            state = pickUpState.Used;
+        }
+        else
+        {
+            grace = true;
+            state = pickUpState.Used;
+            var ren = player.GetComponent<SpriteRenderer>();
+            int dir = ren.flipX ? 1 : -1;
+            KnockAway(new Vector3(throwX * dir, throwY));
+        }
         return false;
     }
 
@@ -72,6 +98,8 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
     {
         if(state != pickUpState.PickedUp && fuseLit && other.CompareTag("Player"))
         {
+            if (grace && other.GetComponent<Controller2D>() == player)
+                return;
             var obj = Instantiate(SlowZone, this.transform.position, this.transform.rotation);
             obj.GetComponent<SlowZone>().Spawn(5f);
             Destroy(this.gameObject);
