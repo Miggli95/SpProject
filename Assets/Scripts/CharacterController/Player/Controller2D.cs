@@ -46,7 +46,7 @@ public class Controller2D : MonoBehaviour
     private float t;
     public float speed = 2;
     public Vector3 moveDir;
-    private RaycastHit topHit;
+    private RaycastHit[] topHit;
     public float stickToGrouncForce = 1;
     public float BounceDownOnRoof = 0.1f;
     public float gravityMultiplier = 1;
@@ -65,7 +65,7 @@ public class Controller2D : MonoBehaviour
     public float airDeaccelrationTime = 1.6f;
     // public Vector3 dashDestination;
     public float bottomRayLength = 0.08f;
-    RaycastHit bottom;
+    RaycastHit[] bottom;
     public bool canJump = true;
     private IInteractable InteractFocus;
     private IPickUp PickUpFocus;
@@ -95,7 +95,10 @@ public class Controller2D : MonoBehaviour
     public bool XBOX = false;
     public Vector2 dashInput;
     public Ghost ghost;
-    bool jumping = false;
+    public bool jumping = false;
+    bool onOneWay = false;
+    List<GameObject> oneways = new List<GameObject>();
+
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -179,30 +182,40 @@ public class Controller2D : MonoBehaviour
     void Rays()
     {
 
-        topHit = new RaycastHit();
-        bottom = new RaycastHit();
-
-        if (Physics.SphereCast(transform.position, controller.radius, Vector3.up, out topHit,
-          BounceDownOnRoof, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-        {
-            if (!topHit.collider.CompareTag("One Way") && !topHit.collider.CompareTag("Player"))
+        //topHit = new RaycastHit();
+        //bottom = new RaycastHit();
+        Ray topRay = new Ray(transform.position, Vector3.up);
+        topHit = Physics.RaycastAll(topRay, controller.height);
+        //if (Physics.SphereCast(transform.position, controller.radius, Vector3.up, out topHit,
+         // BounceDownOnRoof, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        //{
+        foreach (RaycastHit hit in topHit)
+        { 
+            if (!hit.collider.CompareTag("One Way") && !hit.collider.CompareTag("Player"))
             {
                 moveDir.y = -1;
             }
 
             else
             {
-                Physics.IgnoreCollision(controller, topHit.collider, true);
+                Physics.IgnoreCollision(controller, hit.collider, true);
             }
         }
 
-        if (Physics.SphereCast(transform.position, controller.radius, Vector3.down, out bottom,
-     controller.height, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        Ray bottomRay = new Ray(transform.position, Vector3.down);
+        bottom = Physics.RaycastAll(bottomRay, controller.height);
+        // if (Physics.SphereCast(transform.position, controller.radius, Vector3.down, out bottom,
+        //controller.height, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        onOneWay = false;
+        oneways.Clear();
+        foreach (RaycastHit hit in bottom)
         {
-            if (bottom.collider.CompareTag("One Way"))
+            if (hit.collider.CompareTag("One Way"))
             {
+                oneways.Add(hit.collider.gameObject);
+                onOneWay = true;
                 if (jumpDir == (int)JumpDir.JumpUp)
-                    Physics.IgnoreCollision(controller, bottom.collider, false);
+                    Physics.IgnoreCollision(controller, hit.collider, false);
             }
         }
     }
@@ -210,22 +223,25 @@ public class Controller2D : MonoBehaviour
     public bool OnPlayerHead()
     {
         bool onPlayerHead = false;
-        if (bottom.collider != null)
+        if (bottom != null)
         {
-            if (bottom.collider.CompareTag("Player"))
+            foreach (RaycastHit hit in bottom)
             {
-                if (bottom.collider.gameObject.name != gameObject.name)
+                if (hit.collider.CompareTag("Player"))
                 {
-                    float distance = Mathf.Abs(controller.transform.position.y - bottom.collider.transform.position.y);
-                    if (distance <= controller.height * 0.6f)
+                    if (hit.collider.gameObject.name != gameObject.name)
                     {
-                        onPlayerHead = true;
-                        moveDir.y = 0;
+                        float distance = Mathf.Abs(controller.transform.position.y - hit.collider.transform.position.y);
+                        if (distance <= controller.height * 0.6f)
+                        {
+                            onPlayerHead = true;
+                            moveDir.y = 0;
+                        }
+
                     }
 
+
                 }
-
-
             }
         }
 
@@ -328,7 +344,15 @@ public class Controller2D : MonoBehaviour
 
 
         //Rays();
-        onPlayerHead = OnPlayerHead();
+        if (!jumping)
+        {
+            onPlayerHead = OnPlayerHead();
+        }
+
+        else
+        {
+            onPlayerHead = false;
+        }
         if (onPlayerHead)
         {
             if (!jumpDown)
@@ -354,12 +378,14 @@ public class Controller2D : MonoBehaviour
             jumpDown = false;
         }
 
+        if (jumping)
+        {
+            jumping = moveDir.y>0;
+        }
+
         if (Grounded)
         {
-            if (jumping)
-            {
-                jumping = false;
-            }
+           
             jumpTimerDelay = jumpTimer;
             moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
             if (!onPlayerHead)
@@ -406,6 +432,7 @@ public class Controller2D : MonoBehaviour
             savedJumpInputTimer = 0;
 
         }
+
 
         if (boost)
         {
@@ -489,21 +516,16 @@ public class Controller2D : MonoBehaviour
 
         if (charInput.y < onewayPlatformIndex)
         {
-            if (bottom.collider != null)
+
+            if (onOneWay || onPlayerHead)
             {
-                if (bottom.collider.CompareTag("One Way") || onPlayerHead)
-                {
-                    jumpDir = (int)JumpDir.JumpDown;
-                }
-
-                else
-                {
-                    jumpDir = (int)JumpDir.JumpUp;
-                }
-
-
+                jumpDir = (int)JumpDir.JumpDown;
             }
 
+            else
+            {
+                jumpDir = (int)JumpDir.JumpUp;
+            }
         }
         else
         {
@@ -516,7 +538,9 @@ public class Controller2D : MonoBehaviour
             if (jumpDir == (int)JumpDir.JumpDown)
             {
                 jumpDown = true;
-                Physics.IgnoreCollision(controller, bottom.collider);
+
+                foreach(GameObject g in oneways)
+                Physics.IgnoreCollision(controller,g.GetComponent<Collider>());
             }
         }
         if (jumpTimerDelay > 0 && !Grounded)
