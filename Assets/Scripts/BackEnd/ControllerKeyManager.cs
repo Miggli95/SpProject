@@ -7,7 +7,8 @@ public class ControllerKeyManager : MonoBehaviour {
     float horizontal ;
     float vertical;
     float triggerInput;
-
+    private float invertTimer = 0f;
+    private bool invert = false;
     string[] controllers = { "a", "", "", "" };
     // Use this for initialization
     void Start () {
@@ -17,7 +18,14 @@ public class ControllerKeyManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         controllers = Input.GetJoystickNames();
-
+        if (invertTimer > 0)
+        {
+            invertTimer -= Time.deltaTime;
+            if (invertTimer < 0)
+            {
+                invert = false;
+            }
+        }
       /*  for(int i = 0; i< controllers.Length;i++)
         {
             print("name " + controllers[i]);
@@ -222,7 +230,14 @@ public class ControllerKeyManager : MonoBehaviour {
                     break;
             }
         }
-        return new Vector2(horizontal, vertical);
+        if (!invert)
+        {
+            return new Vector2(horizontal, vertical);
+        }
+        else
+        {
+            return new Vector2(-horizontal, -vertical);
+        }
     }
 
     public float getTriggerInput(string s, bool c)
@@ -251,5 +266,10 @@ public class ControllerKeyManager : MonoBehaviour {
         }
 
         return triggerInput;
+    }
+    public void invertControls()
+    {
+        invert = true;
+        invertTimer = 2.0f;
     }
 }

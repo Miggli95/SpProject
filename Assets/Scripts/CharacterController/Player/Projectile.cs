@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
     float angle;
     float speed;
     public bool shoot = false;
+    public GameObject grenade;
     public Target target;
     Quaternion rotation;
 	// Use this for initialization
@@ -40,6 +41,8 @@ public class Projectile : MonoBehaviour
                     if (hit.collider.gameObject.GetComponent<Target>() == target)
                     {
                         target.ReachedTarget(gameObject);
+                        Quaternion r = new Quaternion(0f, 0f, 0f, 0f);
+                        Instantiate(grenade, this.transform.position,r );
                         break;
                     }
                 }
