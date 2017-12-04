@@ -22,7 +22,7 @@ public struct DashState : ICharacterState
 
       
 
-        if (controller.triggerInput > 0 && controller.canCMove())
+        if (controller.triggerInput > 0 && controller.canCMove() && controller.canDash)
         {
             Dash();
             DashCollision();

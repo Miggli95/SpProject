@@ -284,6 +284,11 @@ public class Controller2D : MonoBehaviour
         else
         {
             destination = transform.right * charInput.x;
+            if (charInput.x == 0 && charInput.y == 0)
+            {
+                destination = Vector3.zero;
+            }
+
         }
 
 
@@ -293,11 +298,7 @@ public class Controller2D : MonoBehaviour
         destination = Vector3.ProjectOnPlane(destination, hit.normal).normalized;
 
 
-        if (charInput.x == 0 && charInput.y == 0)
-        {
-            destination = Vector3.zero;
-        }
-
+       
         //new Code
 
 
