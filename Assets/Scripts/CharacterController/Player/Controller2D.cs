@@ -259,6 +259,8 @@ public class Controller2D : MonoBehaviour
     void FixedUpdate()
     {
         
+
+
         if (isGhost)
         {
             ghost.FixedUpdate();
@@ -496,6 +498,16 @@ public class Controller2D : MonoBehaviour
             ChangeCharacterState(charInput, characterStateData);
         }
 
+        if (canMoveTimer > 0)
+        {
+            canMoveTimer = canMoveTimer - Time.deltaTime;
+            if (canMoveTimer <= 0)
+            {
+                canMove = true;
+                this.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+
         if (isGhost)
         {
             ghost.GhostUpdate(charInput, triggerInput);
@@ -574,15 +586,7 @@ public class Controller2D : MonoBehaviour
         cyclePickUpSelected(CheckBumper());
         updateCarryPos(this.transform.position);
 
-        if (canMoveTimer > 0)
-        {
-            canMoveTimer = canMoveTimer - Time.deltaTime;
-            if (canMoveTimer <= 0)
-            {
-                canMove = true;
-                this.transform.GetChild(0).gameObject.SetActive(false);
-            }
-        }
+        
     }
 
     private void ChangeCharacterState(Vector2 input, CharacterStateData characterStateData)

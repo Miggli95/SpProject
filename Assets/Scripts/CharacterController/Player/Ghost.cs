@@ -204,6 +204,9 @@ public class Ghost : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (!controller2D.canCMove())
+            return;
+
         if (charController == null)
             return;
 
