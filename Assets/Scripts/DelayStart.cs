@@ -5,10 +5,12 @@ using UnityEngine;
 public class DelayStart : MonoBehaviour {
 
     public GameObject countDown;
+    public GameObject InfoT;
+
 	// Use this for initialization
 	void Start () {
         StartCoroutine("DelayStart1");
-		
+        InfoT.gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -23,10 +25,11 @@ public class DelayStart : MonoBehaviour {
             yield return 0;
         countDown.gameObject.SetActive(false);
         Time.timeScale = 1;
-       // print("working");
-        
-         
-        }
+        InfoT.gameObject.SetActive(true);
+        // print("working");
+
+
+    }
 
 
     }
