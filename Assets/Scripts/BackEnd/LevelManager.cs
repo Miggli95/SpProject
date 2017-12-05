@@ -72,6 +72,7 @@ public class LevelManager : MonoBehaviour
                 timerText.GetComponent<Timer>().timerActive(true);
                 timerText.GetComponent<Timer>().setInstuctions("Feed the bear!");
                 timerText.GetComponent<Timer>().setTimer(60f);
+                timerText.GetComponent<Timer>().setStartingPositions();
                 break;
             case "Level7(BigxSmaller)":
                 timerText.SetActive(true);

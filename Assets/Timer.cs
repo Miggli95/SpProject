@@ -164,4 +164,13 @@ public class Timer : MonoBehaviour
     {
         return timer;
     }
+
+    public void setStartingPositions()
+    {
+        Debug.Log("setPositions enter");
+        var scoreSorted = score;
+        Array.Sort(scoreSorted);
+        int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
+        GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setPositions(playerID);
+    }
 }
