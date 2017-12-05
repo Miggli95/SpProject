@@ -59,6 +59,7 @@ public class BearMouthZone : MonoBehaviour
     private void despawnSecond()
     {
         //add more animation/interesting stuff
+
         this.gameObject.SetActive(false);
 
     }
