@@ -237,6 +237,8 @@ public class Controller2D : MonoBehaviour
 
         return onPlayerHead;
     }
+
+    bool rightTriggerDown = false;
     float getTriggerInput()
     {
         float triggerInput = 0;
@@ -254,8 +256,24 @@ public class Controller2D : MonoBehaviour
         {
             triggerInput =  keyManager.getTriggerInput(this.name, consoleControlls);
         }
- 
+
+       
         return triggerInput;
+    }
+
+    bool getRightTriggerDown()
+    {
+        if (triggerInput > 0)
+        {
+            rightTriggerDown = true;
+        }
+
+        else
+        {
+            rightTriggerDown = false;
+        }
+
+        return rightTriggerDown;
     }
     bool updateGrounded = false;
     // Update is called once per frame
@@ -582,6 +600,7 @@ public class Controller2D : MonoBehaviour
 
         else
         {
+            if(!getRightTriggerDown())
             canDash = true;
         }
 

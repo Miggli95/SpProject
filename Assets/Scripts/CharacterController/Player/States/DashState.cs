@@ -84,9 +84,9 @@ public struct DashState : ICharacterState
         Vector3 halfExtent = new Vector3(charController.radius, charController.height / 2, charController.radius);
        
 
-        if (controller.dashInput.x > 0)
+        //if (controller.dashInput.x > 0)
         {
-            rayhit = Physics.BoxCastAll(charController.transform.position + charController.center,halfExtent, Vector3.right,new Quaternion(),charController.radius);
+            rayhit = Physics.BoxCastAll(charController.transform.position + charController.center,halfExtent, controller.dashInput,new Quaternion(),charController.radius);
           
             foreach (RaycastHit hit in rayhit)
             {
@@ -98,7 +98,7 @@ public struct DashState : ICharacterState
             }
         }
 
-        else
+       /* else
         {
             
             rayhit = Physics.BoxCastAll(charController.transform.position + charController.center, halfExtent, Vector3.left, new Quaternion(),charController.radius);
@@ -116,7 +116,7 @@ public struct DashState : ICharacterState
                
             }
         }
-
+        */
         
        
     }
