@@ -100,6 +100,7 @@ public class Controller2D : MonoBehaviour
     private float selectedSpeed;
     private bool isSlowed = false;
     List<GameObject> oneways = new List<GameObject>();
+    GameObject stunP;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -165,6 +166,16 @@ public class Controller2D : MonoBehaviour
             Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<CharacterController>(), true);
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CharacterController>(), true);
         }
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (child.name == "StunP")
+            {
+                stunP = child;
+            }
+        }
+
         selectedSpeed = speed;
     }
 
@@ -527,7 +538,7 @@ public class Controller2D : MonoBehaviour
             if (canMoveTimer <= 0)
             {
                 canMove = true;
-                this.transform.GetChild(0).gameObject.SetActive(false);
+                stunP.gameObject.SetActive(false);
             }
         }
 
@@ -844,7 +855,7 @@ public class Controller2D : MonoBehaviour
         canMove = false;
         velocity.x = 0f;
         moveDir.x = 0f;
-        this.transform.GetChild(0).gameObject.SetActive(true);
+        stunP.gameObject.SetActive(true);
         canMoveTimer = t;
     }
     public bool canCMove()
