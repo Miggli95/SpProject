@@ -46,7 +46,7 @@ public class Controller2D : MonoBehaviour
     private float t;
     public float speed = 2;
     public Vector3 moveDir;
-    private RaycastHit topHit;
+    private RaycastHit[] topHit;
     public float stickToGrouncForce = 1;
     public float BounceDownOnRoof = 0.1f;
     public float gravityMultiplier = 1;
@@ -182,19 +182,22 @@ public class Controller2D : MonoBehaviour
 
     void Rays()
     {
-        if (Physics.SphereCast(transform.position, controller.radius, Vector3.up, out topHit,
-          BounceDownOnRoof, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-        {
-            if (!topHit.collider.CompareTag("One Way") && !topHit.collider.CompareTag("Player"))
+        Ray top = new Ray(controller.transform.position + controller.center, Vector3.up);
+
+        topHit = Physics.RaycastAll(top, controller.height / 2);
+        foreach(RaycastHit hit in topHit)
+        { 
+            if (!hit.collider.CompareTag("One Way") && !hit.collider.CompareTag("Player"))
             {
                 moveDir.y = -1;
             }
 
             else
             {
-                Physics.IgnoreCollision(controller, topHit.collider, true);
+                Physics.IgnoreCollision(controller, hit.collider, true);
             }
         }
+
         if (Physics.SphereCast(transform.position, controller.radius, Vector3.down, out bottom,
         controller.height, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
