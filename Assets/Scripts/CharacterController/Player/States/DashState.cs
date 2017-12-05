@@ -28,7 +28,7 @@ public struct DashState : ICharacterState
             
         }
 
-        if (controller.canCMove() && controller.dash)
+        if (controller.canCMove() && controller.dash && !controller.isGhost) //|| controller.isGhost && controller.GetComponent<Ghost>().dash)
         {
             DashCollision();
         }
@@ -85,7 +85,7 @@ public struct DashState : ICharacterState
        
 
         //if (controller.dashInput.x > 0)
-        {
+        
             rayhit = Physics.BoxCastAll(charController.transform.position + charController.center,halfExtent, controller.dashInput,new Quaternion(),charController.radius);
           
             foreach (RaycastHit hit in rayhit)
@@ -96,7 +96,7 @@ public struct DashState : ICharacterState
                         hit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
                     }
             }
-        }
+        
 
        /* else
         {
