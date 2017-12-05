@@ -16,7 +16,9 @@ public class SlowZone : MonoBehaviour {
             var player = other.GetComponent<Controller2D>();
             players.Add(player);
             Debug.Log("Player entered and added");
+            player.setSlowed(true);
             player.speed = 2;
+
             //slow down player speed
         }
     }
@@ -30,6 +32,7 @@ public class SlowZone : MonoBehaviour {
             {
                 players.Remove(player);
                 Debug.Log("Player exit");
+                player.setSlowed(false);
                 player.speed = 5;
                 //return player speed to normal
             }

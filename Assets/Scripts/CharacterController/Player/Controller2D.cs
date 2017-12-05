@@ -98,6 +98,7 @@ public class Controller2D : MonoBehaviour
     public bool jumping = false;
     bool onOneWay = false;
     private float selectedSpeed;
+    private bool isSlowed = false;
     List<GameObject> oneways = new List<GameObject>();
 
     private ICharacterState GetInitialCharacterState()
@@ -458,12 +459,12 @@ public class Controller2D : MonoBehaviour
             moveDir.x = 0;
             //dashDestination.x = 0;
         }
-        if (canMove)
+        if (canMove && !isSlowed)
         {
             speed = selectedSpeed;
 
         }
-        else
+        else if(!isSlowed)
         {
             speed = 0;
         }
@@ -907,6 +908,10 @@ public class Controller2D : MonoBehaviour
             return 1;
 
         return 0;
+    }
+    public void setSlowed(bool slowed)
+    {
+        isSlowed = slowed;
     }
 
 }
