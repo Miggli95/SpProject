@@ -25,6 +25,11 @@ public struct DashState : ICharacterState
         if (controller.triggerInput > 0 && controller.canCMove() && controller.canDash)
         {
             Dash();
+            
+        }
+
+        if (controller.canCMove() && controller.dash)
+        {
             DashCollision();
         }
 
@@ -75,13 +80,17 @@ public struct DashState : ICharacterState
         RaycastHit[] rayhit;
         Ray right = new Ray(controller.transform.position, Vector3.right);
         Ray left = new Ray(controller.transform.position, Vector3.left);
+        CharacterController charController = controller.getCharController();
+        Vector3 halfExtent = new Vector3(charController.radius, charController.height / 2, charController.radius);
+       
 
         if (controller.dashInput.x > 0)
         {
-            rayhit = Physics.RaycastAll(right, 0.5f);
+            rayhit = Physics.BoxCastAll(charController.transform.position + charController.center,halfExtent, Vector3.right,new Quaternion(),charController.radius);
+          
             foreach (RaycastHit hit in rayhit)
             {
-                    if (hit.collider.tag == "Player" && hit.distance < 0.4f && hit.collider is CapsuleCollider && hit.collider.GetComponent<Controller2D>().canCMove() && hit.collider.GetComponent<Controller2D>() != controller)
+                    if (hit.collider.tag == "Player" && hit.collider.GetComponent<Controller2D>().canCMove() && hit.collider.GetComponent<Controller2D>() != controller)
                     {
                         hit.collider.GetComponent<Controller2D>().stopMove(1.0f);
                         hit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
@@ -91,16 +100,25 @@ public struct DashState : ICharacterState
 
         else
         {
-            rayhit = Physics.RaycastAll(left, 0.5f);
+            
+            rayhit = Physics.BoxCastAll(charController.transform.position + charController.center, halfExtent, Vector3.left, new Quaternion(),charController.radius);
+           
             foreach (RaycastHit hit in rayhit)
-                    if (hit.collider.tag == "Player" && hit.distance < 0.4f && hit.collider is CapsuleCollider && hit.collider.GetComponent<Controller2D>().canCMove() && hit.collider.GetComponent<Controller2D>() != controller)
+            {
+                if (hit.collider.tag == "Player" && hit.collider.GetComponent<Controller2D>().canCMove() && hit.collider.GetComponent<Controller2D>() != controller)
+                {
                     {
-                        {
-                            hit.collider.GetComponent<Controller2D>().stopMove(1.0f);
-                            hit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
-                        }
+                        hit.collider.GetComponent<Controller2D>().stopMove(1.0f);
+                        hit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
                     }
+                }
+
+               
+            }
         }
+
+        
+       
     }
 
     void Dash()
