@@ -28,5 +28,11 @@ public class JailZone : MonoBehaviour {
             }
             //other.transform.position = 
         }
+        if (other.GetType() == typeof(CharacterController) && this.name == "GhostBox")
+        {
+                    other.GetComponent<Controller2D>().Spawn(new Vector3(5f, 9f, 0));
+                    
+            //other.transform.position = 
+        }
     }
 }
