@@ -69,7 +69,7 @@ public class do_Door : staticDisruptiveObject {
     private void Open() //call animation event
     {
         Door.transform.Rotate(new Vector3(0, 90));
-        grace.transform.Rotate(new Vector3(0, 90));
+        //grace.transform.Rotate(new Vector3(0, 90));
         DoorCol.enabled = false;
         state = InteractableState.Enabled;
         isInteracted = false;
@@ -85,7 +85,7 @@ public class do_Door : staticDisruptiveObject {
     {
         DoorCol.enabled = true;
         Door.transform.Rotate(new Vector3(0, -90));
-        grace.transform.Rotate(new Vector3(0, -90));
+        //grace.transform.Rotate(new Vector3(0, -90));
         state = InteractableState.Interacted;
     }
 
