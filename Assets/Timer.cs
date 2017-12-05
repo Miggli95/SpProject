@@ -9,6 +9,7 @@ public class Timer : MonoBehaviour
     /*private string[] players = new string[] { "Player 1", "Player2", "Player 3", "Player 4" };
     private int[] highscoreValues;*/
     public static Timer instanceT = null;
+    public LevelManager manager;
     private bool active = true;
     public Text counterText;
     public Text[] scoreBoard;
@@ -49,14 +50,23 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (active)
             counterText.text = levelInstructions + "\n" + (int)timer;
+        else
+            counterText.text = levelInstructions;
         timer = timer - Time.deltaTime;
-        //displayScore();
-        
+        if (timer < 0 && active == true)
+        {
+            manager.loadNextLevel();
+        }
 
-
+    //displayScore();
     }
+    public void updateManager(LevelManager newM)
+    {
+        manager = newM;
+    }
+
     public void setInstuctions(string s)
     {
         levelInstructions = s;
@@ -173,4 +183,24 @@ public class Timer : MonoBehaviour
         int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
         GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setPositions(playerID);
     }
+    public void doAlch(string player)
+    {
+        print(manager.getAlive());
+        switch (manager.getAlive())
+        {
+            case 4:
+                runeGet(player, 30);
+                break;
+            case 3:
+                runeGet(player, 20);
+                break;
+            case 2:
+                runeGet(player, 10);
+                break;
+            case 1:
+                manager.loadNextLevel();
+                break;
+        }
+
+    } 
 }

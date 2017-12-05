@@ -37,6 +37,7 @@ public class LevelManager : MonoBehaviour
     {
         players.Clear();
         timerText = GameObject.FindGameObjectsWithTag("UICamera")[0];
+        timerText.GetComponent<Timer>().updateManager(this);
         players = new List<GameObject> { };
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
         {
@@ -48,7 +49,7 @@ public class LevelManager : MonoBehaviour
             case "Hub(24x16)":
 
                 timerText.GetComponent<Timer>().setInstuctions("Press A to Jump" + "\n" + "Press X to Pick Up" + "\n" + "Press Y to interact");
-                //timerText.GetComponent<Timer>().timerActive(false);
+                timerText.GetComponent<Timer>().timerActive(false);
                 break;
             case "CharacterControllerDevelopmentScene":
                 timerText.GetComponent<Timer>().timerActive(true);
@@ -155,5 +156,9 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> getPlayers()
     {
         return players;
+    }
+    public int getAlive()
+    {
+        return livingPlayers;
     }
 }

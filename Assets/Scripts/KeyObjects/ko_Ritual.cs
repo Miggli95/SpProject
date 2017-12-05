@@ -6,9 +6,11 @@ public class ko_Ritual : StaticKeyObject {
 
     public List<string> potions;
     public string requiredPlayer;
+    private Timer timmy;
 
     public void Start()
     {
+        timmy = GameObject.Find("UI Camera").GetComponent<Timer>();
         base.Initialize("Ritual", potions, InteractableState.Enabled);
     }
 
@@ -26,7 +28,9 @@ public class ko_Ritual : StaticKeyObject {
         if(requirement == null || requirement.Count == 0)
         {
             flagComplete();
+            timmy.doAlch(player.name);
             interactingPlayer.doDeath();
+
         }
         else
         {
