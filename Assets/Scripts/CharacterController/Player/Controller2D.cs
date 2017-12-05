@@ -373,6 +373,7 @@ public class Controller2D : MonoBehaviour
             }
             else
             {
+                onPlayerHead = false;
                 Grounded = controller.isGrounded;
                 //onPlayerHead = false;
                 jumpDown = !controller.isGrounded;
@@ -574,6 +575,7 @@ public class Controller2D : MonoBehaviour
             if (jumpDir == (int)JumpDir.JumpDown)
             {
                 jumpDown = true;
+
                 Physics.IgnoreCollision(controller, bottom.collider);
             }
         }
