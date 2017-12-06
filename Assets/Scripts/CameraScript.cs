@@ -19,12 +19,19 @@ public class CameraScript : MonoBehaviour
     Vector2 aspectRatio;
     bool updateCamera = false;
     public int size = 0;
+    public float maximumSize;
+    public bool killCamera;
+    public Rect cameraView; 
     // Use this for initialization
     void Start()
     {
         minX = float.MaxValue;
         maxX = float.MinValue;
         camera = GetComponent<Camera>();
+        var height = camera.orthographicSize * 2;
+        var width = height * camera.aspect;
+        cameraView = new Rect(0, 0, width, height);
+        cameraView.center = transform.position;
         target = transform.position;
         originalSize = camera.orthographicSize;
         if (minSize == 0)
@@ -35,6 +42,7 @@ public class CameraScript : MonoBehaviour
         size = players.Length;
     }
 
+    
     public bool Contains(string name,GameObject[] array)
     {
         foreach (GameObject g in array)
@@ -97,6 +105,25 @@ public class CameraScript : MonoBehaviour
         return success;
     }
 
+    void KillCamera(float newSize, float offset)
+    {
+        var height = camera.orthographicSize * 2;
+        var width = height * camera.aspect;
+        cameraView = new Rect(0, 0, width, height);
+        cameraView.center = transform.position;
+
+
+        foreach (GameObject player in players)
+        {
+            Vector2 pos = new Vector2(player.transform.position.x, player.transform.position.y);
+            if (!cameraView.Contains(pos))
+            {
+                print("remove player");
+                RemovePlayer(player.name);
+            }
+        }
+
+    }
 
     // Update is called once per frame
     bool resetMinX, resetMaxX, resetMinY, resetMaxY;
@@ -168,7 +195,6 @@ public class CameraScript : MonoBehaviour
             offset = offsetSizeY;
         }
 
-
         if (newSize > minSize)
         {
             camera.orthographicSize = Mathf.Abs(Mathf.SmoothStep(camera.orthographicSize, newSize + offset, time));
@@ -179,12 +205,16 @@ public class CameraScript : MonoBehaviour
             camera.orthographicSize = Mathf.Abs(Mathf.SmoothStep(camera.orthographicSize, minSize + offset, time));
         }
 
-
-
         target.y = Mathf.SmoothStep(target.y, (y / players.Length) + offsetY, time);
 
         target.x = Mathf.SmoothStep(target.x, (x / players.Length) + offsetX, time);
         transform.position = target;
+
+
+        if (killCamera)
+        {
+            KillCamera(newSize, offset);
+        }
 
         if (updateCamera)
         {
