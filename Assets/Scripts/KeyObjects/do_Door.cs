@@ -13,6 +13,7 @@ public class do_Door : staticDisruptiveObject {
     public Collider DoorCol;
     private DoorGrace grace;
     private Controller2D player;
+    public bool startClosed;
 	
 	void Start () {
         base.Initialize(true);
@@ -22,6 +23,8 @@ public class do_Door : staticDisruptiveObject {
         DoorCol.enabled = false;
         grace = GetComponentInChildren<DoorGrace>();
         //grace = false;
+        if (startClosed)
+            Close();
 	}
 
     public override bool Interact(Controller2D player)

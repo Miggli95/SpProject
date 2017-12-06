@@ -177,7 +177,6 @@ public class Timer : MonoBehaviour
 
     public void setStartingPositions()
     {
-        Debug.Log("setPositions enter");
         var scoreSorted = score;
         Array.Sort(scoreSorted);
         int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
@@ -203,4 +202,12 @@ public class Timer : MonoBehaviour
         }
 
     } 
+
+    public void setGrimoire()
+    {
+        var scoreSorted = score;
+        Array.Sort(scoreSorted);
+        int playerid = scoreSorted[0] % 10;
+        GameObject.Find("GrimoireGiver").GetComponent<GrimoireGiver>().giveGrimoire(playerid);
+    }
 }

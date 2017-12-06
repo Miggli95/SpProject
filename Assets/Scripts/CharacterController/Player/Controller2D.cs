@@ -927,4 +927,9 @@ public class Controller2D : MonoBehaviour
         isSlowed = slowed;
     }
 
+    public void setPickUp(IPickUp p)
+    {
+        PickUpCarry = p.PickUp();
+    }
+
 }
