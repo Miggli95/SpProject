@@ -14,6 +14,8 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
     private float gracePeriod;
     private float graceTimer;
     private bool grace;
+    private Shader og;
+    public Shader red;
     public GameObject SlowZone;
 	
 	void Start () {
@@ -41,6 +43,10 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         else
         {
             timer -= Time.deltaTime;
+        }
+        if(timer <= 2)
+        {
+
         }
 
         if (!grace)
