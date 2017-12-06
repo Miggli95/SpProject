@@ -79,7 +79,7 @@ public class LevelManager : MonoBehaviour
                 timerText.SetActive(true);
                 timerText.GetComponent<Timer>().timerActive(true);
                 timerText.GetComponent<Timer>().setInstuctions("Keep the grimoire away from the others!");
-                timerText.GetComponent<Timer>().setTimer(60f);
+                timerText.GetComponent<Timer>().setTimer(62f);
                 timerText.GetComponent<Timer>().setGrimoire();
                 break;
             case "Credit":
