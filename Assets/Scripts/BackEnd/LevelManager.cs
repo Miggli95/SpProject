@@ -82,6 +82,12 @@ public class LevelManager : MonoBehaviour
                 timerText.GetComponent<Timer>().setTimer(60f);
                 timerText.GetComponent<Timer>().setGrimoire();
                 break;
+            case "Credit":
+                timerText.SetActive(true);
+                timerText.GetComponent<Timer>().timerActive(false);
+                timerText.GetComponent<Timer>().setInstuctions("");
+                timerText.GetComponent<Timer>().setStartingPositions();
+                break;
         }
         dontcheckplayers = false;
     }
@@ -146,6 +152,10 @@ public class LevelManager : MonoBehaviour
             SceneManager.LoadScene("Level7(BigxSmaller)");
         }
         if(SceneManager.GetActiveScene().name== "Level7(BigxSmaller)")
+        {
+            SceneManager.LoadScene("Credit");
+        }
+        if (SceneManager.GetActiveScene().name == "Credit")
         {
             SceneManager.LoadScene("Hub(24x16)");
         }

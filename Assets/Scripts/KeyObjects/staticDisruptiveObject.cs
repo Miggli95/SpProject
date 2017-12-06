@@ -51,8 +51,10 @@ public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
     }
     public void OnTriggerEnter(Collider other)
     {
+        Debug.Log(gameObject.name);
         if (other.CompareTag("Player"))
         {
+            
             //Set what interactable the player is currently near, try to see if you can get information about what object the player is carrying(keyobject id), save player temporary to be able to kill him?
             other.GetComponent<Controller2D>().setInteractableFocus(this);
         }
@@ -61,11 +63,13 @@ public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log(gameObject.name + " exit");
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
             var player = other.GetComponent<Controller2D>();
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
             if (player.GetInteractable() == this)
             {
+                
                 other.GetComponent<Controller2D>().setInteractableFocus(null);
             }
         }

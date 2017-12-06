@@ -14,17 +14,20 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
     private float gracePeriod;
     private float graceTimer;
     private bool grace;
-    private Shader og;
-    public Shader red;
+    private Material og;
+    private SpriteRenderer rend;
+    //public Material red;
     public GameObject SlowZone;
 	
 	void Start () {
         base.Initialize();
         fuseLit = false;
         players = new List<Controller2D>();
+        rend = GetComponent<SpriteRenderer>();
         gracePeriod = 0.3f;
         graceTimer = 0f;
         grace = false;
+        og = rend.material;
 	}
 	
 	// Update is called once per frame
@@ -44,10 +47,64 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         {
             timer -= Time.deltaTime;
         }
-        if(timer <= 2)
+       /* if(timer <2.5 && timer > 2.4)
         {
-
+            rend.material = red;
         }
+        if (timer < 2.1 && timer > 2.0)
+        {
+            rend.material = og;
+        }
+        if (timer < 1.8 && timer > 1.7)
+        {
+            rend.material = red;
+        }
+        if (timer < 1.5 && timer > 1.4)
+        {
+            rend.material = og;
+        }
+        if (timer < 1.3 && timer > 1.2)
+        {
+            rend.material = red;
+        }
+        if (timer < 1.0 && timer > 0.9)
+        {
+            rend.material = og;
+        }
+        if (timer < 0.9 && timer > 0.8)
+        {
+            rend.material = red;
+        }
+        if (timer < 0.8 && timer > 0.7)
+        {
+            rend.material = og;
+        }
+        if (timer < 0.7 && timer > 0.6)
+        {
+            rend.material = red;
+        }
+        if (timer < 0.6 && timer > 0.5)
+        {
+            rend.material = og;
+        }
+        if (timer < 0.5 && timer > 0.4)
+        {
+            rend.material = red;
+        }
+        if (timer < 0.4 && timer > 0.3)
+        {
+            rend.material = og;
+        }
+        if (timer < 0.3 && timer > 0.2)
+        {
+            rend.material = red;
+        }
+        if (timer < 0.2 && timer > 0.1)
+        {
+            rend.material = og;
+        }
+        */
+
 
         if (!grace)
             return;

@@ -18,9 +18,9 @@ public class Timer : MonoBehaviour
     private int[] score;
     private int[] dScore;
     private int player1Score =1;
-    private int player2Score =2;
+    private int player2Score =502;
     private int player3Score =3;
-    private int player4Score =4;
+    private int player4Score =304;
     // Use this for initialization
     void Awake()
     {
