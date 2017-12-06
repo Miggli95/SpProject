@@ -31,7 +31,7 @@ public class CharacterAnimationController : MonoBehaviour {
 		PlayIdleOrRun();
 		PlayDashAnimation ();
 		PlayJumpAnimation();
-
+		PlayDead ();
 	}
 
 
@@ -66,6 +66,18 @@ public class CharacterAnimationController : MonoBehaviour {
 		}
 	}
 
+	private void PlayDead(){
+		//if (Input.GetKeyDown (KeyCode.L)) {
+		if(controller2D.isGhost){
+			animator.SetLayerWeight (1, 1);
+			animator.SetLayerWeight (0, 0);
+		}
+		//else if (Input.GetKeyDown (KeyCode.K)) {
+		else if(!controller2D.isGhost){
+			animator.SetLayerWeight (0, 1);
+			animator.SetLayerWeight (1, 0);
+		}
+	}
 
 
 }
