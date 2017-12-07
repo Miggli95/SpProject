@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
@@ -13,7 +14,7 @@ public class Timer : MonoBehaviour
     private bool active = true;
     public Text counterText;
     public Text[] scoreBoard;
-    private string levelInstructions = "nlsdsf";
+    private string levelInstructions = "You should not see this";
     private float timer = 60f;
     private int[] score;
     private int[] dScore;
@@ -50,7 +51,9 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (active)
+        if (active && SceneManager.GetActiveScene().name == "Level7(BigxSmaller)")
+            counterText.text = levelInstructions + "\n" + ((int)timer-3);
+        else if (active)
             counterText.text = levelInstructions + "\n" + (int)timer;
         else
             counterText.text = levelInstructions;
