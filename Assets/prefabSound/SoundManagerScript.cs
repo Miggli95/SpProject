@@ -22,7 +22,7 @@ public class SoundManagerScript : MonoBehaviour {
         jumpSound = Resources.Load<AudioClip>("jump");
 
 
-        //audioSrc = getComponent<AudioSource>();
+        audioSrc = GetComponent<AudioSource>();
 
     }
 	
