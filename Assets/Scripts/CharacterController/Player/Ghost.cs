@@ -161,7 +161,7 @@ public class Ghost : MonoBehaviour
             mortarAim.transform.Translate(aimDir * Time.deltaTime);
             preview.position = mortarAim.transform.position;
         }
-        if (triggerInput > 0)
+        if (Input.GetKeyDown(controller2D.UseKey))
         {
             //float distance = Vector3.Distance(transform.position, mortarAim.transform.position);
             if (distance>minDistance && distance<maxDistance)
