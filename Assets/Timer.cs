@@ -22,6 +22,7 @@ public class Timer : MonoBehaviour
     private int player2Score =2;
     private int player3Score =3;
     private int player4Score =4;
+    public GameObject[] scoreIcons;
     // Use this for initialization
     void Awake()
     {
@@ -198,15 +199,19 @@ public class Timer : MonoBehaviour
             {
                 case 1:
                     scoreBoard[3-x].text = "Player 1: " + (score[0]-1)/10;
+                    scoreIcons[3].transform.position = new Vector3(scoreIcons[3].transform.position.x, scoreBoard[3 - x].transform.position.y, scoreIcons[3].transform.position.z);
                     break;
                 case 2:
                     scoreBoard[3-x].text = "Player 2: " + (score[1]-2)/10;
+                    scoreIcons[1].transform.position = new Vector3(scoreIcons[1].transform.position.x, scoreBoard[3 - x].transform.position.y, scoreIcons[1].transform.position.z);
                     break;
                 case 3:
                     scoreBoard[3-x].text = "Player 3: " + (score[2]-3)/10;
+                    scoreIcons[0].transform.position = new Vector3(scoreIcons[0].transform.position.x, scoreBoard[3 - x].transform.position.y, scoreIcons[0].transform.position.z);
                     break;
                 case 4:
                     scoreBoard[3-x].text = "Player 4: " + (score[3]-4)/10;
+                    scoreIcons[2].transform.position = new Vector3(scoreIcons[2].transform.position.x, scoreBoard[3 - x].transform.position.y, scoreIcons[2].transform.position.z);
                     break;
             }
         }
