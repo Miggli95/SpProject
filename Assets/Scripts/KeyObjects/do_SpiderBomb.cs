@@ -43,7 +43,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
             var obj = Instantiate(SlowZone, this.transform.position, this.transform.rotation);
             obj.GetComponent<SlowZone>().Spawn(5f);
             clearFocus();
-            //SoundManagerScript.PlaySound("explode");
+            SoundManagerScript.PlaySound("explode");
             Destroy(this.gameObject);
         }
         else
