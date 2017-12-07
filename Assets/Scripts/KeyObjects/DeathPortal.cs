@@ -6,9 +6,10 @@ public class DeathPortal : MonoBehaviour {
 
     private List<Controller2D> players;
     private Timer timmy;
-    private float LifeTime;
+    private float LifeTime = 30f;
     private float TimeAlive;
     private int score;
+    private bool doOnce = true;
     private void Start()
     {
         timmy = GameObject.Find("UI Camera").GetComponent<Timer>();
@@ -16,9 +17,10 @@ public class DeathPortal : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (TimeAlive >= LifeTime)
+        if (doOnce)
         {
-            switch(players.Count){
+            doOnce = false;
+            switch (players.Count){
                 case 1:
                     score = 40;
                     break;
@@ -37,6 +39,13 @@ public class DeathPortal : MonoBehaviour {
                 timmy.runeGet(p.name, score);
                 p.doDeath();
             }
+            
+            
+        }
+        print(TimeAlive);
+
+        if (TimeAlive >= LifeTime)
+        {
             Destroy(this.gameObject);
         }
         else

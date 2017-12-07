@@ -32,10 +32,9 @@ public class SoundManagerScript : MonoBehaviour {
 	}
 
 
-    public static void PlaySound (string clip)
+    public  void PlaySound (string clip)
     {
-
-        switch(clip)
+        switch(clip.ToLower())
         {
             case "dash":
                 audioSrc.PlayOneShot(dashSound);

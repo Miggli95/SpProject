@@ -98,6 +98,7 @@ public class Controller2D : MonoBehaviour
     public bool jumping = false;
     bool onOneWay = false;
     private float selectedSpeed;
+    private SoundManagerScript soundy;
     private bool isSlowed = false;
     List<GameObject> oneways = new List<GameObject>();
     GameObject stunP;
@@ -159,6 +160,7 @@ public class Controller2D : MonoBehaviour
         PickUpFocusSelected = 0;
         players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
         players = GameObject.FindGameObjectsWithTag("Player");
+        soundy = GameObject.Find("UI Camera").GetComponent<SoundManagerScript>();
         ghost = GetComponent<Ghost>();
         foreach (GameObject p in players)
         {
@@ -665,6 +667,7 @@ public class Controller2D : MonoBehaviour
         dash = false;
         dashTimer = 0;
         this.transform.GetChild(3).gameObject.SetActive(false);
+        soundy.PlaySound("Jump");
         //print("jumpcount " + jumpCount + "Fell " + fell);
     }
 
@@ -683,6 +686,7 @@ public class Controller2D : MonoBehaviour
             //dashDestination = moveDir;
             dashTimer = DashTimer;
             dash = true;
+            soundy.PlaySound("Dash");
         }
     }
 
@@ -865,6 +869,7 @@ public class Controller2D : MonoBehaviour
     public void doDeath()
     {
         alive = false;
+        soundy.PlaySound("Die");
         //do interesting death mechanics
         //this.GetComponent<SpriteRenderer>().enabled = false;
         //canMove = false;

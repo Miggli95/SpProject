@@ -19,7 +19,7 @@ public class Timer : MonoBehaviour
     private int[] dScore;
     private int player1Score =1;
     private int player2Score =2;
-    private int player3Score =3;
+    private int player3Score =103;
     private int player4Score =4;
     // Use this for initialization
     void Awake()
@@ -59,8 +59,47 @@ public class Timer : MonoBehaviour
         {
             manager.loadNextLevel();
         }
+        dScore = new int[] { score[0], score[1], score[2], score[3] };
+        Array.Sort(dScore);
+        int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
+        if(dScore[3] > dScore[2])
+        {
+            switch (playerID[3])
+            {
+                case 1:
+                    GameObject.Find("P1").transform.GetChild(7).gameObject.SetActive(true);
+                    GameObject.Find("P2").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P3").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P4").transform.GetChild(7).gameObject.SetActive(false);
+                    break;
+                case 2:
+                    GameObject.Find("P2").transform.GetChild(7).gameObject.SetActive(true);
+                    GameObject.Find("P1").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P3").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P4").transform.GetChild(7).gameObject.SetActive(false);
+                    break;
+                case 3:
+                    GameObject.Find("P3").transform.GetChild(7).gameObject.SetActive(true);
+                    GameObject.Find("P2").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P1").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P4").transform.GetChild(7).gameObject.SetActive(false);
+                    break;
+                case 4:
+                    GameObject.Find("P4").transform.GetChild(7).gameObject.SetActive(true);
+                    GameObject.Find("P2").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P3").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P1").transform.GetChild(7).gameObject.SetActive(false);
+                    break;
+                default:
+                    GameObject.Find("P1").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P2").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P3").transform.GetChild(7).gameObject.SetActive(false);
+                    GameObject.Find("P4").transform.GetChild(7).gameObject.SetActive(false);
+                    break;
+            }
+        }
 
-    //displayScore();
+        //displayScore();
     }
     public void updateManager(LevelManager newM)
     {

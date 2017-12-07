@@ -6,6 +6,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 
     private Controller2D player;
     private List<Controller2D> players;
+    private SoundManagerScript soundy;
     public float timer;
     public float fuse;
     public float throwX;
@@ -28,7 +29,8 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         graceTimer = 0f;
         grace = false;
         og = rend.material;
-	}
+        soundy = GameObject.Find("UI Camera").GetComponent<SoundManagerScript>();
+    }
 	
 	// Update is called once per frame
 	public void Update () {
@@ -41,6 +43,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
             var obj = Instantiate(SlowZone, this.transform.position, this.transform.rotation);
             obj.GetComponent<SlowZone>().Spawn(5f);
             clearFocus();
+            soundy.PlaySound("explode");
             Destroy(this.gameObject);
         }
         else
