@@ -17,13 +17,8 @@ public class DeathPortal : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (doOnce)
-        {
-
             killPlayers();
             doOnce = false;
-
-        }
 
         if (TimeAlive >= LifeTime)
         {
@@ -64,6 +59,11 @@ public class DeathPortal : MonoBehaviour {
         {
             timmy.runeGet(p.name, score);
             p.doDeath();
+        }
+        if (!doOnce)
+        {
+            players.Clear();
+            this.GetComponent<BoxCollider>().enabled = false;
         }
     }
     private void OnTriggerExit(Collider other)

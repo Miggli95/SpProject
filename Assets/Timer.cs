@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
@@ -50,7 +51,11 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (active)
+        if (active && SceneManager.GetActiveScene().name == "Level7(BigxSmaller)")
+        {
+            counterText.text = levelInstructions + "\n" + ((int)timer-3);
+        }
+        else if (active)
             counterText.text = levelInstructions + "\n" + (int)timer;
         else
             counterText.text = levelInstructions;
