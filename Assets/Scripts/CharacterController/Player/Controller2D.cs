@@ -102,7 +102,7 @@ public class Controller2D : MonoBehaviour
     private bool isSlowed = false;
     List<GameObject> oneways = new List<GameObject>();
     GameObject stunP;
-
+    public float stunTime = 1.0f;
     private ICharacterState GetInitialCharacterState()
     {
 

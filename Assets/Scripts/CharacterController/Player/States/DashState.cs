@@ -92,7 +92,7 @@ public struct DashState : ICharacterState
             {
                     if (hit.collider.tag == "Player" && hit.collider.GetComponent<Controller2D>().canCMove() && hit.collider.GetComponent<Controller2D>() != controller)
                     {
-                        hit.collider.GetComponent<Controller2D>().stopMove(1.0f);
+                        hit.collider.GetComponent<Controller2D>().stopMove(controller.stunTime);
                         hit.collider.GetComponent<Controller2D>().forceDrop(controller.moveDir);
                     }
             }
