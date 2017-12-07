@@ -103,6 +103,8 @@ public class Controller2D : MonoBehaviour
     List<GameObject> oneways = new List<GameObject>();
     GameObject stunP;
     public float stunTime = 1.0f;
+    public bool canDashWithItem = false;
+
     private ICharacterState GetInitialCharacterState()
     {
 
@@ -494,8 +496,19 @@ public class Controller2D : MonoBehaviour
 
     public bool jumpDown = false;
 
+    bool pressed = false;
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            pressed = true;
+        }
+
+        else if(pressed)
+        {
+            canDashWithItem = !canDashWithItem;
+            pressed = false;
+        }
 
         velocity = controller.velocity;
         //Grounded = controller.isGrounded;
@@ -616,8 +629,26 @@ public class Controller2D : MonoBehaviour
 
         else
         {
-            if(!getRightTriggerDown())
-            canDash = true;
+            if (!getRightTriggerDown())
+            {
+                if (!canDashWithItem)
+                {
+                    if (GetPickUp() == null)
+                    {
+                        canDash = true;
+                    }
+
+                    else
+                    {
+                        canDash = false;
+                    }
+                }
+
+                else
+                {
+                    canDash = true;
+                }
+            }
         }
 
         checkAction();
