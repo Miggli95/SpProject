@@ -100,7 +100,10 @@ public class LevelManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            SceneManager.LoadScene("Level4(24x16) 1");
+            if (SceneManager.GetActiveScene().name != "Level5(24x16) 2")
+                SceneManager.LoadScene("Level5(24x16) 2");
+            else
+                SceneManager.LoadScene("Hub(24x16)");
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
