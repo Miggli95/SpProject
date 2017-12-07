@@ -6,7 +6,7 @@ public class DeathPortal : MonoBehaviour {
 
     private List<Controller2D> players;
     private Timer timmy;
-    private float LifeTime = 30f;
+    private float LifeTime = 3f;
     private float TimeAlive;
     private int score;
     private bool doOnce = true;
@@ -19,30 +19,11 @@ public class DeathPortal : MonoBehaviour {
     {
         if (doOnce)
         {
+
+            killPlayers();
             doOnce = false;
-            switch (players.Count){
-                case 1:
-                    score = 40;
-                    break;
-                case 2:
-                    score = 20;
-                    break;
-                case 3:
-                    score = 10;
-                    break;
-                case 4:
-                    score = 10;
-                    break;
-            }
-            foreach (Controller2D p in players)
-            {
-                timmy.runeGet(p.name, score);
-                p.doDeath();
-            }
-            
-            
+
         }
-        print(TimeAlive);
 
         if (TimeAlive >= LifeTime)
         {
@@ -62,6 +43,29 @@ public class DeathPortal : MonoBehaviour {
             players.Add(player);
         }
     }
+    private void killPlayers()
+    {
+        switch (players.Count)
+        {
+            case 1:
+                score = 40;
+                break;
+            case 2:
+                score = 20;
+                break;
+            case 3:
+                score = 10;
+                break;
+            case 4:
+                score = 10;
+                break;
+        }
+        foreach (Controller2D p in players)
+        {
+            timmy.runeGet(p.name, score);
+            p.doDeath();
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -78,8 +82,8 @@ public class DeathPortal : MonoBehaviour {
 
     public void Spawn(float LifeTime)
     {
+        doOnce = true;
         players = new List<Controller2D>();
-        this.LifeTime = LifeTime;
         TimeAlive = 0;
     }
 }

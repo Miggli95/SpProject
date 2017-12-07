@@ -14,7 +14,7 @@ public class Respawner : MonoBehaviour {
     {
         if (spawnObj == null)
         {
-            print("object gone");
+
             spawn = true;
         }
         if (spawn && timer >= spawnTime)

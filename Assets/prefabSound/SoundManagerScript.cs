@@ -32,7 +32,7 @@ public class SoundManagerScript : MonoBehaviour {
 	}
 
 
-    public  void PlaySound (string clip)
+    public static  void PlaySound (string clip)
     {
         switch(clip.ToLower())
         {

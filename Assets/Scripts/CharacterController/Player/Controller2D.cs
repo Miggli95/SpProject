@@ -667,7 +667,7 @@ public class Controller2D : MonoBehaviour
         dash = false;
         dashTimer = 0;
         this.transform.GetChild(3).gameObject.SetActive(false);
-        soundy.PlaySound("Jump");
+        SoundManagerScript.PlaySound("Jump");
         //print("jumpcount " + jumpCount + "Fell " + fell);
     }
 
@@ -686,7 +686,7 @@ public class Controller2D : MonoBehaviour
             //dashDestination = moveDir;
             dashTimer = DashTimer;
             dash = true;
-            soundy.PlaySound("Dash");
+            SoundManagerScript.PlaySound("Dash");
         }
     }
 
@@ -869,7 +869,7 @@ public class Controller2D : MonoBehaviour
     public void doDeath()
     {
         alive = false;
-        soundy.PlaySound("Die");
+        SoundManagerScript.PlaySound("Die");
         //do interesting death mechanics
         //this.GetComponent<SpriteRenderer>().enabled = false;
         //canMove = false;
