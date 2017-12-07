@@ -514,12 +514,12 @@ public class Controller2D : MonoBehaviour
         //Grounded = controller.isGrounded;
         if (Mathf.Abs(controller.velocity.x) > 0)
         {
-            Trail.SetActive(true);
+           // Trail.SetActive(true);
 
         }
         else
         {
-            Trail.SetActive(false);
+           // Trail.SetActive(false);
         }
 
         //temp restart code
