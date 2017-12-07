@@ -95,4 +95,9 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
         state = pickUpState.PickedUp;
         return this;
     }
+
+    protected void playSound(string s)
+    {
+        SoundManagerScript.PlaySound(s);
+    }
 }

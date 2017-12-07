@@ -48,6 +48,7 @@ public class do_Brain : pickUpDisruptiveObject {
 
     public override bool Use(Controller2D player)
     {
+        playSound("throw");
         usingPlayer = player;
         if (player.charInput.y < 0)
         {

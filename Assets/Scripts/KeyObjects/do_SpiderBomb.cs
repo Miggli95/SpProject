@@ -131,6 +131,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 
     public override bool Use(Controller2D player)
     {
+        playSound("throw");
         if (player.charInput.y < 0)
         {
             player.forceDrop();
@@ -168,6 +169,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
                 return;
             var obj = Instantiate(SlowZone, this.transform.position, this.transform.rotation);
             obj.GetComponent<SlowZone>().Spawn(5f);
+            playSound("explode");
             Destroy(this.gameObject);
         } else if(other.CompareTag("Player"))
         {
