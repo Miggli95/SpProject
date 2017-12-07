@@ -35,11 +35,14 @@ public class Ghost : MonoBehaviour
     public GameObject projectile;
     public GameObject mortarTarget;
     public float shootAngle;
-    bool shoot = false;
+    public bool canShoot = true;
     public float minDistance = 0.7f;
     public float maxDistance = 10f;
     public Vector3 previousAimPosition;
     Transform preview;
+    public float mortarCooldown = 4;
+    public float mortarCooldownTimer = 0;
+
     void Start()
     {
         controller2D = GetComponent<Controller2D>();
@@ -99,7 +102,17 @@ public class Ghost : MonoBehaviour
             canDash = true;
         }
 
-        if (stationary)
+        if (mortarCooldownTimer >= 0)
+        {
+            mortarCooldownTimer -= Time.deltaTime;
+        }
+
+        else
+        {
+            canShoot = true;
+        }
+
+        if (stationary && canShoot)
         {
             MortarAim();
             return;
@@ -155,6 +168,8 @@ public class Ghost : MonoBehaviour
             {
                 MortarShoot();
                 stationary = false;
+                canShoot = false;
+                mortarCooldownTimer = mortarCooldown;
             }
         }
 

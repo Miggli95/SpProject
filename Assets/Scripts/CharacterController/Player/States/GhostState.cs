@@ -28,7 +28,7 @@ public class GhostState : ICharacterState
     {
         //if (Input.GetKeyDown(controller.DashKey) && controller.canCMove() && controller.canDash)
 
-        if (Input.GetKeyDown(controller.InteractKey))
+        if (Input.GetKeyDown(controller.InteractKey) && controller.GetComponent<Ghost>().canShoot)
         {
             return new CharacterStateData(Vector2.zero, new GhostMortarState(controller,false), true);
         }
