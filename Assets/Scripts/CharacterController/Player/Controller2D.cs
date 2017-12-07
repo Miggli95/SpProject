@@ -931,6 +931,7 @@ public class Controller2D : MonoBehaviour
     }
     public void sizeUp()
     {
+        if(SceneManager.GetActiveScene().name == "Level5(24x16) 2")
         transform.localScale += new Vector3(0.01F, 0.01F, 0.0F);
     }
 
