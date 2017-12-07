@@ -22,7 +22,7 @@ public struct DashState : ICharacterState
 
       
 
-        if (controller.triggerInput > 0 && controller.canCMove() && controller.canDash)
+        if (controller.triggerInput > 0 && controller.canCMove())
         {
             Dash();
             
@@ -123,12 +123,12 @@ public struct DashState : ICharacterState
 
     void Dash()
     {
-        if (controller.isGhost)
+        if (controller.isGhost && controller.GetComponent<Ghost>().canDash)
         {
             controller.gameObject.GetComponent<Ghost>().Dash();
         }
 
-        else
+        else if(controller.canDash)
         {
             controller.Dash();
         }

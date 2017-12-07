@@ -16,9 +16,9 @@ public class Ghost : MonoBehaviour
     Vector2 charInput;
     float triggerInput;
     float gravityMultiplier = 0;
-    public float speed = 5;
-    public float aimSpeed = 5;
-    public float projectileSpeed = 5;
+    public float speed = 2;
+    public float aimSpeed = 10;
+    public float projectileSpeed = 7;
     public float dashSpeed = 10;
     public float accelerationTime = 0.1f;
     public float deaccelerationTime = 0.2f;
@@ -47,7 +47,7 @@ public class Ghost : MonoBehaviour
     {
         controller2D = GetComponent<Controller2D>();
         dashDuration = controller2D.DashTimer;
-        dashCooldown = controller2D.dashCooldown;
+        dashCooldown = controller2D.dashCooldown*2;
 
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
@@ -133,8 +133,8 @@ public class Ghost : MonoBehaviour
             mortarAim.transform.position = previousAimPosition;
         }*/
 
-        targetDir.x = aim.x * speed;
-        targetDir.y = aim.y * speed;
+        targetDir.x = aim.x * aimSpeed;
+        targetDir.y = aim.y * aimSpeed;
 
         aimDir.y = controller2D.Smooth(targetDir.y, ref moveDir.y, accelerationTime, deaccelerationTime);
 
