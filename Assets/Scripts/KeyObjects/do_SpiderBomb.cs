@@ -15,9 +15,9 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
     private float gracePeriod;
     private float graceTimer;
     private bool grace;
-    private Material og;
+    private Sprite og;
     private SpriteRenderer rend;
-    //public Material red;
+    public Sprite red;
     public GameObject SlowZone;
 	
 	void Start () {
@@ -28,7 +28,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         gracePeriod = 0.3f;
         graceTimer = 0f;
         grace = false;
-        og = rend.material;
+        og = rend.sprite;
         soundy = GameObject.Find("UI Camera").GetComponent<SoundManagerScript>();
     }
 	
@@ -50,63 +50,63 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         {
             timer -= Time.deltaTime;
         }
-       /* if(timer <2.5 && timer > 2.4)
+        if(timer <2.5 && timer > 2.4)
         {
-            rend.material = red;
+            rend.sprite = red;
         }
         if (timer < 2.1 && timer > 2.0)
         {
-            rend.material = og;
+            rend.sprite = og;
         }
         if (timer < 1.8 && timer > 1.7)
         {
-            rend.material = red;
+            rend.sprite = red;
         }
         if (timer < 1.5 && timer > 1.4)
         {
-            rend.material = og;
+            rend.sprite = og;
         }
         if (timer < 1.3 && timer > 1.2)
         {
-            rend.material = red;
+            rend.sprite = red;
         }
         if (timer < 1.0 && timer > 0.9)
         {
-            rend.material = og;
+            rend.sprite = og;
         }
         if (timer < 0.9 && timer > 0.8)
         {
-            rend.material = red;
+            rend.sprite = red;
         }
         if (timer < 0.8 && timer > 0.7)
         {
-            rend.material = og;
+            rend.sprite = og;
         }
         if (timer < 0.7 && timer > 0.6)
         {
-            rend.material = red;
+            rend.sprite = red;
         }
         if (timer < 0.6 && timer > 0.5)
         {
-            rend.material = og;
+            rend.sprite = og;
         }
         if (timer < 0.5 && timer > 0.4)
         {
-            rend.material = red;
+            rend.sprite = red;
         }
         if (timer < 0.4 && timer > 0.3)
         {
-            rend.material = og;
+            rend.sprite = og;
         }
         if (timer < 0.3 && timer > 0.2)
         {
-            rend.material = red;
+            rend.sprite = red;
         }
         if (timer < 0.2 && timer > 0.1)
         {
-            rend.material = og;
+            rend.sprite = og;
         }
-        */
+        
 
 
         if (!grace)
