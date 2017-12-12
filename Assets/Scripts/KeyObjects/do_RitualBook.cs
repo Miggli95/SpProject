@@ -12,6 +12,7 @@ public class do_RitualBook : PickUpKeyObject {
 	void Start () {
         base.Initialize("RitualBook");
         Timer = 58f;
+        shouldCountDown = true;
         //TODO add so that this object can know what the level timer is.
 	}
 	
