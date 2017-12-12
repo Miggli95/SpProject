@@ -54,15 +54,19 @@ public struct AirState : ICharacterState
             controller.moveDir.y = controller.minJumpSpeed;
         }
 
-      
-
-      /*  if (controller.getCharController().isGrounded)
+        if (controller.triggerInput > 0 && controller.canCMove() && controller.canDash)
         {
-            //return new CharacterStateData(Vector2.zero,new GroundState(controller), true);
-        }*/
+            return new CharacterStateData(Vector2.zero, new DashState(controller, controller.dashSpeed), true);
+        }
 
 
-       
+        /*  if (controller.getCharController().isGrounded)
+          {
+              //return new CharacterStateData(Vector2.zero,new GroundState(controller), true);
+          }*/
+
+
+
 
         var velocity = controller.getVelocity();
         return HandleVerticalMovement(velocity, input, deltaTime);
