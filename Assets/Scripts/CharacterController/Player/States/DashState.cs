@@ -10,11 +10,14 @@ public struct DashState : ICharacterState
     public void Enter()
     {
     }
-
-    public DashState(Controller2D controller, float dashSpeed)
+    bool airDash;
+    int airDashCount;
+    public DashState(Controller2D controller, float dashSpeed, int airDashCount = 0)
     {
         this.controller = controller;
         this.dashSpeed = dashSpeed;
+        this.airDashCount = airDashCount;
+        airDash = airDashCount > 0;
     }
 
     public CharacterStateData Update(Vector2 input, float deltaTime)
@@ -67,9 +70,9 @@ public struct DashState : ICharacterState
         var characterStateData = new CharacterStateData();
         characterStateData.Movement = movement;
 
-        if (airborne)
+        if (airborne && !controller.dash)
         {
-            characterStateData.NewState = new AirState(controller, true);
+            characterStateData.NewState = new AirState(controller, true,1,1,airDashCount);
         }
 
         return characterStateData;
@@ -123,6 +126,11 @@ public struct DashState : ICharacterState
 
     void Dash()
     {
+        if (airDash)
+        {
+            airDashCount++;
+        }
+
         if (controller.isGhost && controller.GetComponent<Ghost>().canDash)
         {
             controller.gameObject.GetComponent<Ghost>().Dash();
@@ -132,6 +140,7 @@ public struct DashState : ICharacterState
         {
             controller.Dash();
         }
+
     }
 
     public void Exit()
