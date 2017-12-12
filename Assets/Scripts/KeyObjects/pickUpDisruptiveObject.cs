@@ -100,4 +100,8 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
     {
         SoundManagerScript.PlaySound(s);
     }
+
+    public virtual void StartTimer(){ }
+
+    public virtual void StopTimer() { }
 }

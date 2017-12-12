@@ -5,6 +5,7 @@ using UnityEngine;
 public class do_RitualBook : PickUpKeyObject {
 
     private float Timer;
+    private bool shouldCountDown;
     public GameObject portal;
 
 	// Use this for initialization
@@ -16,6 +17,8 @@ public class do_RitualBook : PickUpKeyObject {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!shouldCountDown)
+            return;
 		if(Timer <= 0)
         {
             var obj = Instantiate(portal, this.transform.position, this.transform.rotation);
@@ -32,5 +35,15 @@ public class do_RitualBook : PickUpKeyObject {
     public override bool Use(Controller2D player)
     {
         return false;
+    }
+
+    public override void StartTimer()
+    {
+        shouldCountDown = true;
+    }
+
+    public override void StopTimer()
+    {
+        shouldCountDown = false;
     }
 }

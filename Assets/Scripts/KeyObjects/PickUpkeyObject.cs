@@ -89,4 +89,8 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
         state = pickUpState.PickedUp;
         return this;
     }
+
+    public virtual void StartTimer() { }
+
+    public virtual void StopTimer() { }
 }

@@ -49,7 +49,7 @@ public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
     {
         this.state = state;
     }
-    public void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         Debug.Log(gameObject.name);
         if (other.CompareTag("Player"))

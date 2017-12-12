@@ -104,6 +104,7 @@ public class Controller2D : MonoBehaviour
     GameObject stunP;
     public float stunTime = 1.0f;
     public bool canDashWithItem = false;
+    private bool lockCheck = false;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -784,7 +785,8 @@ public class Controller2D : MonoBehaviour
 
     private void checkAction()
     {
-
+        if (lockCheck)
+            return;
         if (Input.GetKeyDown(InteractKey) && InteractFocus != null)
         {
             InteractFocus.Interact(this);
@@ -967,6 +969,20 @@ public class Controller2D : MonoBehaviour
     public void setPickUp(IPickUp p)
     {
         PickUpCarry = p.PickUp();
+    }
+
+    public void lockCheckAction()
+    {
+        lockCheck = true;
+        if(PickUpCarry != null)
+            PickUpCarry.StopTimer();
+    }
+
+    public void freeCheckAction()
+    {
+        lockCheck = false;
+        if(PickUpCarry != null)
+            PickUpCarry.StartTimer();
     }
 
 }

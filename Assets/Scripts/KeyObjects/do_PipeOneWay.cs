@@ -33,6 +33,7 @@ public class do_PipeOneWay : staticDisruptiveObject {
             {
                 var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
                 camera.AddPlayer(playerName);
+                Obj.GetComponent<Controller2D>().freeCheckAction();
             }
             Obj = null;
             state = InteractableState.Enabled;
@@ -43,7 +44,7 @@ public class do_PipeOneWay : staticDisruptiveObject {
         }
     }
 
-    public override bool Interact(Controller2D player)
+    /*public override bool Interact(Controller2D player)
     {
         if(!base.Interact(player))
             return false;
@@ -66,5 +67,29 @@ public class do_PipeOneWay : staticDisruptiveObject {
             Timer = TransferTimePickUp;
         }
         return true;
+    }*/
+
+    public override void OnTriggerEnter(Collider other)
+    {
+
+        if (other.CompareTag("Player"))
+        {
+            var player = other.GetComponent<Controller2D>();
+            if (!base.Interact(player))
+                return;
+            state = InteractableState.Interacted;
+            playerName = player.name;
+            player.lockCheckAction();
+            var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
+            camera.RemovePlayer(playerName);
+            Obj = player.gameObject;
+            Obj.transform.position = new Vector3(0, -50);
+            Timer = TransferTimePlayer;
+        }
+
+
+        
     }
+
+    
 }

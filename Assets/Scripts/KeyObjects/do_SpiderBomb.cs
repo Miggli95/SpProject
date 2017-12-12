@@ -136,6 +136,8 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
     public override bool Use(Controller2D player)
     {
         playSound("throw");
+        fuseLit = true;
+        timer = fuse;
         if (player.charInput.y < 0)
         {
             player.forceDrop();
@@ -159,9 +161,6 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
             return null;
         }
         this.player = player;
-        fuseLit = true;
-        timer = fuse;
-        Debug.Log(fuseLit);
         return this;
     }
 
@@ -198,5 +197,15 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         {
             state = pickUpState.Waiting;
         }
+    }
+
+    public override void StartTimer()
+    {
+        base.StartTimer();
+    }
+
+    public override void StopTimer()
+    {
+        base.StopTimer();
     }
 }

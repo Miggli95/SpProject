@@ -17,5 +17,7 @@ namespace PickUp
         void updatePos(Vector3 pos);
         void Consume();
         void KnockAway(Vector3 dir);
+        void StartTimer();
+        void StopTimer();
     }
 }
