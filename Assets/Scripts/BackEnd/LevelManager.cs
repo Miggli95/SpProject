@@ -44,6 +44,7 @@ public class LevelManager : MonoBehaviour
             players.Add(GameObject.FindGameObjectsWithTag("Player")[i]);
         }
         livingPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
+        timerText.GetComponent<Timer>().setControls();
         switch (SceneManager.GetActiveScene().name)
         {
             case "Hub(24x16)":
@@ -138,7 +139,7 @@ public class LevelManager : MonoBehaviour
     }
     public void loadNextLevel()
     {
-
+        saveSimpleControls();
         players.Clear();
         dontcheckplayers = true;
 
@@ -174,5 +175,30 @@ public class LevelManager : MonoBehaviour
     public int getAlive()
     {
         return livingPlayers;
+    }
+
+    private void saveSimpleControls()
+    {
+        bool[] simpleControls = new bool[4];
+        foreach(GameObject g in players)
+        {
+            switch (g.name)
+            {
+                case "P1":
+                    simpleControls[0] = g.GetComponent<Controller2D>().SimpleControls;
+                    break;
+                case "P2":
+                    simpleControls[1] = g.GetComponent<Controller2D>().SimpleControls;
+                    break;
+                case "P3":
+                    simpleControls[2] = g.GetComponent<Controller2D>().SimpleControls;
+                    break;
+                case "P4":
+                    simpleControls[3] = g.GetComponent<Controller2D>().SimpleControls;
+                    break;
+            }
+        }
+        List<bool> b = new List<bool> { simpleControls[0], simpleControls[1], simpleControls[2], simpleControls[3] };
+        timerText.GetComponent<Timer>().SaveControls(b);
     }
 }

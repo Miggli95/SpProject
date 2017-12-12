@@ -24,6 +24,7 @@ public class Timer : MonoBehaviour
     private int player4Score =4;
     public GameObject[] scoreIcons;
     private bool player1s = true, player2s = true, player3s = true, player4s = true;
+    private List<bool> simpleControls = null;
     // Use this for initialization
     void Awake()
     {
@@ -305,5 +306,20 @@ public class Timer : MonoBehaviour
         Array.Sort(scoreSorted);
         int playerid = scoreSorted[3] % 10;
         GameObject.Find("GrimoireGiver").GetComponent<GrimoireGiver>().giveGrimoire(playerid);
+    }
+
+    public void setControls()
+    {
+        if (simpleControls == null)
+            return;
+        for(int i = 1; i <= 4; i++)
+        {
+            GameObject.Find("P" + i).GetComponent<Controller2D>().SimpleControls = simpleControls[i - 1];
+        }
+    }
+
+    public void SaveControls(List<bool> bl)
+    {
+        simpleControls = bl;
     }
 }
