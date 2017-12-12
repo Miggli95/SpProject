@@ -66,6 +66,13 @@ public class SlowZone : MonoBehaviour {
         this.LifeTime = LifeTime;
         TimeAlive = 0;
     }
+    private void OnDestroy()
+    {
+        foreach (Controller2D p in players){
+            p.setSlowed(false);
+        }
+    }
+
 
 
 

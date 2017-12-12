@@ -462,7 +462,6 @@ public class Controller2D : MonoBehaviour
 
         }
 
-
         if (boost)
         {
             moveDir.y = BoostSpeed;
@@ -711,7 +710,7 @@ public class Controller2D : MonoBehaviour
 
     public void Dash()
     {
-        if (!dash)
+        if (!dash && !isSlowed)
         {
             this.transform.GetChild(3).gameObject.SetActive(true);
             dashInput = charInput;
