@@ -6,7 +6,7 @@ public class do_Door : staticDisruptiveObject {
 
 
     
-    private float timeToOpen = 0.72f;
+    private float timeToOpen = 1f;
     private float timer = 0;
     private bool isInteracted;
     public GameObject Door;
@@ -17,6 +17,7 @@ public class do_Door : staticDisruptiveObject {
 	
 	void Start () {
         base.Initialize(true);
+        isInteracted = false;
         /*var list = GetComponentsInChildren<GameObject>();
         Door = list[1];
         DoorCol = Door.GetComponent<Collider>();*/
@@ -29,35 +30,32 @@ public class do_Door : staticDisruptiveObject {
 
     public override bool Interact(Controller2D player)
     {
+        if (isInteracted)
+            return false;
+
         if (!base.Interact(player))
         {
             return false;
         }
+        this.player = player;
         if (state == InteractableState.Enabled)
         {
-            this.player = player;
-            //grace = true;
             Close();
-            return true;
-        }
-            
-        if (state == InteractableState.Interacted)
+        } else if (state == InteractableState.Interacted)
         {
-            timer = timeToOpen;
-            isInteracted = true;
+            Open();
         }
+        startTimer();
         return true;
     }
 
     void Update()
     {
-        if (state != InteractableState.Interacted)
-            return;
         if (!isInteracted)
             return;
         if(timer <= 0)
         {
-            Open();
+            isInteracted = false;
         }
         else
         {
@@ -81,7 +79,6 @@ public class do_Door : staticDisruptiveObject {
     private void startTimer()
     {
         timer = timeToOpen;
-        isInteracted = true;
     }
 
     private void Close() //call animation event

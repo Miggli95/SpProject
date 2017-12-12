@@ -206,7 +206,7 @@ public class Controller2D : MonoBehaviour
             if (!hit.collider.CompareTag("One Way") && !hit.collider.CompareTag("Potion") && !hit.collider.CompareTag("Player"))
             {
                 moveDir.y = -1;
-            }
+            } else if (hit.collider.CompareTag("Potion")) { return; }
 
             else
             {

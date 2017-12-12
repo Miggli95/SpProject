@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using PickUp;
 public class do_SpiderBomb : pickUpDisruptiveObject {
@@ -19,8 +20,10 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
     private SpriteRenderer rend;
     public Sprite red;
     public GameObject SlowZone;
+    public TextMesh Text;
 	
 	void Start () {
+        Text = GetComponentInChildren<TextMesh>();
         base.Initialize();
         fuseLit = false;
         players = new List<Controller2D>();
@@ -36,6 +39,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
 	public void Update () {
         if (!fuseLit)
             return;
+        Text.text = ""+Math.Round(timer, 2);
 		if(timer <= 0)
         {
             if (state == pickUpState.PickedUp)
