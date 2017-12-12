@@ -17,7 +17,7 @@ public class PlayerCounter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        text.text = "Start game" + "\n" + "Players:" + numberOfPlayers + "/4";
+        //text.text = "Start game" + "\n" + "Players:" + numberOfPlayers + "/4";
 
 
     }
