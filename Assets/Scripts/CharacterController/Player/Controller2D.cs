@@ -105,6 +105,7 @@ public class Controller2D : MonoBehaviour
     public float stunTime = 1.0f;
     public bool canDashWithItem = false;
     private bool lockCheck = false;
+    public bool SimpleControls = true;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -795,7 +796,7 @@ public class Controller2D : MonoBehaviour
         {
             InteractFocus.Interact(this);
         }
-        if (Input.GetKeyDown(UseKey) && PickUpCarry != null)
+        else if (Input.GetKeyDown(UseKey) && PickUpCarry != null)
         {
             var UseResult = PickUpCarry.Use(this);
             if (UseResult && InteractFocus != null) //PickUpCarry.Use() should only return true if the object is a key object. Currently pick up key objects are not planned to have a unique use method.
