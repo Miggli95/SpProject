@@ -72,6 +72,7 @@ public class ControllerKeyManager : MonoBehaviour {
                             //a.DieKey = KeyCode.Joystick1Button4; //tempkey please remove it if you need the key
                             a.CycleLeftKey = KeyCode.Joystick1Button4;
                             a.CycleRightKey = KeyCode.Joystick1Button5;
+                            a.switchControls = KeyCode.Joystick1Button6;
                             XBOX = true;
                         }
 
@@ -118,6 +119,7 @@ public class ControllerKeyManager : MonoBehaviour {
                             //a.DieKey = KeyCode.Joystick2Button4; //tempkey please remove it if you need the key
                             a.CycleLeftKey = KeyCode.Joystick2Button4;
                             a.CycleRightKey = KeyCode.Joystick2Button5;
+                            a.switchControls = KeyCode.Joystick2Button6;
                             XBOX = true;
                         }
                         else if (controllers[1].ToUpper().Contains("WIRELESS"))
@@ -159,6 +161,7 @@ public class ControllerKeyManager : MonoBehaviour {
                             //a.DieKey = KeyCode.Joystick3Button4; //tempkey please remove it if you need the key
                             a.CycleLeftKey = KeyCode.Joystick3Button4;
                             a.CycleRightKey = KeyCode.Joystick3Button5;
+                            a.switchControls = KeyCode.Joystick3Button6;
                             XBOX = true;
                         }
                         else if (controllers[2].ToUpper().Contains("WIRELESS"))
@@ -201,6 +204,7 @@ public class ControllerKeyManager : MonoBehaviour {
                             //a.DieKey = KeyCode.Joystick4Button4; //tempkey please remove it if you need the key
                             a.CycleLeftKey = KeyCode.Joystick4Button4;
                             a.CycleRightKey = KeyCode.Joystick4Button5;
+                            a.switchControls = KeyCode.Joystick4Button6;
                             XBOX = true;
                         }
                         else if (controllers[3].ToUpper().Contains("WIRELESS"))

@@ -35,6 +35,8 @@ public class Controller2D : MonoBehaviour
     [HideInInspector]
     public KeyCode CycleLeftKey;
     public KeyCode CycleRightKey;
+    [HideInInspector]
+    public KeyCode switchControls;
     public Vector2 charInput;
     public float triggerInput;
     [HideInInspector]
@@ -790,8 +792,15 @@ public class Controller2D : MonoBehaviour
 
     private void checkAction()
     {
+
         if (lockCheck)
             return;
+
+        if (Input.GetKeyDown(switchControls))
+        {
+            SimpleControls = !SimpleControls;
+            keyManager.getKeyCode(this.name, this, ref XBOX);
+        }
         if (Input.GetKeyDown(InteractKey) && InteractFocus != null)
         {
             InteractFocus.Interact(this);
