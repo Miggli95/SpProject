@@ -226,7 +226,7 @@ public class Timer : MonoBehaviour
 
     public void setStartingPositions()
     {
-        var scoreSorted = score;
+        var scoreSorted = new int[] { score[0], score[1], score[2], score[3] };
         Array.Sort(scoreSorted);
         int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
         GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setPositions(playerID);
