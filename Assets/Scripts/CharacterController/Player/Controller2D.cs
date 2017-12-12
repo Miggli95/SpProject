@@ -431,6 +431,11 @@ public class Controller2D : MonoBehaviour
                 moveDir += Physics.gravity * gravityMultiplier * Time.deltaTime;
             }
 
+            else if (dash)
+            {
+                moveDir.y = 0;
+            }
+
         }
 
 
