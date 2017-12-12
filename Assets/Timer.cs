@@ -23,6 +23,7 @@ public class Timer : MonoBehaviour
     private int player3Score =3;
     private int player4Score =4;
     public GameObject[] scoreIcons;
+    private bool player1s = true, player2s = true, player3s = true, player4s = true;
     // Use this for initialization
     void Awake()
     {
@@ -68,8 +69,14 @@ public class Timer : MonoBehaviour
         dScore = new int[] { score[0], score[1], score[2], score[3] };
         Array.Sort(dScore);
         int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
-        if(dScore[3] > dScore[2])
+        if (!(dScore[3] > dScore[2]))
         {
+            GameObject.Find("P1").transform.GetChild(7).gameObject.SetActive(false);
+            GameObject.Find("P2").transform.GetChild(7).gameObject.SetActive(false);
+            GameObject.Find("P3").transform.GetChild(7).gameObject.SetActive(false);
+            GameObject.Find("P4").transform.GetChild(7).gameObject.SetActive(false);
+        }
+        else { 
             switch (playerID[3])
             {
                 case 1:
@@ -231,6 +238,42 @@ public class Timer : MonoBehaviour
         int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
         GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setPositions(playerID);
     }
+    public void doGrimoire(string player, int value)
+    {
+
+        switch (player)
+        {
+            case "P1":
+                if (player1s)
+                {
+                    runeGet(player, value);
+                    player1s = false;
+                }
+                break;
+            case "P2":
+                if (player2s)
+                {
+                    runeGet(player, value);
+                    player2s = false;
+                }
+                break;
+            case "P3":
+                if (player3s)
+                {
+                    runeGet(player, value);
+                    player3s = false;
+                }
+                break;
+            case "P4":
+                if (player4s)
+                {
+                    runeGet(player, value);
+                    player4s = false;
+                }
+                break;
+        }
+
+    }
     public void doAlch(string player)
     {
         print(manager.getAlive());
@@ -254,6 +297,10 @@ public class Timer : MonoBehaviour
 
     public void setGrimoire()
     {
+        player1s = true;
+        player2s = true;
+        player3s = true;
+        player4s = true;
         var scoreSorted = new int[] { score[0], score[1], score[2], score[3] };
         Array.Sort(scoreSorted);
         int playerid = scoreSorted[3] % 10;
