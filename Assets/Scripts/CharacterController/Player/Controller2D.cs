@@ -670,23 +670,37 @@ public class Controller2D : MonoBehaviour
             }
 
 
-  
+
 
         if (Input.GetKeyDown(JumpKey) && jumpDir == (int)JumpDir.JumpDown)
         {
             jumpDown = true;
+            jumpingDown = true;
+        }
+
+        if (Grounded)
+        {
+            if (jumpDir != (int)JumpDir.JumpDown)
+            {
+                print("jumpDir " + jumpDir);
+
+                jumpingDown = false;
+            }
+        }
+
+        if (jumpingDown && Grounded)
+        {
             foreach (RaycastHit hit in bottom)
             {
                 if (hit.collider.CompareTag("One Way"))
                 {
-                    lastBottom = hit.collider;
+                    //jumpingDown = true;
                     Physics.IgnoreCollision(controller, hit.collider);
                 }
             }
-           
         }
 
-        else if (moveDir.y <= 0 && jumpDir != (int)JumpDir.JumpDown)
+        else if (moveDir.y <= 0 && !jumpingDown)
         {
             foreach (RaycastHit hit in bottom)
             {
