@@ -10,6 +10,7 @@ public class GeishaScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
            other.GetComponent<Controller2D>().Boost(force);
+            SoundManagerScript.PlaySound("boing");
         }
     }
 	
