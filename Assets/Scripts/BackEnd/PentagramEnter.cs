@@ -20,7 +20,7 @@ public class PentagramEnter : MonoBehaviour
     {
         if (other.GetComponent<Controller2D>().getAlive())
         {
-            switch (this.name)
+            switch (this.transform.parent.name)
             {
                 case "PentaRedP":
                     if (other.gameObject.name == "P1")
@@ -34,7 +34,7 @@ public class PentagramEnter : MonoBehaviour
                         particle.SetActive(true);
                     }
                     break;
-                case "PentaYelP":
+                case "PentaYellowP":
                     if (other.gameObject.name == "P3")
                     {
                         particle.SetActive(true);
@@ -54,7 +54,7 @@ public class PentagramEnter : MonoBehaviour
     {
         if (other.GetComponent<Controller2D>().getAlive())
         {
-            switch (this.name)
+            switch (this.transform.parent.name)
             {
                 case "PentaRedP":
                     if (other.gameObject.name == "P1")
