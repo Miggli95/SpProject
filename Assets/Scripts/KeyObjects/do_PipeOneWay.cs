@@ -42,7 +42,7 @@ public class do_PipeOneWay : staticDisruptiveObject {
         {
             Timer -= Time.deltaTime;
         }
-    }
+    }  
 
     /*public override bool Interact(Controller2D player)
     {
@@ -74,6 +74,7 @@ public class do_PipeOneWay : staticDisruptiveObject {
 
         if (other.CompareTag("Player"))
         {
+            SoundManagerScript.PlaySound("portal");
             var player = other.GetComponent<Controller2D>();
             if (!base.Interact(player))
                 return;

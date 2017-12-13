@@ -6,7 +6,7 @@ public class SoundManagerScript : MonoBehaviour {
 
     // Use this for initialization
 
-    public static AudioClip dashSound, dieSound, throwSound, explodeSound, jumpSound, ritualSound;
+    public static AudioClip dashSound, dieSound, throwSound, explodeSound, jumpSound, ritualSound, portalSound;
     static AudioSource audioSrc;
         
 	void Start () {
@@ -23,6 +23,7 @@ public class SoundManagerScript : MonoBehaviour {
 
         ritualSound = Resources.Load<AudioClip>("ritual");
 
+       portalSound = Resources.Load<AudioClip>("portal");
 
         audioSrc = GetComponent<AudioSource>();
 
@@ -55,6 +56,9 @@ public class SoundManagerScript : MonoBehaviour {
                 break;
             case "ritual":
                 audioSrc.PlayOneShot(ritualSound);
+                break;
+            case "portal":
+                audioSrc.PlayOneShot(portalSound);
                 break;
 
 
