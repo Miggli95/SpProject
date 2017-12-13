@@ -138,12 +138,12 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         playSound("throw");
         fuseLit = true;
         timer = fuse;
-        if (player.charInput.y < 0)
+        if (player.charInput.y < -.10)
         {
             player.forceDrop();
             state = pickUpState.Used;
         }
-        else if (player.charInput.y > 0)
+        else if (player.charInput.y > .80)
         {
             state = pickUpState.Used;
             KnockAway(new Vector3(0, throwY * 2));

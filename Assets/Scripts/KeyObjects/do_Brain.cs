@@ -50,11 +50,11 @@ public class do_Brain : pickUpDisruptiveObject {
     {
         playSound("throw");
         usingPlayer = player;
-        if (player.charInput.y < 0)
+        if (player.charInput.y < -0.1)
         {
             player.forceDrop();
             state = pickUpState.Used;
-        } else if(player.charInput.y > 0)
+        } else if(player.charInput.y > .80)
         {
             state = pickUpState.Used;
             KnockAway(new Vector3(0, throwY * 2));
