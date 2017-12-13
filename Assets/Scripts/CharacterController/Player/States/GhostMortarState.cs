@@ -36,7 +36,7 @@ public class GhostMortarState : ICharacterState
             canSwitchState = true;
         }
 
-        if (Input.GetKeyDown(controller.InteractKey) && canSwitchState)
+        if (Input.GetKeyDown(controller.InteractKey) && canSwitchState  && controller.InteractKey != controller.UseKey)
         {
             controller.GetComponent<Ghost>().stationary = false;
             // return new CharacterStateData(Vector2.zero, new GhostState(controller), true);
