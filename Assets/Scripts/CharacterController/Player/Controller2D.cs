@@ -813,7 +813,7 @@ public class Controller2D : MonoBehaviour
                 UnityEngine.Debug.Log("Interacted by trying to use a keyobject");
                 InteractFocus.Interact(this);
             }
-            else if (!UseResult)
+            else if (!UseResult && PickUpCarry.getID() != "RitualBook")
             {
                 removePickUpFocus(PickUpCarry);
                 PickUpCarry = null;
