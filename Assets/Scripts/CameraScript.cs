@@ -133,14 +133,11 @@ public class CameraScript : MonoBehaviour
         resetMaxX = true;
         resetMinY = true;
         resetMaxY = true;
-        float y = 0;
-        float x = 0;
+
         currentSize = camera.orthographicSize;
         foreach (GameObject p in players)
         {
             Vector2 pos = p.transform.position;
-            y += pos.y;
-            x += pos.x;
             if (pos.x <= minX)
             {
                // print("min " + p.name);
@@ -205,9 +202,12 @@ public class CameraScript : MonoBehaviour
             camera.orthographicSize = Mathf.Abs(Mathf.SmoothStep(camera.orthographicSize, minSize + offset, time));
         }
 
-        target.y = Mathf.SmoothStep(target.y, (y / players.Length) + offsetY, time);
+        float y = (maxY + minY) / 2;
+        float x = (maxX + minX) / 2;
 
-        target.x = Mathf.SmoothStep(target.x, (x / players.Length) + offsetX, time);
+        target.y = Mathf.SmoothStep(target.y, y + offsetY, time);
+
+        target.x = Mathf.SmoothStep(target.x, x + offsetX, time);
         transform.position = target;
 
 
