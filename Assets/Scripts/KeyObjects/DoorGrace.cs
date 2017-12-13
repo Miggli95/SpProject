@@ -5,11 +5,14 @@ using UnityEngine;
 public class DoorGrace : MonoBehaviour {
 
     private do_Door door;
-
+    private bool grace = false;
+    private float graceTimer = 0.5f;
+    private float timer = 0f;
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && grace)
         {
+            Debug.Log("Grace added");
             door.addGrace(other.GetComponent<Controller2D>());
         }
     }
@@ -18,6 +21,7 @@ public class DoorGrace : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Grace removed");
             door.removeGrace(other.GetComponent<Controller2D>());
         }
     }
@@ -25,5 +29,24 @@ public class DoorGrace : MonoBehaviour {
     public void Start()
     {
         door = GetComponentInParent<do_Door>();
+    }
+
+    public void startGrace()
+    {
+        grace = true;
+        timer = 0f;
+    }
+
+    public void Update()
+    {
+        if (!grace)
+            return;
+
+        if (timer >= graceTimer)
+            grace = false;
+        else
+        {
+            timer += Time.deltaTime;
+        }
     }
 }

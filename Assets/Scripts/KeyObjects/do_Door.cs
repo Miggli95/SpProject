@@ -9,6 +9,7 @@ public class do_Door : staticDisruptiveObject {
     private float timeToOpen = 1f;
     private float timer = 0;
     private bool isInteracted;
+    public GameObject hinge;
     public GameObject Door;
     public Collider DoorCol;
     private DoorGrace grace;
@@ -69,7 +70,7 @@ public class do_Door : staticDisruptiveObject {
 
     private void Open() //call animation event
     {
-        Door.transform.Rotate(new Vector3(0, 90));
+        hinge.transform.Rotate(new Vector3(0, 90));
         //grace.transform.Rotate(new Vector3(0, 90));
         DoorCol.enabled = false;
         state = InteractableState.Enabled;
@@ -84,7 +85,8 @@ public class do_Door : staticDisruptiveObject {
     private void Close() //call animation event
     {
         DoorCol.enabled = true;
-        Door.transform.Rotate(new Vector3(0, -90));
+        hinge.transform.Rotate(new Vector3(0, -90));
+        grace.startGrace();
         //grace.transform.Rotate(new Vector3(0, -90));
         state = InteractableState.Interacted;
     }
