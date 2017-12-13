@@ -210,11 +210,11 @@ public class Controller2D : MonoBehaviour
         topHit = Physics.RaycastAll(top, controller.height / 2);
         foreach (RaycastHit hit in topHit)
         {
-            if (!hit.collider.CompareTag("One Way") && !hit.collider.CompareTag("Potion") && !hit.collider.CompareTag("Player"))
+            if (!hit.collider.CompareTag("One Way") && !hit.collider.CompareTag("Potion") && !hit.collider.CompareTag("Player") && !hit.collider.CompareTag("IgnoreCollision"))
             {
                 moveDir.y = -1;
             }
-            else if (hit.collider.CompareTag("Potion")) { return; }
+            else if (hit.collider.CompareTag("Potion") || hit.collider.CompareTag("IgnoreCollision")) { return; }
 
             else
             {
