@@ -21,7 +21,6 @@ public class HubPlayerCounter : MonoBehaviour {
                 i++;
             }
         }
-        print(i);
         texty.text = "Start game" + "\n" + "Players: " + i + " / 4";
         if(i == 4)
         {
