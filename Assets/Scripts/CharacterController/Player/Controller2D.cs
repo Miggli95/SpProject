@@ -331,7 +331,7 @@ public class Controller2D : MonoBehaviour
         return triggerInput;
     }
 
-    bool getRightTriggerDown()
+    public bool getRightTriggerDown()
     {
         if (triggerInput > 0)
         {

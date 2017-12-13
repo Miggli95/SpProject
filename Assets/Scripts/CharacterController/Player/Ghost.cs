@@ -97,9 +97,20 @@ public class Ghost : MonoBehaviour
             dashCooldownTimer -= Time.deltaTime;
         }
 
+        if (dashCooldownTimer >= 0)
+        {
+
+            dashCooldownTimer -= Time.deltaTime;
+        }
+
         else
         {
-            canDash = true;
+            if (!controller2D.getRightTriggerDown())
+            {
+
+                canDash = true;
+                
+            }
         }
 
         if (mortarCooldownTimer >= 0)
