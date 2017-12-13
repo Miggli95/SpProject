@@ -67,7 +67,8 @@ public class Controller2D : MonoBehaviour
     public float airDeaccelrationTime = 1.6f;
     // public Vector3 dashDestination;
     public float bottomRayLength = 0.08f;
-    RaycastHit bottom;
+    //RaycastHit bottom;
+    RaycastHit[] bottom;
     public bool canJump = true;
     private IInteractable InteractFocus;
     private IPickUp PickUpFocus;
@@ -91,18 +92,19 @@ public class Controller2D : MonoBehaviour
     public float minJumpSpeed;
     public bool onPlayerHead = false;
     public bool savedJumpInput = false;
-    public float savedJumpInputValue= 0.3f;
+    public float savedJumpInputValue = 0.3f;
     public float savedJumpInputTimer = 0;
     public bool isGhost = false;
     public bool XBOX = false;
     public Vector2 dashInput;
     public Ghost ghost;
     public bool jumping = false;
-    bool onOneWay = false;
+    public bool onOneWay = false;
     private float selectedSpeed;
     private SoundManagerScript soundy;
     private bool isSlowed = false;
     List<GameObject> oneways = new List<GameObject>();
+
     GameObject stunP;
     public float stunTime = 1.0f;
     public bool canDashWithItem = false;
@@ -202,39 +204,62 @@ public class Controller2D : MonoBehaviour
 
     void Rays()
     {
-        Ray top = new Ray(controller.transform.position + controller.center, Vector3.up);
+        oneways.Clear();
+        Ray top = new Ray(transform.position, Vector3.up);
 
         topHit = Physics.RaycastAll(top, controller.height / 2);
-        foreach(RaycastHit hit in topHit)
-        { 
+        foreach (RaycastHit hit in topHit)
+        {
             if (!hit.collider.CompareTag("One Way") && !hit.collider.CompareTag("Potion") && !hit.collider.CompareTag("Player"))
             {
                 moveDir.y = -1;
-            } else if (hit.collider.CompareTag("Potion")) { return; }
+            }
+            else if (hit.collider.CompareTag("Potion")) { return; }
 
             else
             {
-                Physics.IgnoreCollision(controller, hit.collider, true);
+
+                if (hit.collider.CompareTag("One Way"))
+                {
+                    oneways.Add(hit.collider.gameObject);
+                }
+
+                else
+                {
+                    //Physics.IgnoreCollision(controller, hit.collider, true);
+                }
+            }
+        }
+        Ray bottomRay = new Ray(transform.position, Vector3.down);
+        bottom = Physics.SphereCastAll(bottomRay, controller.radius, controller.height / 2);
+
+        //if (Physics.SphereCast(transform.position, controller.radius, Vector3.down, out bottom,
+        //controller.height, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+
+        foreach (RaycastHit hit in bottom)
+        {
+            //if (bottom.collider.CompareTag("One Way"))
+            if (hit.collider.CompareTag("One Way"))
+            {
+                //oneways.Add(bottom.collider.gameObject);
+                if (!oneways.Contains(hit.collider.gameObject))
+                    oneways.Add(hit.collider.gameObject);
+                onOneWay = true;
+                //if (jumpDir == (int)JumpDir.JumpUp)
+                //  Physics.IgnoreCollision(controller, hit.collider, false);
             }
         }
 
-        if (Physics.SphereCast(transform.position, controller.radius, Vector3.down, out bottom,
-        controller.height, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        if (oneways.Count == 0)
         {
-            if (bottom.collider.CompareTag("One Way"))
-            {
-                oneways.Add(bottom.collider.gameObject);
-                onOneWay = true;
-                if (jumpDir == (int)JumpDir.JumpUp)
-                    Physics.IgnoreCollision(controller, bottom.collider, false);
-            }
+            onOneWay = false;
         }
     }
 
     public bool OnPlayerHead()
     {
         bool onPlayerHead = false;
-        if (bottom.collider != null)
+        /*if (bottom.collider != null)
         {
 
                 if (bottom.collider.CompareTag("Player"))
@@ -253,7 +278,32 @@ public class Controller2D : MonoBehaviour
 
                 }
 
-        }
+        }*/
+        if (bottom != null)
+            foreach (RaycastHit hit in bottom)
+            {
+                if (hit.collider != null)
+                {
+
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        if (hit.collider.gameObject.name != gameObject.name)
+                        {
+                            float distance = Mathf.Abs(controller.transform.position.y - hit.collider.transform.position.y);
+                            if (distance <= controller.height * 0.6f)
+                            {
+                                onPlayerHead = true;
+                                moveDir.y = 0;
+                                break;
+                            }
+
+                        }
+
+
+                    }
+                }
+
+            }
 
         return onPlayerHead;
     }
@@ -274,10 +324,10 @@ public class Controller2D : MonoBehaviour
 
         if (consoleControlls && XBOX)
         {
-            triggerInput =  keyManager.getTriggerInput(this.name, consoleControlls);
+            triggerInput = keyManager.getTriggerInput(this.name, consoleControlls);
         }
 
-       
+
         return triggerInput;
     }
 
@@ -299,7 +349,7 @@ public class Controller2D : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+
 
 
         if (isGhost)
@@ -308,6 +358,8 @@ public class Controller2D : MonoBehaviour
             moveDir = Vector3.zero;
             return;
         }
+
+        //Rays();
 
         if (transform.position.z == startZ)
         {
@@ -341,7 +393,7 @@ public class Controller2D : MonoBehaviour
         destination = Vector3.ProjectOnPlane(destination, hit.normal).normalized;
 
 
-       
+
         //new Code
 
 
@@ -412,12 +464,12 @@ public class Controller2D : MonoBehaviour
 
         if (jumping)
         {
-            jumping = moveDir.y>0;
+            jumping = moveDir.y > 0;
         }
 
         if (Grounded)
         {
-           
+
             jumpTimerDelay = jumpTimer;
             moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
             if (!onPlayerHead)
@@ -488,7 +540,7 @@ public class Controller2D : MonoBehaviour
             speed = selectedSpeed;
 
         }
-        else if(!isSlowed)
+        else if (!isSlowed)
         {
             speed = 0;
         }
@@ -505,6 +557,10 @@ public class Controller2D : MonoBehaviour
     public bool jumpDown = false;
 
     bool pressed = false;
+    private bool jumpingDown;
+    private int lastJumpDir;
+    private Collider lastBottom;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
@@ -512,7 +568,7 @@ public class Controller2D : MonoBehaviour
             pressed = true;
         }
 
-        else if(pressed)
+        else if (pressed)
         {
             canDashWithItem = !canDashWithItem;
             pressed = false;
@@ -522,12 +578,12 @@ public class Controller2D : MonoBehaviour
         //Grounded = controller.isGrounded;
         if (Mathf.Abs(controller.velocity.x) > 0)
         {
-           // Trail.SetActive(true);
+            // Trail.SetActive(true);
 
         }
         else
         {
-           // Trail.SetActive(false);
+            // Trail.SetActive(false);
         }
 
         //temp restart code
@@ -582,20 +638,21 @@ public class Controller2D : MonoBehaviour
 
         if (charInput.y < onewayPlatformIndex)
         {
-            if (bottom.collider != null)
+            // if (bottom.collider != null)
+            // {
+            //if (bottom.collider.CompareTag("One Way") || onPlayerHead)
+            if (onOneWay || onPlayerHead)
             {
-                if (bottom.collider.CompareTag("One Way") || onPlayerHead)
-                {
-                    jumpDir = (int)JumpDir.JumpDown;
-                }
-
-                else
-                {
-                    jumpDir = (int)JumpDir.JumpUp;
-                }
-
-
+                jumpDir = (int)JumpDir.JumpDown;
             }
+
+            else
+            {
+                jumpDir = (int)JumpDir.JumpUp;
+            }
+
+
+            //}
 
         }
         else
@@ -603,16 +660,47 @@ public class Controller2D : MonoBehaviour
             jumpDir = (int)JumpDir.JumpUp;
         }
 
-
-        if (Input.GetKeyDown(JumpKey))
-        {
-            if (jumpDir == (int)JumpDir.JumpDown)
+        if (moveDir.y > 0)
+            foreach (RaycastHit hit in topHit)
             {
-                jumpDown = true;
+                if (hit.collider.CompareTag("One Way"))
+                {
+                    Physics.IgnoreCollision(controller, hit.collider);
+                }
+            }
 
-                Physics.IgnoreCollision(controller, bottom.collider);
+
+  
+
+        if (Input.GetKeyDown(JumpKey) && jumpDir == (int)JumpDir.JumpDown)
+        {
+            jumpDown = true;
+            foreach (RaycastHit hit in bottom)
+            {
+                if (hit.collider.CompareTag("One Way"))
+                {
+                    lastBottom = hit.collider;
+                    Physics.IgnoreCollision(controller, hit.collider);
+                }
+            }
+           
+        }
+
+        else if (moveDir.y <= 0 && jumpDir != (int)JumpDir.JumpDown)
+        {
+            foreach (RaycastHit hit in bottom)
+            {
+                if (hit.collider.CompareTag("One Way"))
+                {
+                    Physics.IgnoreCollision(controller, hit.collider, false);
+
+                    break;
+                }
             }
         }
+
+
+
         if (jumpTimerDelay > 0 && !Grounded)
         {
             canJump = true;
@@ -663,7 +751,7 @@ public class Controller2D : MonoBehaviour
         cyclePickUpSelected(CheckBumper());
         updateCarryPos(this.transform.position);
 
-        
+
     }
 
     private void ChangeCharacterState(Vector2 input, CharacterStateData characterStateData)
@@ -695,7 +783,7 @@ public class Controller2D : MonoBehaviour
     [Conditional("UNITY_EDITOR")]
     private void PrintStateSwitching(CharacterStateData characterStateData)
     {
-       // print("Switching from" + characterState.ToString() + " to " + characterStateData.NewState.ToString());
+        // print("Switching from" + characterState.ToString() + " to " + characterStateData.NewState.ToString());
     }
 
     public void Jump(int jumpCount, bool fell)
@@ -947,8 +1035,8 @@ public class Controller2D : MonoBehaviour
     }
     public void sizeUp()
     {
-        if(SceneManager.GetActiveScene().name == "Level5(24x16) 2")
-        transform.localScale += new Vector3(0.01F, 0.01F, 0.0F);
+        if (SceneManager.GetActiveScene().name == "Level5(24x16) 2")
+            transform.localScale += new Vector3(0.01F, 0.01F, 0.0F);
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -956,7 +1044,7 @@ public class Controller2D : MonoBehaviour
 
         if (isGhost)
         {
-            Physics.IgnoreCollision(controller, hit.collider,true);
+            Physics.IgnoreCollision(controller, hit.collider, true);
             print("Collision");
         }
     }
@@ -988,14 +1076,14 @@ public class Controller2D : MonoBehaviour
     public void lockCheckAction()
     {
         lockCheck = true;
-        if(PickUpCarry != null)
+        if (PickUpCarry != null)
             PickUpCarry.StopTimer();
     }
 
     public void freeCheckAction()
     {
         lockCheck = false;
-        if(PickUpCarry != null)
+        if (PickUpCarry != null)
             PickUpCarry.StartTimer();
     }
 
