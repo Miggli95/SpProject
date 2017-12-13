@@ -660,7 +660,7 @@ public class Controller2D : MonoBehaviour
             jumpDir = (int)JumpDir.JumpUp;
         }
 
-        if (moveDir.y > 0)
+        if (jumping)
             foreach (RaycastHit hit in topHit)
             {
                 if (hit.collider.CompareTag("One Way"))
@@ -705,12 +705,14 @@ public class Controller2D : MonoBehaviour
             }
         }
 
-        else if (moveDir.y <= -7 && !jumpingDown)
+        else if (!jumping && !jumpingDown)
         {
             foreach (RaycastHit hit in bottom)
             {
                 if (hit.collider.CompareTag("One Way"))
                 {
+                    float distance = transform.position.y - hit.transform.position.y;
+                    if(distance>controller.height*0.4f)
                     Physics.IgnoreCollision(controller, hit.collider, false);
 
                     break;
