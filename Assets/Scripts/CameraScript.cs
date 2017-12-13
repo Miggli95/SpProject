@@ -201,9 +201,13 @@ public class CameraScript : MonoBehaviour
         {
             camera.orthographicSize = Mathf.Abs(Mathf.SmoothStep(camera.orthographicSize, minSize + offset, time));
         }
-
-        float y = (maxY + minY) / 2;
-        float x = (maxX + minX) / 2;
+       
+            float y = transform.position.y;
+        if (minY != float.MaxValue && maxY != float.MinValue)
+            y = (maxY + minY) / 2;
+        float x = transform.position.x;
+        if (minX != float.MaxValue && maxX != float.MinValue)
+            x = (maxX + minX) / 2;
 
         target.y = Mathf.SmoothStep(target.y, y + offsetY, time);
 

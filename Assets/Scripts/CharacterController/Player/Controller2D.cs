@@ -705,7 +705,7 @@ public class Controller2D : MonoBehaviour
             }
         }
 
-        else if (moveDir.y <= 0 && !jumpingDown)
+        else if (moveDir.y <= -7 && !jumpingDown)
         {
             foreach (RaycastHit hit in bottom)
             {
