@@ -290,7 +290,7 @@ public class Controller2D : MonoBehaviour
                         if (hit.collider.gameObject.name != gameObject.name)
                         {
                             float distance = Mathf.Abs(controller.transform.position.y - hit.collider.transform.position.y);
-                            if (distance <= controller.height * 0.6f)
+                            if (distance <= controller.height * 0.6f && distance>= controller.height*0.4f)
                             {
                                 onPlayerHead = true;
                                 moveDir.y = 0;
@@ -684,6 +684,11 @@ public class Controller2D : MonoBehaviour
             {
                 print("jumpDir " + jumpDir);
 
+                jumpingDown = false;
+            }
+
+            if (!onOneWay)
+            {
                 jumpingDown = false;
             }
         }
