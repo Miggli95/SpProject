@@ -26,24 +26,28 @@ public class PentagramEnter : MonoBehaviour
                     if (other.gameObject.name == "P1")
                     {
                         particle.SetActive(true);
+                        SoundManagerScript.PlaySound("ritual");
                     }
                     break;
                 case "PentaGreenP":
                     if (other.gameObject.name == "P2")
                     {
                         particle.SetActive(true);
+                        SoundManagerScript.PlaySound("ritual");
                     }
                     break;
                 case "PentaYellowP":
                     if (other.gameObject.name == "P3")
                     {
                         particle.SetActive(true);
+                        SoundManagerScript.PlaySound("ritual");
                     }
                     break;
                 case "PentaPurpP":
                     if (other.gameObject.name == "P4")
                     {
                         particle.SetActive(true);
+                        SoundManagerScript.PlaySound("ritual");
                     }
                     break;
 
