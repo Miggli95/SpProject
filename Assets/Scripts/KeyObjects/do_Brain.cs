@@ -54,6 +54,11 @@ public class do_Brain : pickUpDisruptiveObject {
         {
             player.forceDrop();
             state = pickUpState.Used;
+        } else if(player.charInput.y > 0)
+        {
+            state = pickUpState.Used;
+            KnockAway(new Vector3(0, throwY * 2));
+            grace = true;
         }
         else
         {
