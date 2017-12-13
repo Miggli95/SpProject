@@ -682,7 +682,7 @@ public class Controller2D : MonoBehaviour
         {
             if (jumpDir != (int)JumpDir.JumpDown)
             {
-                print("jumpDir " + jumpDir);
+                //print("jumpDir " + jumpDir);
 
                 jumpingDown = false;
             }
