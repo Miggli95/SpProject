@@ -6,7 +6,7 @@ public class do_Door : staticDisruptiveObject {
 
 
     
-    private float timeToOpen = 1f;
+    private float timeToOpen = 0.15f;
     private float timer = 0;
     private bool isInteracted;
     public GameObject hinge;
@@ -15,6 +15,7 @@ public class do_Door : staticDisruptiveObject {
     private DoorGrace grace;
     private Controller2D player;
     public bool startClosed;
+    private Vector3 rotation;
 	
 	void Start () {
         base.Initialize(true);
@@ -56,6 +57,7 @@ public class do_Door : staticDisruptiveObject {
             return;
         if(timer <= 0)
         {
+            hinge.transform.Rotate(rotation);
             isInteracted = false;
         }
         else
@@ -70,11 +72,13 @@ public class do_Door : staticDisruptiveObject {
 
     private void Open() //call animation event
     {
-        hinge.transform.Rotate(new Vector3(0, 90));
+        hinge.transform.Rotate(new Vector3(0, 45));
+        rotation = new Vector3(0, 45f);
         //grace.transform.Rotate(new Vector3(0, 90));
         DoorCol.enabled = false;
         state = InteractableState.Enabled;
-        isInteracted = false;
+        isInteracted = true;
+        startTimer();
     }
 
     private void startTimer()
@@ -85,10 +89,13 @@ public class do_Door : staticDisruptiveObject {
     private void Close() //call animation event
     {
         DoorCol.enabled = true;
-        hinge.transform.Rotate(new Vector3(0, -90));
+        hinge.transform.Rotate(new Vector3(0, -45));
+        rotation = new Vector3(0, -45f);
         grace.startGrace();
         //grace.transform.Rotate(new Vector3(0, -90));
         state = InteractableState.Interacted;
+        isInteracted = true;
+        startTimer();
     }
 
     public override void OnTriggerExit(Collider other)
