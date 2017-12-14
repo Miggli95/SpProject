@@ -47,7 +47,8 @@ public class Timer : MonoBehaviour
              highscoreValues[x] = PlayerPrefs.GetInt("highScoreValues" + x);
          }
          drawScores();*/
-        score = new int[] { player1Score, player2Score, player3Score, player4Score };
+        //score = new int[] { player1Score, player2Score, player3Score, player4Score };
+        score = SetUpScore();
         displayScore();
     }
 
@@ -67,15 +68,17 @@ public class Timer : MonoBehaviour
         {
             manager.loadNextLevel();
         }
-        dScore = new int[] { score[0], score[1], score[2], score[3] };
+        dScore = score;
         Array.Sort(dScore);
-        int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
-        if (!(dScore[3] > dScore[2]))
+        int[] playerID = getPlayerID(score);
+        if (!(dScore[dScore.Length-2] > dScore[dScore.Length-1]))
         {
-            GameObject.Find("P1").transform.GetChild(7).gameObject.SetActive(false);
+            /*GameObject.Find("P1").transform.GetChild(7).gameObject.SetActive(false);
             GameObject.Find("P2").transform.GetChild(7).gameObject.SetActive(false);
             GameObject.Find("P3").transform.GetChild(7).gameObject.SetActive(false);
-            GameObject.Find("P4").transform.GetChild(7).gameObject.SetActive(false);
+            GameObject.Find("P4").transform.GetChild(7).gameObject.SetActive(false);*/
+            for (int i = 0; i <= playerID.Length - 1; i++)
+                GameObject.Find("P" + (i + 1)).transform.GetChild(7).gameObject.SetActive(false);
         }
         else { 
             switch (playerID[3])
@@ -198,9 +201,9 @@ public class Timer : MonoBehaviour
 
     private void displayScore()
     {
-        dScore = new int[] { score[0], score[1], score[2], score[3] };
+        dScore = score;
         Array.Sort(dScore);
-        int[] switchA = new int[] { dScore[0]%10, dScore[1]%10, dScore[2]%10, dScore[3]%10 };
+        int[] switchA = getPlayerID(dScore);
         for (int x =0; x<score.Length; x++)
         {
             switch  (switchA[x])
@@ -234,9 +237,9 @@ public class Timer : MonoBehaviour
 
     public void setStartingPositions()
     {
-        var scoreSorted = new int[] { score[0], score[1], score[2], score[3] };
+        var scoreSorted = score;
         Array.Sort(scoreSorted);
-        int[] playerID = new int[] { dScore[0] % 10, dScore[1] % 10, dScore[2] % 10, dScore[3] % 10 };
+        int[] playerID = getPlayerID(scoreSorted);
         GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setPositions(playerID);
     }
     public void doGrimoire(string player, int value)
@@ -312,14 +315,41 @@ public class Timer : MonoBehaviour
     {
         if (simpleControls == null)
             return;
-        for(int i = 1; i <= 4; i++)
+        for(int i = 0; i <= score.Length-1; i++)
         {
-            GameObject.Find("P" + i).GetComponent<Controller2D>().SimpleControls = simpleControls[i - 1];
+            GameObject.Find("P" + (i+1)).GetComponent<Controller2D>().SimpleControls = simpleControls[i];
         }
     }
 
     public void SaveControls(List<bool> bl)
     {
         simpleControls = bl;
+    }
+
+    /*public int[] getSortedArray()
+    {
+        
+    }*/
+
+    private int[] SetUpScore()
+    {
+        var size = GameObject.Find("UI Camera").GetComponent<GameManager>().connectedControllers;
+        int[] arr = new int[size];
+        for(int i = 1; i <= size; i++)
+        {
+            arr[i - 1] = i;
+        }
+        return arr;
+        
+    }
+
+    private int[] getPlayerID(int[] inarr)
+    {
+        int[] arr = new int[inarr.Length];
+        for(int i = 0; i <= inarr.Length - 1; i++)
+        {
+            arr[i] = inarr[i] % 10;
+        }
+        return arr;
     }
 }
