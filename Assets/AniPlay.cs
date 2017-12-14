@@ -20,15 +20,7 @@ public class AniPlay : MonoBehaviour
     {
         
     }
-    void OnTriggerExit(Collider other)
-    {
-        print("work");
-        if (other.CompareTag("Player"))
-        {
-
-            anim.Play("SimpleBearAni");
-
-        }
+  
 
 
         void OnTriggerEnter(Collider other)
