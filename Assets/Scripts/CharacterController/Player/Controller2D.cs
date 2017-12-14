@@ -214,7 +214,7 @@ public class Controller2D : MonoBehaviour
             {
                 moveDir.y = -1;
             }
-            else if (hit.collider.CompareTag("Potion") || hit.collider.CompareTag("IgnoreCollision")) { return; }
+            else if (hit.collider.CompareTag("Potion") || hit.collider.CompareTag("IgnoreCollision")) { Physics.IgnoreCollision(controller, hit.collider); return; }
 
             else
             {
@@ -672,15 +672,23 @@ public class Controller2D : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(JumpKey) && jumpDir == (int)JumpDir.JumpDown)
+        if (Input.GetKey(JumpKey) && jumpDir == (int)JumpDir.JumpDown)
         {
+            //print("trying to jumpdown");
+            lastJumpDir = jumpDir;
             jumpDown = true;
             jumpingDown = true;
         }
 
+        else if (!Grounded)
+        {
+            lastJumpDir = (int)JumpDir.JumpUp;
+            jumpingDown = false;
+        }
+
         if (Grounded)
         {
-            if (jumpDir != (int)JumpDir.JumpDown)
+            if (lastJumpDir != (int)JumpDir.JumpDown)
             {
                 //print("jumpDir " + jumpDir);
 
@@ -693,16 +701,21 @@ public class Controller2D : MonoBehaviour
             }
         }
 
+       
+
         if (jumpingDown && Grounded)
         {
             foreach (RaycastHit hit in bottom)
             {
                 if (hit.collider.CompareTag("One Way"))
                 {
+                    lastBottom = hit.collider;
                     //jumpingDown = true;
                     Physics.IgnoreCollision(controller, hit.collider);
                 }
             }
+            
+           
         }
 
         else if (!jumping && !jumpingDown)
