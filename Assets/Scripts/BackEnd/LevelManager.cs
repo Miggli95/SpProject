@@ -14,6 +14,10 @@ public class LevelManager : MonoBehaviour
     private int livingPlayers;
     private GameObject deadPlayer;
     private bool dontcheckplayers = true;
+    public GameObject Level2Lock;
+    public GameObject Level2Menu;
+    public GameObject Level3Lock;
+    public GameObject Level3Menu;
 
     void Awake()
     {
@@ -48,9 +52,36 @@ public class LevelManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().name)
         {
             case "Hub(24x16)":
-
-                timerText.GetComponent<Timer>().setInstuctions("Welcome to Leaping Lemmings");
-                timerText.GetComponent<Timer>().timerActive(false);
+                switch (timerText.GetComponent<Timer>().getLastLevel())
+                {
+                    case "Nothing":
+                        timerText.GetComponent<Timer>().setInstuctions("Welcome to Leaping Lemmings");
+                        timerText.GetComponent<Timer>().timerActive(false);
+                        break;
+                    case "Level1":
+                        timerText.GetComponent<Timer>().setInstuctions("Well done feeding the bear, now finish the job");
+                        timerText.GetComponent<Timer>().timerActive(false);
+                        Level2Lock.SetActive(false);
+                        Level2Menu.SetActive(true);
+                        break;
+                    case "Level2":
+                        timerText.GetComponent<Timer>().setInstuctions("The bear sated now you have to finish the dark ritual");
+                        timerText.GetComponent<Timer>().timerActive(false);
+                        Level2Lock.SetActive(false);
+                        Level2Menu.SetActive(true);
+                        Level3Lock.SetActive(false);
+                        Level3Menu.SetActive(true);
+                        break;
+                    case "Level3":
+                        timerText.GetComponent<Timer>().setInstuctions("");
+                        timerText.GetComponent<Timer>().timerActive(false);
+                        Level2Lock.SetActive(false);
+                        Level2Menu.SetActive(true);
+                        Level3Lock.SetActive(false);
+                        Level3Menu.SetActive(true);
+                        break;
+                }
+                
                 break;
             case "CharacterControllerDevelopmentScene":
                 timerText.GetComponent<Timer>().timerActive(true);
@@ -108,7 +139,13 @@ public class LevelManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
-            SceneManager.LoadScene("ControllTestLevel");
+            if (timerText.GetComponent<Timer>().getLastLevel() == "Level2")
+                timerText.GetComponent<Timer>().setLastLevel("Level3");
+            if (timerText.GetComponent<Timer>().getLastLevel() == "Level1")
+                timerText.GetComponent<Timer>().setLastLevel("Level2");
+            if (timerText.GetComponent<Timer>().getLastLevel()== "Nothing")
+                timerText.GetComponent<Timer>().setLastLevel("Level1");
+
         }
         int i = 0;
         if (!dontcheckplayers)

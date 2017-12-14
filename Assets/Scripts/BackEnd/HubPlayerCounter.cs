@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HubPlayerCounter : MonoBehaviour {
     public List<GameObject> Particles;
@@ -24,7 +25,17 @@ public class HubPlayerCounter : MonoBehaviour {
         texty.text = "Start game" + "\n" + "Players: " + i + " / 4";
         if(i == 4)
         {
-
+            switch (this.name)
+            {
+                case "Level1":
+                    SceneManager.LoadScene("Level8");
+                    break;
+                case "Level2":
+                    break;
+                case "Level3":
+                    break;
+            }
+        
         }
 
 
