@@ -25,6 +25,7 @@ public class Timer : MonoBehaviour
     public GameObject[] scoreIcons;
     private bool player1s = true, player2s = true, player3s = true, player4s = true;
     private List<bool> simpleControls = null;
+    private string lastLevel = "Nothing";
     // Use this for initialization
     void Awake()
     {
@@ -231,7 +232,10 @@ public class Timer : MonoBehaviour
     {
         return timer;
     }
-
+    public string getLastLevel()
+    {
+        return lastLevel;
+    }
     public void setStartingPositions()
     {
         var scoreSorted = new int[] { score[0], score[1], score[2], score[3] };
@@ -274,6 +278,10 @@ public class Timer : MonoBehaviour
                 break;
         }
 
+    }
+    public void setLastLevel(string s)
+    {
+        lastLevel = s;
     }
     public void doAlch(string player)
     {
