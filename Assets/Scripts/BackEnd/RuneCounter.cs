@@ -24,7 +24,6 @@ public class RuneCounter : MonoBehaviour {
                 this.GetComponent<SphereCollider>().enabled = true;
             }
         }
-        print(timerino);
 	}
     private void OnTriggerEnter(Collider other)
     {
@@ -35,7 +34,7 @@ public class RuneCounter : MonoBehaviour {
             score.runeGet(other.gameObject.name,1);
             other.gameObject.GetComponent<Controller2D>().sizeUp();
             
-            Destroy(this.transform.parent.gameObject);
+           Destroy(this.transform.parent.gameObject);
         }
         else if (other.GetType() == typeof(CharacterController)){
             score.runeGet(other.gameObject.name,3);
