@@ -68,7 +68,6 @@ public class do_Door : staticDisruptiveObject {
         }*/
         if(currentRotation == targetRotation || currentRotation > 0 || currentRotation < -90)
         {
-            Debug.Log(targetRotation + " " + currentRotation);
             hinge.transform.eulerAngles = new Vector3(0, targetRotation * 0.99f);
             currentRotation = targetRotation * 0.99f;
             isInteracted = false;
