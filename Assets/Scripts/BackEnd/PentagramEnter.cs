@@ -18,6 +18,9 @@ public class PentagramEnter : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Player"))
+            return;
+
         if (other.GetComponent<Controller2D>().getAlive())
         {
             switch (this.transform.parent.name)
@@ -56,6 +59,8 @@ public class PentagramEnter : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        if (!other.CompareTag("Player"))
+            return;
         if (other.GetComponent<Controller2D>().getAlive())
         {
             switch (this.transform.parent.name)
