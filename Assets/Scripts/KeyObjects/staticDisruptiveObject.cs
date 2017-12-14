@@ -51,7 +51,6 @@ public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
     }
     public virtual void OnTriggerEnter(Collider other)
     {
-        Debug.Log(gameObject.name);
         if (other.CompareTag("Player"))
         {
             

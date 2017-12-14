@@ -12,7 +12,6 @@ public class DoorGrace : MonoBehaviour {
     {
         if (other.CompareTag("Player") && grace)
         {
-            Debug.Log("Grace added");
             door.addGrace(other.GetComponent<Controller2D>());
         }
     }
@@ -21,7 +20,6 @@ public class DoorGrace : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Grace removed");
             door.removeGrace(other.GetComponent<Controller2D>());
         }
     }
