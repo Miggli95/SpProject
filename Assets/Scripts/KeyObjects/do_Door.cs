@@ -15,7 +15,9 @@ public class do_Door : staticDisruptiveObject {
     private DoorGrace grace;
     private Controller2D player;
     public bool startClosed;
-    private Vector3 rotation;
+    private float rotation;
+    private float targetRotation;
+    private float currentRotation;
 	
 	void Start () {
         base.Initialize(true);
@@ -55,7 +57,7 @@ public class do_Door : staticDisruptiveObject {
     {
         if (!isInteracted)
             return;
-        if(timer <= 0)
+        /*if(timer <= 0)
         {
             hinge.transform.Rotate(rotation);
             isInteracted = false;
@@ -63,7 +65,20 @@ public class do_Door : staticDisruptiveObject {
         else
         {
             timer -= Time.deltaTime;
+        }*/
+        if(currentRotation == targetRotation || currentRotation > 0 || currentRotation < -90)
+        {
+            Debug.Log(targetRotation + " " + currentRotation);
+            hinge.transform.eulerAngles = new Vector3(0, targetRotation * 0.99f);
+            currentRotation = targetRotation * 0.99f;
+            isInteracted = false;
         }
+        else
+        {
+            hinge.transform.Rotate(new Vector3(0, rotation * Time.deltaTime));
+            currentRotation += rotation * Time.deltaTime;
+        }
+
 
 
 
@@ -72,9 +87,12 @@ public class do_Door : staticDisruptiveObject {
 
     private void Open() //call animation event
     {
-        hinge.transform.Rotate(new Vector3(0, 45));
-        rotation = new Vector3(0, 45f);
+        //hinge.transform.Rotate(new Vector3(0, 45));
+        //rotation = new Vector3(0, 45f);
         //grace.transform.Rotate(new Vector3(0, 90));
+        //hinge.transform.eulerAngles = new Vector3(0, 0f);
+        targetRotation += 90;
+        rotation = 720f;
         DoorCol.enabled = false;
         state = InteractableState.Enabled;
         isInteracted = true;
@@ -89,8 +107,11 @@ public class do_Door : staticDisruptiveObject {
     private void Close() //call animation event
     {
         DoorCol.enabled = true;
-        hinge.transform.Rotate(new Vector3(0, -45));
-        rotation = new Vector3(0, -45f);
+        targetRotation += -90;
+        rotation = -720f;
+        //hinge.transform.eulerAngles = new Vector3(0, -90f);
+        //hinge.transform.Rotate(new Vector3(0, -45));
+        //rotation = new Vector3(0, -45f);
         grace.startGrace();
         //grace.transform.Rotate(new Vector3(0, -90));
         state = InteractableState.Interacted;
