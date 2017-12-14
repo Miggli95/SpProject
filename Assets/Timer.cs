@@ -313,9 +313,9 @@ public class Timer : MonoBehaviour
         player2s = true;
         player3s = true;
         player4s = true;
-        var scoreSorted = new int[] { score[0], score[1], score[2], score[3] };
+        var scoreSorted = score;
         Array.Sort(scoreSorted);
-        int playerid = scoreSorted[3] % 10;
+        int playerid = scoreSorted[scoreSorted.Length-1] % 10;
         GameObject.Find("GrimoireGiver").GetComponent<GrimoireGiver>().giveGrimoire(playerid);
     }
 
