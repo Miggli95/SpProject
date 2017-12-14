@@ -63,7 +63,6 @@ public abstract class staticDisruptiveObject : MonoBehaviour , IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log(gameObject.name + " exit");
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)
             var player = other.GetComponent<Controller2D>();
             //Reset what the interactable the player is currently near, remove what information we got about the player and object the player is carrying(keyobject id)

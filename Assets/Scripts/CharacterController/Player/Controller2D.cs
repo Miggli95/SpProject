@@ -894,7 +894,6 @@ public class Controller2D : MonoBehaviour
         var preserve = PickUpFocusList[PickUpFocusSelected];
         var index = PickUpFocusList.IndexOf(pickup);
         var removed = PickUpFocusList.Remove(pickup);
-        UnityEngine.Debug.Log("Pickup removed " + PickUpFocusList.Count);
         PickUpFocusList.TrimExcess();
 
         if (index != PickUpFocusSelected && removed)
