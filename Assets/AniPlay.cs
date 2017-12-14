@@ -1,30 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
-public class AniPlay : MonoBehaviour {
+public class AniPlay : MonoBehaviour
+{
 
-   // public GameObject BearEvenHungrier2;
-    public Animator _animator = null;
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-         if(other.gameObject.tag == "Player")
-        {
-
-            _animator.Play("SimpleBearAni");
-            
-        }
-    }
+    public bool enterTrig;
+   
+    private Animator anim;
+  
 
     // Use this for initialization
-    void Start () {
-        _animator = GetComponent<Animator>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        anim = GetComponent<Animator>();
+    }
+
+
+    
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+
+            anim.SetBool("SimpleBearAni.anim", true);
+            GetComponent<AudioSource>().Play();
+            print("works");
+
+        }
+    }
 }
