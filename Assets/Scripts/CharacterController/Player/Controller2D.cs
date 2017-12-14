@@ -143,12 +143,19 @@ public class Controller2D : MonoBehaviour
         controller.transform.position = target;
     }
 
+    public void InitControlls(bool consoleControlls)
+    {
+        this.consoleControlls = consoleControlls;
+        keyManager = GetComponent<ControllerKeyManager>();
+        keyManager.getKeyCode(this.name, this, ref XBOX);
+    }
+
     // Use this for initialization
     void Start()
     {
         minJumpSpeed = jumpSpeed / 2;
-        keyManager = GetComponent<ControllerKeyManager>();
-        keyManager.getKeyCode(this.name, this, ref XBOX);
+
+        InitControlls(consoleControlls);
 
         if (!consoleControlls)
         {

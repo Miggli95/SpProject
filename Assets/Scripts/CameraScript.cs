@@ -21,9 +21,19 @@ public class CameraScript : MonoBehaviour
     public int size = 0;
     public float maximumSize;
     public bool killCamera;
-    public Rect cameraView; 
+    public Rect cameraView;
+    bool init = false;
     // Use this for initialization
     void Start()
+    {
+        if (!init)
+        {
+            Init();
+        }
+    }
+
+
+    public void Init()
     {
         minX = float.MaxValue;
         maxX = float.MinValue;
@@ -40,9 +50,9 @@ public class CameraScript : MonoBehaviour
         }
         players = GameObject.FindGameObjectsWithTag("Player");
         size = players.Length;
+        init = true;
     }
 
-    
     public bool Contains(string name,GameObject[] array)
     {
         foreach (GameObject g in array)

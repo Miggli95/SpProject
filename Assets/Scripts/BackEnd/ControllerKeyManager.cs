@@ -12,9 +12,14 @@ public class ControllerKeyManager : MonoBehaviour {
     string[] controllers = { "a", "", "", "" };
     // Use this for initialization
     void Start () {
-		
-	}
-	
+        
+    }
+
+    public static int ConnectedControllers()
+    {
+        return Input.GetJoystickNames().Length;
+    }
+
 	// Update is called once per frame
 	void Update () {
         controllers = Input.GetJoystickNames();
