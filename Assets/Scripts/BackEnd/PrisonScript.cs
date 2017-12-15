@@ -37,7 +37,26 @@ public class PrisonScript : MonoBehaviour {
         {
             if (players.Count == 0)
             {
-                countdown = 2f;
+                switch (this.name)
+                {
+                    case "1st":
+                        countdown = 2f;
+                        break;
+                    case "2nd":
+                        countdown = 3f;
+                        break;
+                    case "3rd":
+                        countdown = 4f;
+                        break;
+                    case "4th":
+                        countdown = 5f;
+                        break;
+                    default:
+                        countdown = 2f;
+                        break;
+                   
+
+                }
             }
             var player = other.GetComponent<Controller2D>();
             players.Add(player);
