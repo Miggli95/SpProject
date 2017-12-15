@@ -297,11 +297,14 @@ public class Controller2D : MonoBehaviour
                         if (hit.collider.gameObject.name != gameObject.name)
                         {
                             float distance = Mathf.Abs(controller.transform.position.y - hit.collider.transform.position.y);
-                            if (distance <= controller.height * 0.6f && distance>= controller.height*0.4f)
+                            if (distance <= controller.height * 0.6f && distance>= controller.height/2)
                             {
-                                onPlayerHead = true;
-                                moveDir.y = 0;
-                                break;
+                                if (hit.collider.GetComponent<Controller2D>().moveDir.y<=0 && moveDir.y<=0)
+                                {
+                                    onPlayerHead = true;
+                                    moveDir.y = 0;
+                                    break;
+                                }
                             }
 
                         }
