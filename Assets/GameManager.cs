@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     GameObject[] players;
     List<string> activePlayers = new List<string>();
     CameraScript mainCamera;
+   
 	// Use this for initialization
 	void Start ()
     {
