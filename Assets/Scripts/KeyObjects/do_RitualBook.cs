@@ -40,11 +40,13 @@ public class do_RitualBook : PickUpKeyObject {
 
     public override void StartTimer()
     {
+        GameObject.Find("UI Camera").GetComponent<Timer>().startTimer();
         shouldCountDown = true;
     }
 
     public override void StopTimer()
     {
+        GameObject.Find("UI Camera").GetComponent<Timer>().StopTimer();
         shouldCountDown = false;
     }
 }

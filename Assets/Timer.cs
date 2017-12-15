@@ -26,6 +26,7 @@ public class Timer : MonoBehaviour
     private bool player1s = true, player2s = true, player3s = true, player4s = true;
     private List<bool> simpleControls = null;
     private string lastLevel = "Nothing";
+    bool stopTimer = false;
     // Use this for initialization
     void Awake()
     {
@@ -78,10 +79,13 @@ public class Timer : MonoBehaviour
         }
         else
             counterText.text = levelInstructions;
-        timer = timer - Time.deltaTime;
-        if (timer < 0 && active == true)
+        if (!stopTimer)
         {
-            manager.loadNextLevel();
+            timer = timer - Time.deltaTime;
+            if (timer < 0 && active == true)
+            {
+                manager.loadNextLevel();
+            }
         }
         dScore = copyArray(score);
         Array.Sort(dScore);
@@ -409,6 +413,16 @@ public class Timer : MonoBehaviour
 
         score = arr;
         displayScore();
+    }
+
+    public void startTimer()
+    {
+        stopTimer = false;
+    }
+
+    public void StopTimer()
+    {
+        stopTimer = true;
     }
 
     
