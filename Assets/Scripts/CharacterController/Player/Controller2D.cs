@@ -309,7 +309,7 @@ public class Controller2D : MonoBehaviour
                         if (hit.collider.gameObject.name != gameObject.name)
                         {
                             float distance = Mathf.Abs(controller.transform.position.y - hit.collider.transform.position.y);
-                            if (distance <= controller.height * 0.6f && distance>= controller.height/2)
+                            if (distance <= controller.height * 0.6f && distance>= controller.height*0.4f)
                             {
                                 if (hit.collider.GetComponent<Controller2D>().Grounded)
                                 {
