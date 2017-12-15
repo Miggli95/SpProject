@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    GameObject[] players;
+    public GameObject[] players;
     float minX, maxX;
     float minY, maxY;
     Camera camera;
@@ -23,6 +23,8 @@ public class CameraScript : MonoBehaviour
     public bool killCamera;
     public Rect cameraView;
     bool init = false;
+    float y = 0;
+    float x = 0;
     // Use this for initialization
     void Start()
     {
@@ -137,39 +139,40 @@ public class CameraScript : MonoBehaviour
 
     // Update is called once per frame
     bool resetMinX, resetMaxX, resetMinY, resetMaxY;
+    Vector3 lastTarget;
     void Update()
     {
         resetMinX = true;
         resetMaxX = true;
         resetMinY = true;
         resetMaxY = true;
-
+        lastTarget = target;
         currentSize = camera.orthographicSize;
         foreach (GameObject p in players)
         {
             Vector2 pos = p.transform.position;
-            if (pos.x <= minX)
+            if (pos.x < minX)
             {
                // print("min " + p.name);
                 resetMinX = false;
                 minX = pos.x;
             }
 
-            else if (pos.x >= maxX)
+            if (pos.x > maxX)
             {
                // print("max " + p.name);
                 resetMaxX = false;
                 maxX = pos.x;
             }
 
-            if (pos.y <= minY)
+            if (pos.y < minY)
             {
                // print("min " + p.name);
                 resetMinY = false;
                 minY = pos.y;
             }
 
-            else if (pos.y >= maxY)
+            if (pos.y > maxY)
             {
               //  print("max " + p.name);
                 resetMaxY = false;
@@ -212,17 +215,19 @@ public class CameraScript : MonoBehaviour
             camera.orthographicSize = Mathf.Abs(Mathf.SmoothStep(camera.orthographicSize, minSize + offset, time));
         }
        
-            float y = transform.position.y;
+           
         if (minY != float.MaxValue && maxY != float.MinValue)
             y = (maxY + minY) / 2;
-        float x = transform.position.x;
+       
         if (minX != float.MaxValue && maxX != float.MinValue)
             x = (maxX + minX) / 2;
 
         target.y = Mathf.SmoothStep(target.y, y + offsetY, time);
 
         target.x = Mathf.SmoothStep(target.x, x + offsetX, time);
-        transform.position = target;
+
+        if(target!=lastTarget)
+        transform.position = target + new Vector3(offsetX, offsetY);
 
 
         if (killCamera)
@@ -240,11 +245,13 @@ public class CameraScript : MonoBehaviour
         if (resetMinX)
         {
             minX = float.MaxValue;
+            resetMinX = false;
         }
 
         if (resetMaxX)
         {
             maxX = float.MinValue;
+            resetMaxX = false;
             // maxY = float.MinValue;
             // minY = float.MaxValue;
         }
@@ -252,11 +259,13 @@ public class CameraScript : MonoBehaviour
         if (resetMinY)
         {
             minY = float.MaxValue;
+            resetMinY = false;
         }
 
         if (resetMaxY)
         {
             maxY = float.MinValue;
+            resetMaxY = false;
             // maxY = float.MinValue;
             // minY = float.MaxValue;
         }
