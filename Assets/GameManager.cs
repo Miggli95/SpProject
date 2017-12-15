@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
             {
                 player.SetActive(true);
                 player.GetComponent<Controller2D>().InitControlls(true);
+                player.GetComponent<Controller2D>().updateIgnoreCollisions();
                 mainCamera.AddPlayer(player.name);
             }
 

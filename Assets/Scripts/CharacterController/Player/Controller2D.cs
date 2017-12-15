@@ -173,16 +173,17 @@ public class Controller2D : MonoBehaviour
 
         PickUpFocusList = new List<IPickUp>();
         PickUpFocusSelected = 0;
-        players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
-        players = GameObject.FindGameObjectsWithTag("Player");
+        //players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
+        //players = GameObject.FindGameObjectsWithTag("Player");
         soundy = GameObject.Find("UI Camera").GetComponent<SoundManagerScript>();
         ghost = GetComponent<Ghost>();
-        foreach (GameObject p in players)
+        updateIgnoreCollisions();
+        /*foreach (GameObject p in players)
         {
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CapsuleCollider>(), true);
             Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<CharacterController>(), true);
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CharacterController>(), true);
-        }
+        }*/
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -194,6 +195,18 @@ public class Controller2D : MonoBehaviour
         }
 
         selectedSpeed = speed;
+    }
+
+    public void updateIgnoreCollisions()
+    {
+        players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
+        players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+            Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CapsuleCollider>(), true);
+            Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<CharacterController>(), true);
+            Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CharacterController>(), true);
+        }
     }
 
     public float Smooth(float target, ref float currentValue, float accelerationTime, float deaccelrationTime)
