@@ -7,9 +7,11 @@ public class HubPlayerCounter : MonoBehaviour {
     public List<GameObject> Particles;
     private TextMesh texty;
     int i = 0;
+    private GameManager manager;
     // Use this for initialization
     void Start () {
         texty = this.GetComponent<TextMesh>();
+        manager = GameObject.Find("UI Camera").GetComponent<GameManager>();
     }
 	
 	// Update is called once per frame
@@ -22,8 +24,8 @@ public class HubPlayerCounter : MonoBehaviour {
                 i++;
             }
         }
-        texty.text = "Start game" + "\n" + "Players: " + i + " / 4";
-        if(i == 4)
+        texty.text = "Start game" + "\n" + "Players: " + i + " / " + manager.connectedControllers;
+        if(i == manager.connectedControllers)
         {
             switch (this.name)
             {
