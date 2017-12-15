@@ -371,4 +371,29 @@ public class Timer : MonoBehaviour
 
         return copy;
     }
+
+    public void addPlayer(int size)
+    {
+        size -= score.Length;
+        if (size <= 0)
+            return;
+
+        int[] arr = new int[score.Length + size];
+        for(int i = 0; i < arr.Length; i++)
+        {
+            if (i >= score.Length)
+            {
+                arr[i] = i + 1;
+            }
+            else
+            {
+                arr[i] = score[i];
+            }
+        }
+
+        score = arr;
+        displayScore();
+    }
+
+    
 }

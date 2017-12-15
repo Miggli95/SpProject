@@ -41,8 +41,6 @@ public class GameManager : MonoBehaviour {
 
         }
 
-
-
         foreach (GameObject player in players)
         {
             if (activePlayers.Contains(player.name))
@@ -67,6 +65,7 @@ public class GameManager : MonoBehaviour {
         if(connectedControllers != ControllerKeyManager.ConnectedControllers())
         {
             UpdateConnectedPlayers();
+            GetComponent<Timer>().addPlayer(connectedControllers);
         }
 	}
 
@@ -77,6 +76,10 @@ public class GameManager : MonoBehaviour {
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Start();
+        if (scene.name != "Hub(24x16)")
+        {
+            Debug.Log("Scene loaded");
+            Start();
+        }
     }
 }
