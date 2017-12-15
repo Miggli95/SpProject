@@ -79,7 +79,7 @@ public class Ghost : MonoBehaviour
             mortarAim.SetActive(stationary);
             charController = GetComponent<CharacterController>();
             startZ = transform.position.z;
-            controller2D.canDash = canDash;
+            controller2D.canDash = true;
             initialized = true;
             
         }
