@@ -274,7 +274,7 @@ public class Controller2D : MonoBehaviour
             onOneWay = false;
         }
     }
-    Vector3 position = new Vector3();
+
     public bool OnPlayerHead()
     {
         bool onPlayerHead = false;
@@ -309,23 +309,13 @@ public class Controller2D : MonoBehaviour
                         if (hit.collider.gameObject.name != gameObject.name)
                         {
                             float distance = Mathf.Abs(controller.transform.position.y - hit.collider.transform.position.y);
-                            if (distance <= controller.height/2 )
+                            if (distance <= controller.height * 0.6f && distance>= controller.height/2)
                             {
                                 if (hit.collider.GetComponent<Controller2D>().Grounded)
                                 {
-                                    
-                                    position = transform.position;
-                                    CharacterController other = hit.collider.GetComponent<Controller2D>().getCharController();
-                                    float y = other.center.y + other.transform.position.y + other.height/2;
-                                    Vector3 head = new Vector3(position.x, y, position.z);
-                                    Vector3 target = head - transform.position;
-                                    if (transform.position.y >= other.transform.position.y)
-                                    {
-                                        transform.Translate(target);
-                                        onPlayerHead = true;
-                                        moveDir.y = 0;
-                                        break;
-                                    }
+                                    onPlayerHead = true;
+                                    moveDir.y = 0;
+                                    break;
                                 }
                             }
 
