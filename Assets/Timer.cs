@@ -240,12 +240,15 @@ public class Timer : MonoBehaviour
     {
         return lastLevel;
     }
-    public void setStartingPositions()
+    public void setStartingPositions(string s)
     {
         var scoreSorted = copyArray(score);
         Array.Sort(scoreSorted);
         int[] playerID = getPlayerID(scoreSorted);
-        GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setPositions(playerID);
+        if (s == "Speedrun")
+            GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setPositions(playerID);
+        else if (s == "Credit")
+            GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setCreditPositions(playerID);
     }
     public void doGrimoire(string player, int value)
     {

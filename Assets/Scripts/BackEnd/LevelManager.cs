@@ -105,7 +105,7 @@ public class LevelManager : MonoBehaviour
                 timerText.GetComponent<Timer>().timerActive(true);
                 timerText.GetComponent<Timer>().setInstuctions("Feed the bear!");
                 timerText.GetComponent<Timer>().setTimer(60f);
-                timerText.GetComponent<Timer>().setStartingPositions();
+                timerText.GetComponent<Timer>().setStartingPositions("Speedrun");
                 break;
             case "Level7(BigxSmaller)":
                 timerText.SetActive(true);
@@ -118,7 +118,7 @@ public class LevelManager : MonoBehaviour
                 timerText.SetActive(true);
                 timerText.GetComponent<Timer>().timerActive(false);
                 timerText.GetComponent<Timer>().setInstuctions("");
-                timerText.GetComponent<Timer>().setStartingPositions();
+                timerText.GetComponent<Timer>().setStartingPositions("Credit");
                 break;
         }
         dontcheckplayers = false;
