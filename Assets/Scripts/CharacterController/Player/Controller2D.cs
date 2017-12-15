@@ -104,12 +104,12 @@ public class Controller2D : MonoBehaviour
     private SoundManagerScript soundy;
     private bool isSlowed = false;
     List<GameObject> oneways = new List<GameObject>();
-
     GameObject stunP;
     public float stunTime = 1.0f;
     public bool canDashWithItem = false;
     private bool lockCheck = false;
     public bool SimpleControls = true;
+    public int airDashCount = 0;
 
     private ICharacterState GetInitialCharacterState()
     {
@@ -173,17 +173,16 @@ public class Controller2D : MonoBehaviour
 
         PickUpFocusList = new List<IPickUp>();
         PickUpFocusSelected = 0;
-        //players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
-        //players = GameObject.FindGameObjectsWithTag("Player");
+        players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
+        players = GameObject.FindGameObjectsWithTag("Player");
         soundy = GameObject.Find("UI Camera").GetComponent<SoundManagerScript>();
         ghost = GetComponent<Ghost>();
-        updateIgnoreCollisions();
-        /*foreach (GameObject p in players)
+        foreach (GameObject p in players)
         {
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CapsuleCollider>(), true);
             Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<CharacterController>(), true);
             Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CharacterController>(), true);
-        }*/
+        }
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -195,18 +194,6 @@ public class Controller2D : MonoBehaviour
         }
 
         selectedSpeed = speed;
-    }
-
-    public void updateIgnoreCollisions()
-    {
-        players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
-        players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject p in players)
-        {
-            Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CapsuleCollider>(), true);
-            Physics.IgnoreCollision(this.GetComponent<CharacterController>(), p.GetComponent<CharacterController>(), true);
-            Physics.IgnoreCollision(this.GetComponent<CapsuleCollider>(), p.GetComponent<CharacterController>(), true);
-        }
     }
 
     public float Smooth(float target, ref float currentValue, float accelerationTime, float deaccelrationTime)
@@ -230,11 +217,11 @@ public class Controller2D : MonoBehaviour
         topHit = Physics.RaycastAll(top, controller.height / 2);
         foreach (RaycastHit hit in topHit)
         {
-            if (!hit.collider.CompareTag("One Way") && !hit.collider.CompareTag("Potion") && !hit.collider.CompareTag("Player") && !hit.collider.CompareTag("IgnoreCollision"))
+            if (!hit.collider.CompareTag("One Way") && !hit.collider.CompareTag("Potion") && !hit.collider.CompareTag("Player") && !hit.collider.CompareTag("IgnoreCollision") && !hit.collider.CompareTag("Rune"))
             {
                 moveDir.y = -1;
             }
-            else if (hit.collider.CompareTag("Potion") || hit.collider.CompareTag("IgnoreCollision")) { return; }
+            else if (hit.collider.CompareTag("Potion") || hit.collider.CompareTag("IgnoreCollision") || hit.collider.CompareTag("Rune")) { return; }
 
             else
             {
@@ -312,7 +299,7 @@ public class Controller2D : MonoBehaviour
                             float distance = Mathf.Abs(controller.transform.position.y - hit.collider.transform.position.y);
                             if (distance <= controller.height * 0.6f && distance>= controller.height/2)
                             {
-                                if (hit.collider.GetComponent<Controller2D>().moveDir.y<=0 && moveDir.y<=0)
+                                if (hit.collider.GetComponent<Controller2D>().Grounded)
                                 {
                                     onPlayerHead = true;
                                     moveDir.y = 0;
@@ -492,7 +479,7 @@ public class Controller2D : MonoBehaviour
 
         if (Grounded)
         {
-
+            airDashCount = 0;
             jumpTimerDelay = jumpTimer;
             moveDir.x = Smooth(targetDir.x, ref moveDir.x, accelerationTime, deaccelrationTime);
             if (!onPlayerHead)
@@ -711,6 +698,7 @@ public class Controller2D : MonoBehaviour
 
         if (Grounded)
         {
+
             if (lastJumpDir != (int)JumpDir.JumpDown)
             {
                 //print("jumpDir " + jumpDir);
@@ -876,6 +864,7 @@ public class Controller2D : MonoBehaviour
 
     public void Boost(float BoostSpeed)
     {
+        airDashCount = 0;
         this.BoostSpeed = BoostSpeed;
         boost = true;
     }

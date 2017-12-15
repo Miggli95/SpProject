@@ -10,9 +10,8 @@ public struct AirState : ICharacterState
     private int MaxJumpCount;
     bool fell;
     bool airDash;
-    int airDashCount;
     int MaxAirDashCount;
-    public AirState(Controller2D controller, bool fell = false, int maxJumpCount = 1, int MaxAirDashCount = 1, int airDashCount=0)
+    public AirState(Controller2D controller, bool fell = false, int maxJumpCount = 1, int MaxAirDashCount = 1)
     {
         if (controller == null)
         {
@@ -24,10 +23,7 @@ public struct AirState : ICharacterState
         this.fell = fell;
         this.MaxAirDashCount = MaxAirDashCount;
         jumpCount = fell ? 1 : 0;
-
-
-        this.airDashCount = airDashCount;
-        airDash = airDashCount > 0; 
+        airDash = controller.airDashCount > 0; 
     }
 
     public void Enter()
@@ -62,9 +58,9 @@ public struct AirState : ICharacterState
             controller.moveDir.y = controller.minJumpSpeed;
         }
 
-        if (controller.triggerInput > 0 && controller.canCMove() && controller.canDash && airDashCount<MaxAirDashCount)
+        if (controller.triggerInput > 0 && controller.canCMove() && controller.canDash && controller.airDashCount<MaxAirDashCount)
         {
-            return new CharacterStateData(Vector2.zero, new DashState(controller, controller.dashSpeed,airDashCount), true);
+            return new CharacterStateData(Vector2.zero, new DashState(controller, controller.dashSpeed), true);
         }
 
 

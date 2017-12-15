@@ -11,27 +11,35 @@ public struct DashState : ICharacterState
     {
     }
     bool airDash;
-    int airDashCount;
-    public DashState(Controller2D controller, float dashSpeed, int airDashCount = 0)
+   
+    bool AirDashed;
+    public DashState(Controller2D controller, float dashSpeed)
     {
         this.controller = controller;
         this.dashSpeed = dashSpeed;
-        this.airDashCount = airDashCount;
         airDash = !controller.Grounded;
+        AirDashed = false;
     }
 
     public CharacterStateData Update(Vector2 input, float deltaTime)
     {
 
-        if (airDash)
+       
+
+        if (controller.triggerInput > 0 && controller.canCMove() && controller.canDash)
         {
-            airDashCount++;
+            if (airDash && !AirDashed)
+            {
+                //airDashCount++;
+                controller.airDashCount++;
+                AirDashed = true;
+            }
+            Dash();
         }
 
-        if (controller.triggerInput > 0 && controller.canCMove())
+        else 
         {
-            Dash();
-            
+            AirDashed = false;
         }
 
         if (controller.canCMove() && controller.dash && !controller.isGhost) //|| controller.isGhost && controller.GetComponent<Ghost>().dash)
@@ -47,7 +55,8 @@ public struct DashState : ICharacterState
         if (Input.GetKeyDown(controller.JumpKey) && controller.canCMove() && controller.Grounded)
         {
             controller.dash = false;
-            return new CharacterStateData(Vector2.zero, new AirState(controller,false,1,1,0), true);
+            controller.airDashCount = 0;
+            return new CharacterStateData(Vector2.zero, new AirState(controller,false,1,1), true);
         }
         var velocity = controller.getVelocity();
         var movement = Vector2.zero;
@@ -75,7 +84,7 @@ public struct DashState : ICharacterState
 
         if (airborne && !controller.dash)
         {
-            characterStateData.NewState = new AirState(controller, true,1,1,airDashCount);
+            characterStateData.NewState = new AirState(controller, true,1,1);
         }
 
         return characterStateData;
@@ -128,8 +137,7 @@ public struct DashState : ICharacterState
     }
 
     void Dash()
-    {
- 
+    { 
         if (controller.isGhost && controller.GetComponent<Ghost>().canDash)
         {
             controller.gameObject.GetComponent<Ghost>().Dash();
