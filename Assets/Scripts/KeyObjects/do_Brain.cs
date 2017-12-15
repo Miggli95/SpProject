@@ -6,6 +6,8 @@ public class do_Brain : pickUpDisruptiveObject {
 
     private Controller2D usingPlayer;
     private Vector3 throwDir;
+    public Sprite brainActive;
+    private SpriteRenderer ren;
     public float throwX;
     public float throwY;
     private bool hitSomething;
@@ -20,6 +22,7 @@ public class do_Brain : pickUpDisruptiveObject {
         graceTimer = 0f;
         gracePeriod = 0.7f;
         grace = false;
+        ren = GetComponent<SpriteRenderer>();
         
     }
 
@@ -44,6 +47,12 @@ public class do_Brain : pickUpDisruptiveObject {
     public override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(state == pickUpState.Used)
+            ren.sprite = brainActive;
     }
 
     public override bool Use(Controller2D player)

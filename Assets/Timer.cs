@@ -50,6 +50,7 @@ public class Timer : MonoBehaviour
          drawScores();*/
         //score = new int[] { player1Score, player2Score, player3Score, player4Score };
         score = SetUpScore();
+        dScore = new int[0];
         displayScore();
     }
 
@@ -69,7 +70,7 @@ public class Timer : MonoBehaviour
         {
             manager.loadNextLevel();
         }
-        dScore = score;
+        dScore = copyArray(score);
         Array.Sort(dScore);
         int[] playerID = getPlayerID(score);
         if (!(dScore[dScore.Length-2] > dScore[dScore.Length-1]))
@@ -202,7 +203,7 @@ public class Timer : MonoBehaviour
 
     private void displayScore()
     {
-        dScore = score;
+        dScore = copyArray(score);
         Array.Sort(dScore);
         int[] switchA = getPlayerID(dScore);
         for (int x =0; x<score.Length; x++)
@@ -241,7 +242,7 @@ public class Timer : MonoBehaviour
     }
     public void setStartingPositions()
     {
-        var scoreSorted = score;
+        var scoreSorted = copyArray(score);
         Array.Sort(scoreSorted);
         int[] playerID = getPlayerID(scoreSorted);
         GameObject.FindGameObjectWithTag("Starting Positions").GetComponent<StartingPositions>().setPositions(playerID);
@@ -313,7 +314,8 @@ public class Timer : MonoBehaviour
         player2s = true;
         player3s = true;
         player4s = true;
-        var scoreSorted = score;
+        var scoreSorted = new int[0];
+        scoreSorted = copyArray(score);
         Array.Sort(scoreSorted);
         int playerid = scoreSorted[scoreSorted.Length-1] % 10;
         GameObject.Find("GrimoireGiver").GetComponent<GrimoireGiver>().giveGrimoire(playerid);
@@ -359,5 +361,14 @@ public class Timer : MonoBehaviour
             arr[i] = inarr[i] % 10;
         }
         return arr;
+    }
+
+    private int[] copyArray(int[] arr)
+    {
+        int[] copy = new int[arr.Length];
+        for (int i = 0; i <= arr.Length - 1; i++)
+            copy[i] = arr[i];
+
+        return copy;
     }
 }

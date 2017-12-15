@@ -221,7 +221,7 @@ public class Controller2D : MonoBehaviour
             {
                 moveDir.y = -1;
             }
-            else if (hit.collider.CompareTag("Potion") || hit.collider.CompareTag("IgnoreCollision")) { Physics.IgnoreCollision(controller, hit.collider); return; }
+            else if (hit.collider.CompareTag("Potion") || hit.collider.CompareTag("IgnoreCollision")) { return; }
 
             else
             {
