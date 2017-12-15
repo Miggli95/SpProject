@@ -29,7 +29,7 @@ public class Ghost : MonoBehaviour
     public Vector2 dashInput;
     public float dashCooldown = 0.1f;
     public float dashCooldownTimer;
-    public bool dash;
+    public bool dash = false;
     public bool stationary = false;
     public GameObject mortarAim;
     public GameObject projectile;
@@ -48,7 +48,7 @@ public class Ghost : MonoBehaviour
         controller2D = GetComponent<Controller2D>();
         dashDuration = controller2D.DashTimer;
         dashCooldown = controller2D.dashCooldown*2;
-
+       
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.name == "MortarAim")
@@ -79,7 +79,9 @@ public class Ghost : MonoBehaviour
             mortarAim.SetActive(stationary);
             charController = GetComponent<CharacterController>();
             startZ = transform.position.z;
+            controller2D.canDash = canDash;
             initialized = true;
+            
         }
         
 
