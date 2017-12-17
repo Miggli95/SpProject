@@ -6,10 +6,13 @@ public class PrisonScript : MonoBehaviour {
     private BoxCollider boxy;
     private List<Controller2D> players;
     private float countdown = 0f;
+    private bool start = false;
+    public GameObject roof;
     // Use this for initialization
     void Start () {
         boxy = GetComponent<BoxCollider>();
         players = new List<Controller2D>();
+
     }
 	
 	// Update is called once per frame
@@ -27,6 +30,10 @@ public class PrisonScript : MonoBehaviour {
                 cube.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 1.5f, this.transform.position.z);
                 cube.transform.localScale = new Vector3(this.transform.localScale.x, this.transform.localScale.y-3, this.transform.localScale.z);
                 countdown = 0f;
+                if(start)
+                {
+                    roof.SetActive(false);
+                }
             }
         }
         
@@ -40,19 +47,23 @@ public class PrisonScript : MonoBehaviour {
                 switch (this.name)
                 {
                     case "1st":
-                        countdown = 2f;
+                        countdown = 2.2f;
+                        start = true;
                         break;
                     case "2nd":
-                        countdown = 3f;
+                        countdown = 2.3f;
+                        start = true;
                         break;
                     case "3rd":
-                        countdown = 4f;
+                        countdown = 2.4f;
+                        start = true;
                         break;
                     case "4th":
-                        countdown = 5f;
+                        countdown = 2.5f;
+                        start = true;
                         break;
                     default:
-                        countdown = 3f;
+                        countdown = 2f;
                         break;
                    
 
