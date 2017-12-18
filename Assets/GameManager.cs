@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     CameraScript mainCamera;
    
 	// Use this for initialization
-	void Start ()
+	void Awake()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
         mainCamera = Camera.main.GetComponent<CameraScript>();
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour {
         if (scene.name != "Hub(24x16)")
         {
             Debug.Log("Scene loaded");
-            Start();
+            Awake();
         }
     }
 }
