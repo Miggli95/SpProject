@@ -43,8 +43,8 @@ public class SoundManagerScript : MonoBehaviour {
         switch (clip.ToLower())
         {
             case "dash":
+                if(!audioSrc.isPlaying)
                 audioSrc.PlayOneShot(dashSound);
-
                 break;
             case "die":
                 audioSrc.PlayOneShot(dieSound);

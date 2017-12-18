@@ -365,16 +365,23 @@ public class Ghost : MonoBehaviour
             transform.position = newPosition;
         }
     }
-
+    
     public void Dash()
     {
         if (!dash)
         {
-            this.transform.GetChild(3).gameObject.SetActive(true);
+           
             dashInput = charInput;
             //dashDestination = moveDir;
             dashTimer = dashDuration;
+            if (dashInput != Vector2.zero);
+            {
+                SoundManagerScript.PlaySound("Dash");
+                this.transform.GetChild(3).gameObject.SetActive(true);
+            }
+ 
             dash = true;
+           
         }
     }
 
