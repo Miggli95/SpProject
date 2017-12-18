@@ -90,6 +90,7 @@ public class Ghost : MonoBehaviour
 	// Update is called once per frame
 	public void GhostUpdate (Vector2 charInput, float triggerInput)
     {
+        this.transform.GetChild(3).gameObject.SetActive(dash);
         this.charInput = charInput;
         this.triggerInput = triggerInput;
 
@@ -288,7 +289,7 @@ public class Ghost : MonoBehaviour
 
             if (dashTimer >= 0 && canDash)
             {
-                dash = destination.x != 0;
+                dash = destination != Vector3.zero;
                 targetDir.x = destination.x *  dashSpeed;
                 targetDir.y = destination.y * dashSpeed;
                 dashTimer -= Time.fixedDeltaTime;
@@ -299,7 +300,6 @@ public class Ghost : MonoBehaviour
                 dashCooldownTimer = dashCooldown;
                 canDash = false;
                 dash = false;
-                this.transform.GetChild(3).gameObject.SetActive(false);
             }
 
 
@@ -365,23 +365,24 @@ public class Ghost : MonoBehaviour
             transform.position = newPosition;
         }
     }
-    
+
     public void Dash()
     {
         if (!dash)
         {
-           
             dashInput = charInput;
+
+            if (dashInput.x == 0 && dashInput.y == 0)
+            {
+                return;
+            }
+
+            
+           
             //dashDestination = moveDir;
             dashTimer = dashDuration;
-            if (dashInput != Vector2.zero);
-            {
-                SoundManagerScript.PlaySound("Dash");
-                this.transform.GetChild(3).gameObject.SetActive(true);
-            }
- 
+            SoundManagerScript.PlaySound("Dash");
             dash = true;
-           
         }
     }
 
