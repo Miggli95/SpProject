@@ -41,6 +41,8 @@ public class GrimoireGiver : MonoBehaviour {
 
     public void setPickUp()
     {
+        if (grimoire == null)
+            return;
         pickup = grimoire.GetComponent<IPickUp>();
     }
 }

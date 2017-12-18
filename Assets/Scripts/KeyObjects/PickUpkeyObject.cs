@@ -69,6 +69,8 @@ public abstract class PickUpKeyObject : KeyObject, IPickUp
     }
     public void updatePos(Vector3 pos)
     {
+        if (this == null)
+            return;
         this.transform.position = pos;
     }
     public virtual void Consume()

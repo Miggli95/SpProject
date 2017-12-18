@@ -113,7 +113,8 @@ public class LevelManager : MonoBehaviour
                 timerText.GetComponent<Timer>().setInstuctions("Keep the grimoire away from the others!");
                 timerText.GetComponent<Timer>().setTimer(62f);
                 timerText.GetComponent<Timer>().setGrimoire();
-                break;
+                dontcheckplayers = true;
+                return;
             case "Credit":
                 timerText.SetActive(true);
                 timerText.GetComponent<Timer>().timerActive(false);
