@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     CameraScript mainCamera;
    
 	// Use this for initialization
-	void Awake()
+	void Start()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
         mainCamera = Camera.main.GetComponent<CameraScript>();
@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour {
         {
             UpdateConnectedPlayers();
             GetComponent<Timer>().addPlayer(connectedControllers);
+            GameObject.Find("LevelManager").GetComponent<LevelManager>().RecountPlayers();
         }
 	}
 
@@ -77,11 +78,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name != "Hub(24x16)")
-        {
-            Debug.Log("Scene loaded");
-            Awake();
-        }
+    { 
+            Start();
     }
 }

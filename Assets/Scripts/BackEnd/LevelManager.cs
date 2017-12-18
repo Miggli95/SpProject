@@ -19,13 +19,10 @@ public class LevelManager : MonoBehaviour
     public GameObject Level3Lock;
     public GameObject Level3Menu;
 
-    void Awake()
+    void Start()
     {
 
-        players = new List<GameObject> { };
-        for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++) {
-            players.Add(GameObject.FindGameObjectsWithTag("Player")[i]);
-        }
+        RecountPlayers();
         InitGame();
     }
 
@@ -35,6 +32,16 @@ public class LevelManager : MonoBehaviour
         startLevel();
         //do game start stuff
 
+    }
+
+    public void RecountPlayers()
+    {
+        players = new List<GameObject> { };
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
+        {
+            players.Add(GameObject.FindGameObjectsWithTag("Player")[i]);
+        }
+        Debug.Log(players.Count);
     }
 
     public void startLevel()
