@@ -39,39 +39,38 @@ public class SoundManagerScript : MonoBehaviour {
 
     public static  void PlaySound (string clip)
     {
-        if (!audioSrc.isPlaying || audioSrc.clip.name != clip)
+
+        switch (clip.ToLower())
         {
-            switch (clip.ToLower())
-            {
-                case "dash":
-                    audioSrc.PlayOneShot(dashSound);
+            case "dash":
+                audioSrc.PlayOneShot(dashSound);
 
-                    break;
-                case "die":
-                    audioSrc.PlayOneShot(dieSound);
-                    break;
-                case "throw":
-                    audioSrc.PlayOneShot(throwSound);
-                    break;
-                case "explode":
-                    audioSrc.PlayOneShot(explodeSound);
-                    break;
-                case "jump":
-                    audioSrc.PlayOneShot(jumpSound);
-                    break;
-                case "ritual":
-                    audioSrc.PlayOneShot(ritualSound);
-                    break;
-                case "portal":
-                    audioSrc.PlayOneShot(portalSound);
-                    break;
-                case "boing":
-                    audioSrc.PlayOneShot(boingSound);
-                    break;
+                break;
+            case "die":
+                audioSrc.PlayOneShot(dieSound);
+                break;
+            case "throw":
+                audioSrc.PlayOneShot(throwSound);
+                break;
+            case "explode":
+                audioSrc.PlayOneShot(explodeSound);
+                break;
+            case "jump":
+                audioSrc.PlayOneShot(jumpSound);
+                break;
+            case "ritual":
+                audioSrc.PlayOneShot(ritualSound);
+                break;
+            case "portal":
+                audioSrc.PlayOneShot(portalSound);
+                break;
+            case "boing":
+                audioSrc.PlayOneShot(boingSound);
+                break;
 
 
-            }
         }
+        
 
 
 
