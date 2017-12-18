@@ -12,22 +12,25 @@ public class ObjectGravity : MonoBehaviour {
     void Start () {
         riggy = this.GetComponent<Rigidbody>();
         setMaxVelocity(maxVelocity);
-        potions = new GameObject[GameObject.FindGameObjectsWithTag("Potion").Length];
-        potions = GameObject.FindGameObjectsWithTag("Potion");
-        players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
-        players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject p in potions)
+        var b = GetComponent<BoxCollider>();
+        if (b != null)
         {
-            Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<BoxCollider>(), true);
+            potions = new GameObject[GameObject.FindGameObjectsWithTag("Potion").Length];
+            potions = GameObject.FindGameObjectsWithTag("Potion");
+            players = new GameObject[GameObject.FindGameObjectsWithTag("Player").Length];
+            players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in potions)
+            {
+                Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<BoxCollider>(), true);
+            }
+
+
+            foreach (GameObject p in players)
+            {
+                Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<CapsuleCollider>(), true);
+                Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<CharacterController>(), true);
+            }
         }
-
-
-        foreach (GameObject p in players)
-        {
-            Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<CapsuleCollider>(), true);
-            Physics.IgnoreCollision(this.GetComponent<BoxCollider>(), p.GetComponent<CharacterController>(), true);
-        }
-
     }
 
     // Update is called once per frame

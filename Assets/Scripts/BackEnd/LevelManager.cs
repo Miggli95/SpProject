@@ -182,9 +182,9 @@ public class LevelManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "Hub(24x16)")
         {
-            SceneManager.LoadScene("Level4(36x18) 1");
+            SceneManager.LoadScene("Level8");
         }
-        if (SceneManager.GetActiveScene().name == "Level4(36x18) 1")
+        if (SceneManager.GetActiveScene().name == "Level8")
         {
             SceneManager.LoadScene("ControllTestLevel");
         }
