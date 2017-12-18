@@ -107,6 +107,17 @@ public class LevelManager : MonoBehaviour
                 timerText.setTimer(60f);
                 timerText.setStartingPositions("Speedrun");
                 break;
+            case "Level8":
+                timerText.gameObject.SetActive(true);
+                timerText.timerActive(false);
+                timerText.setInstuctions("Feed the bear!");
+                break;
+            case "Level9":
+                timerText.gameObject.SetActive(true);
+                timerText.timerActive(false);
+                timerText.setInstuctions("Feed the bear!");
+                timerText.setStartingPositions("Speedrun");
+                break;
             case "Level7(BigxSmaller)":
                 timerText.gameObject.SetActive(true);
                 timerText.timerActive(true);
