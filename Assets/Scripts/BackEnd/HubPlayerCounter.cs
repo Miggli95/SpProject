@@ -33,8 +33,10 @@ public class HubPlayerCounter : MonoBehaviour {
                     SceneManager.LoadScene("Level8");
                     break;
                 case "Level2":
+                    SceneManager.LoadScene("level9");
                     break;
                 case "Level3":
+                    SceneManager.LoadScene("Level7(BigxSmaller");
                     break;
             }
         

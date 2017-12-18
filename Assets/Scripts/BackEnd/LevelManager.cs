@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour
 {
 
     public static LevelManager instance = null;
-    public GameObject timerText;
+    public Timer timerText;
     private int level = 0;
     private string[] levelorder = { "CharacterControllerDevelopmentScene", "Level4(24x16) 1" };
     List<GameObject> players;
@@ -40,41 +40,41 @@ public class LevelManager : MonoBehaviour
     public void startLevel()
     {
         players.Clear();
-        timerText = GameObject.FindGameObjectsWithTag("UICamera")[0];
-        timerText.GetComponent<Timer>().updateManager(this);
+        timerText = GameObject.FindGameObjectsWithTag("UICamera")[0].GetComponent<Timer>();
+        timerText.updateManager(this);
         players = new List<GameObject> { };
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
         {
             players.Add(GameObject.FindGameObjectsWithTag("Player")[i]);
         }
         livingPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
-        timerText.GetComponent<Timer>().setControls();
+        timerText.setControls();
         switch (SceneManager.GetActiveScene().name)
         {
             case "Hub(24x16)":
-                switch (timerText.GetComponent<Timer>().getLastLevel())
+                switch (timerText.getLastLevel())
                 {
                     case "Nothing":
-                        timerText.GetComponent<Timer>().setInstuctions("Welcome to Leaping Lemmings");
-                        timerText.GetComponent<Timer>().timerActive(false);
+                        timerText.setInstuctions("Welcome to Leaping Lemmings");
+                        timerText.timerActive(false);
                         break;
                     case "Level1":
-                        timerText.GetComponent<Timer>().setInstuctions("Well done feeding the bear, now finish the job");
-                        timerText.GetComponent<Timer>().timerActive(false);
+                        timerText.setInstuctions("Well done feeding the bear, now finish the job");
+                        timerText.timerActive(false);
                         Level2Lock.SetActive(false);
                         Level2Menu.SetActive(true);
                         break;
                     case "Level2":
-                        timerText.GetComponent<Timer>().setInstuctions("The bear sated now you have to finish the dark ritual");
-                        timerText.GetComponent<Timer>().timerActive(false);
+                        timerText.setInstuctions("The bear sated now you have to finish the dark ritual");
+                        timerText.timerActive(false);
                         Level2Lock.SetActive(false);
                         Level2Menu.SetActive(true);
                         Level3Lock.SetActive(false);
                         Level3Menu.SetActive(true);
                         break;
                     case "Level3":
-                        timerText.GetComponent<Timer>().setInstuctions("");
-                        timerText.GetComponent<Timer>().timerActive(false);
+                        timerText.setInstuctions("");
+                        timerText.timerActive(false);
                         Level2Lock.SetActive(false);
                         Level2Menu.SetActive(true);
                         Level3Lock.SetActive(false);
@@ -84,42 +84,42 @@ public class LevelManager : MonoBehaviour
                 
                 break;
             case "CharacterControllerDevelopmentScene":
-                timerText.GetComponent<Timer>().timerActive(true);
-                timerText.GetComponent<Timer>().setInstuctions("Dance Party");
-                timerText.GetComponent<Timer>().setTimer(60f);
+                timerText.timerActive(true);
+                timerText.setInstuctions("Dance Party");
+                timerText.setTimer(60f);
                 break;
             case "Level4(36x18) 1":
-                timerText.SetActive(true);
-                timerText.GetComponent<Timer>().timerActive(true);
-                timerText.GetComponent<Timer>().setInstuctions("Drink the potions!");
-                timerText.GetComponent<Timer>().setTimer(60f);
+                timerText.gameObject.SetActive(true);
+                timerText.timerActive(true);
+                timerText.setInstuctions("Drink the potions!");
+                timerText.setTimer(60f);
                 break;
             case "Level5(24x16)":
-                timerText.SetActive(true);
-                timerText.GetComponent<Timer>().timerActive(true);
-                timerText.GetComponent<Timer>().setInstuctions("We Spinnin");
-                timerText.GetComponent<Timer>().setTimer(60f);
+                timerText.gameObject.SetActive(true);
+                timerText.timerActive(true);
+                timerText.setInstuctions("We Spinnin");
+                timerText.setTimer(60f);
                 break;
             case "ControllTestLevel":
-                timerText.SetActive(true);
-                timerText.GetComponent<Timer>().timerActive(true);
-                timerText.GetComponent<Timer>().setInstuctions("Feed the bear!");
-                timerText.GetComponent<Timer>().setTimer(60f);
-                timerText.GetComponent<Timer>().setStartingPositions("Speedrun");
+                timerText.gameObject.SetActive(true);
+                timerText.timerActive(true);
+                timerText.setInstuctions("Feed the bear!");
+                timerText.setTimer(60f);
+                timerText.setStartingPositions("Speedrun");
                 break;
             case "Level7(BigxSmaller)":
-                timerText.SetActive(true);
-                timerText.GetComponent<Timer>().timerActive(true);
-                timerText.GetComponent<Timer>().setInstuctions("Keep the grimoire away from the others!");
-                timerText.GetComponent<Timer>().setTimer(62f);
-                timerText.GetComponent<Timer>().setGrimoire();
+                timerText.gameObject.SetActive(true);
+                timerText.timerActive(true);
+                timerText.setInstuctions("Keep the grimoire away from the others!");
+                timerText.setTimer(62f);
+                timerText.setGrimoire();
                 dontcheckplayers = true;
                 return;
             case "Credit":
-                timerText.SetActive(true);
-                timerText.GetComponent<Timer>().timerActive(false);
-                timerText.GetComponent<Timer>().setInstuctions("");
-                timerText.GetComponent<Timer>().setStartingPositions("Credit");
+                timerText.gameObject.SetActive(true);
+                timerText.timerActive(false);
+                timerText.setInstuctions("");
+                timerText.setStartingPositions("Credit");
                 break;
         }
         dontcheckplayers = false;
@@ -140,12 +140,12 @@ public class LevelManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
-            if (timerText.GetComponent<Timer>().getLastLevel() == "Level2")
-                timerText.GetComponent<Timer>().setLastLevel("Level3");
-            if (timerText.GetComponent<Timer>().getLastLevel() == "Level1")
-                timerText.GetComponent<Timer>().setLastLevel("Level2");
-            if (timerText.GetComponent<Timer>().getLastLevel()== "Nothing")
-                timerText.GetComponent<Timer>().setLastLevel("Level1");
+            if (timerText.getLastLevel() == "Level2")
+                timerText.setLastLevel("Level3");
+            if (timerText.getLastLevel() == "Level1")
+                timerText.setLastLevel("Level2");
+            if (timerText.getLastLevel()== "Nothing")
+                timerText.setLastLevel("Level1");
 
         }
         int i = 0;
@@ -164,7 +164,7 @@ public class LevelManager : MonoBehaviour
             }
             if (i < livingPlayers)
             {
-                timerText.GetComponent<Timer>().playerDied();
+                timerText.playerDied();
                 livingPlayers = i;
                 //doscoreboardshit(deadPlayer)
             }
@@ -183,15 +183,18 @@ public class LevelManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "Hub(24x16)")
         {
+            timerText.setLastLevel("Nothing");
             SceneManager.LoadScene("Level8");
         }
         if (SceneManager.GetActiveScene().name == "Level8")
         {
-            SceneManager.LoadScene("Level9");
+            timerText.setLastLevel("Level1");
+            SceneManager.LoadScene("Hub(24x16)");
         }
         if (SceneManager.GetActiveScene().name == "Level9")
         {
-            SceneManager.LoadScene("Level7(BigxSmaller)");
+            timerText.setLastLevel("Level2");
+            SceneManager.LoadScene("Hub(24x16)");
         }
         if(SceneManager.GetActiveScene().name== "Level7(BigxSmaller)")
         {
@@ -202,7 +205,7 @@ public class LevelManager : MonoBehaviour
             SceneManager.LoadScene("Hub(24x16)");
         }
 
-        timerText.GetComponent<Timer>().setInstuctions("");
+        timerText.setInstuctions("");
 
         startLevel();
     }
