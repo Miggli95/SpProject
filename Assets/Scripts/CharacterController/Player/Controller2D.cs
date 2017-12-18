@@ -449,45 +449,8 @@ public class Controller2D : MonoBehaviour
 
 
         //Rays();
-        if (!jumping)
-        {
-            onPlayerHead = OnPlayerHead();
-        }
-
-        else
-        {
-            onPlayerHead = false;
-        }
-        if (onPlayerHead)
-        {
-            if (!jumpDown)
-            {
-                Grounded = onPlayerHead;
-            }
-            else
-            {
-                onPlayerHead = false;
-                Grounded = controller.isGrounded;
-                //onPlayerHead = false;
-                jumpDown = !controller.isGrounded;
-            }
-        }
-
-        else
-        {
-            //onPlayerHead = false;
-            Grounded = controller.isGrounded;
-        }
-
-        if (jumpDown && Grounded)
-        {
-            jumpDown = false;
-        }
-
-        if (jumping)
-        {
-            jumping = moveDir.y > 0;
-        }
+       
+        
 
         if (Grounded)
         {
@@ -551,7 +514,7 @@ public class Controller2D : MonoBehaviour
         }
 
         colFlags = controller.Move(moveDir * Time.fixedDeltaTime);
-
+  
         if (controller.velocity.x == 0)
         {
             moveDir.x = 0;
@@ -574,6 +537,48 @@ public class Controller2D : MonoBehaviour
             newPosition.z = startZ;
             transform.position = newPosition;
         }
+
+        Rays();
+        if (!jumping)
+        {
+            onPlayerHead = OnPlayerHead();
+        }
+
+        else
+        {
+            onPlayerHead = false;
+        }
+        if (onPlayerHead)
+        {
+            if (!jumpDown)
+            {
+                Grounded = onPlayerHead;
+            }
+            else
+            {
+                onPlayerHead = false;
+                Grounded = controller.isGrounded;
+                //onPlayerHead = false;
+                jumpDown = !controller.isGrounded;
+            }
+        }
+
+        else
+        {
+            //onPlayerHead = false;
+            Grounded = controller.isGrounded;
+        }
+
+        if (jumpDown && Grounded)
+        {
+            jumpDown = false;
+        }
+
+        if (jumping)
+        {
+            jumping = moveDir.y > 0;
+        }
+
     }
 
     public bool jumpDown = false;
