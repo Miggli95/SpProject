@@ -865,12 +865,17 @@ public class Controller2D : MonoBehaviour
     {
         if (!dash && !isSlowed)
         {
-            this.transform.GetChild(3).gameObject.SetActive(true);
+           
             dashInput = charInput;
             //dashDestination = moveDir;
             dashTimer = DashTimer;
+            if (dashInput.x != 0)
+            {
+                SoundManagerScript.PlaySound("Dash");
+                this.transform.GetChild(3).gameObject.SetActive(true);
+            }
             dash = true;
-            SoundManagerScript.PlaySound("Dash");
+           
         }
     }
 
