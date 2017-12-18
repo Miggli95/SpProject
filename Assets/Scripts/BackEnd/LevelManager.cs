@@ -186,9 +186,9 @@ public class LevelManager : MonoBehaviour
         }
         if (SceneManager.GetActiveScene().name == "Level8")
         {
-            SceneManager.LoadScene("ControllTestLevel");
+            SceneManager.LoadScene("Level9");
         }
-        if (SceneManager.GetActiveScene().name == "ControllTestLevel")
+        if (SceneManager.GetActiveScene().name == "Level9")
         {
             SceneManager.LoadScene("Level7(BigxSmaller)");
         }

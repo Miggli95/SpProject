@@ -31,19 +31,19 @@ public class NewBearMouth : MonoBehaviour
                 {
                     case "30point":
                         score.runeGet(other.name, 30);
-                        despawnFirst();
+                        //despawnFirst();
                         other.GetComponent<Controller2D>().doDeath();
                         this.name = "20point";
                         break;
                     case "20point":
                         score.runeGet(other.name, 20);
-                        despawnSecond();
+                        //despawnSecond();
                         other.GetComponent<Controller2D>().doDeath();
                         this.name = "10point";
                         break;
                     case "10point":
                         score.runeGet(other.name, 10);
-                        despawnThird();
+                        //despawnThird();
                         other.GetComponent<Controller2D>().doDeath();
                         break;
 
