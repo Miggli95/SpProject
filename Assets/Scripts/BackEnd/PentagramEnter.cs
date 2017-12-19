@@ -77,7 +77,7 @@ public class PentagramEnter : MonoBehaviour
                         particle.SetActive(false);
                     }
                     break;
-                case "PentaYelP":
+                case "PentaYellowP":
                     if (other.gameObject.name == "P3")
                     {
                         particle.SetActive(false);
