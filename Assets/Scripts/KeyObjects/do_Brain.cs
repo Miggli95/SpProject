@@ -23,7 +23,7 @@ public class do_Brain : pickUpDisruptiveObject {
         gracePeriod = 0.7f;
         grace = false;
         ren = GetComponent<SpriteRenderer>();
-        
+        ID = "Brain";
     }
 
     public override void OnTriggerEnter(Collider other)

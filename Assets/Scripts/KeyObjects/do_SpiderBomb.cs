@@ -33,6 +33,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         grace = false;
         og = rend.sprite;
         soundy = GameObject.Find("UI Camera").GetComponent<SoundManagerScript>();
+        ID = "Spider Bomb";
     }
 	
 	// Update is called once per frame
