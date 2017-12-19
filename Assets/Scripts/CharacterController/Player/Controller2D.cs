@@ -1012,12 +1012,10 @@ public class Controller2D : MonoBehaviour
         {
             UnityEngine.Debug.Log(PickUpFocusSelected + " " + PickUpFocusList.Count);
             PickUpFocusSelected = 0;
-            UnityEngine.Debug.Log("Moved to front");
         }
         else if (PickUpFocusSelected + i < 0)
         {
             PickUpFocusSelected = PickUpFocusList.Count - 1;
-            UnityEngine.Debug.Log("Moved to back " + PickUpFocusSelected + ":index " + PickUpFocusList.Count + ":list size");
         }
         else
         {
