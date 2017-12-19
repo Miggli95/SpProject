@@ -33,7 +33,7 @@ public class CharacterAnimationController : MonoBehaviour {
 		PlayJumpAnimation();
 		AnimationLayer ();
 
-		//PlayChristmas ();
+		PlayChristmas ();
 	}
 
 
