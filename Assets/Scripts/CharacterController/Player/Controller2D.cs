@@ -601,7 +601,7 @@ public class Controller2D : MonoBehaviour
             pressed = false;
         }
 
-        if (!DelayStart.gameStarted)
+        if (!DelayStart.gameStarted && GameObject.FindGameObjectWithTag("DelayStart")!=null)
         {
             return;
         }
