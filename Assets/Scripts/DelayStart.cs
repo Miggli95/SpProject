@@ -5,7 +5,7 @@ using UnityEngine;
 public class DelayStart : MonoBehaviour {
 
     public GameObject countDown;
-    
+    public static bool gameStarted = false;
 	// Use this for initialization
 	void Start () {
         StartCoroutine("DelayStart1");
@@ -24,7 +24,7 @@ public class DelayStart : MonoBehaviour {
             yield return 0;
         countDown.gameObject.SetActive(false);
         Time.timeScale = 1;
-        
+        gameStarted = true;
         // print("working");
 
 

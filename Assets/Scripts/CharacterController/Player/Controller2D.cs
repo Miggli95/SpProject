@@ -601,6 +601,11 @@ public class Controller2D : MonoBehaviour
             pressed = false;
         }
 
+        if (!DelayStart.gameStarted)
+        {
+            return;
+        }
+
         velocity = controller.velocity;
         //Grounded = controller.isGrounded;
         if (Mathf.Abs(controller.velocity.x) > 0)
