@@ -8,7 +8,7 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
 {
     public pickUpState state;
     protected ObjectGravity ObjGrav;
-
+    protected string ID;
     public virtual void Drop()
     {
         state = pickUpState.Waiting;
@@ -19,11 +19,12 @@ public abstract class pickUpDisruptiveObject : MonoBehaviour, IPickUp
     {
         state = pickUpState.Waiting;
         ObjGrav = this.GetComponent<ObjectGravity>();
+        ID = "Disruptive";
     }
 
     public virtual string getID()
     {
-        return "disruptive";
+        return ID;
     }
 
     public void Outline()

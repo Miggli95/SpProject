@@ -812,6 +812,7 @@ public class Controller2D : MonoBehaviour
         checkAction();
         cyclePickUpSelected(CheckBumper());
         updateCarryPos(this.transform.position);
+        checkPickUpList();
 
 
     }
@@ -968,7 +969,7 @@ public class Controller2D : MonoBehaviour
                 UnityEngine.Debug.Log("Interacted by trying to use a keyobject");
                 InteractFocus.Interact(this);
             }
-            else if (!UseResult && PickUpCarry.getID() != "RitualBook")
+            else if (!UseResult && PickUpCarry != null && PickUpCarry.getID() != "RitualBook")
             {
                 removePickUpFocus(PickUpCarry);
                 PickUpCarry = null;
@@ -1154,4 +1155,17 @@ public class Controller2D : MonoBehaviour
             PickUpCarry.StartTimer();
     }
 
+    private void checkPickUpList()
+    {
+        if (PickUpFocusList.Count == 0)
+            return;
+        for (int i = 0; i < PickUpFocusList.Count; i++)
+        {
+            if (PickUpFocusList[i] == null)
+            {
+                PickUpFocusList.RemoveAt(i);
+            }
+
+        }
+    }
 }
