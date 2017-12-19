@@ -149,7 +149,7 @@ public class LevelManager : MonoBehaviour
         {
             loadNextLevel();
         }
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             if (SceneManager.GetActiveScene().name != "Level5(24x16) 2")
                 SceneManager.LoadScene("Level5(24x16) 2");
