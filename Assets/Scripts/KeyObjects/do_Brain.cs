@@ -15,10 +15,12 @@ public class do_Brain : pickUpDisruptiveObject {
     private float gracePeriod;
     private float graceTimer;
     private Rigidbody rb;
+    private List<Controller2D> players;
 
     public void Start()
     {
         base.Initialize();
+        players = new List<Controller2D>();
         graceTimer = 0f;
         gracePeriod = 0.7f;
         grace = false;
@@ -29,8 +31,11 @@ public class do_Brain : pickUpDisruptiveObject {
     public override void OnTriggerEnter(Collider other)
 
     {
-        if(state == pickUpState.Waiting)
+        if (state == pickUpState.Waiting && other.CompareTag("Player"))
+        {
             base.OnTriggerEnter(other);
+            players.Add(other.GetComponent<Controller2D>());
+        }
 
         if (state == pickUpState.Used && other.CompareTag("Player"))
         {
@@ -43,10 +48,17 @@ public class do_Brain : pickUpDisruptiveObject {
         }
         
     }
+    private void clearFocus()
+    {
+        foreach (Controller2D p in players)
+            p.removePickUpFocus(this);
+    }
 
     public override void OnTriggerExit(Collider other)
     {
         base.OnTriggerExit(other);
+        if (other.CompareTag("Player"))
+            players.Remove(other.GetComponent<Controller2D>());
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -59,6 +71,7 @@ public class do_Brain : pickUpDisruptiveObject {
     {
         playSound("throw");
         usingPlayer = player;
+        clearFocus();
         if (player.charInput.y < -0.1)
         {
             player.forceDrop();

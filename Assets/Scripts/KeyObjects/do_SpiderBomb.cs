@@ -47,7 +47,6 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
                 player.forceDrop();
             var obj = Instantiate(SlowZone, this.transform.position, this.transform.rotation);
             obj.GetComponent<SlowZone>().Spawn(5f);
-            clearFocus();
             SoundManagerScript.PlaySound("explode");
             Destroy(this.gameObject);
         }
@@ -139,6 +138,7 @@ public class do_SpiderBomb : pickUpDisruptiveObject {
         playSound("throw");
         fuseLit = true;
         timer = fuse;
+        clearFocus();
         if (player.charInput.y < -.10)
         {
             player.forceDrop();
