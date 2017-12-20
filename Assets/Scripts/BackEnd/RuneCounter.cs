@@ -30,7 +30,7 @@ public class RuneCounter : MonoBehaviour {
 
         if (other.GetType() == typeof(CharacterController) && small)
         {
-
+            print("Got score");
             score.runeGet(other.gameObject.name,1);
             other.gameObject.GetComponent<Controller2D>().sizeUp();
             

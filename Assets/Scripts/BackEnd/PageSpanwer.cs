@@ -9,7 +9,7 @@ public class PageSpanwer : MonoBehaviour {
     public float spawnRate = 1.0f;
     public GameObject smallRune;
     private float timeSinceSpawn = 0f;
-    private Vector3 boxSize = new Vector3(0.25f, 0.25f, 0.25f);
+    private Vector3 boxSize = new Vector3(0.5f, 0.5f, 0.5f);
     private bool okaySpawn = false;
     private float randX;
     private float randY;

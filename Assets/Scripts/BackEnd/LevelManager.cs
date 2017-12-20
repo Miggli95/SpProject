@@ -187,7 +187,6 @@ public class LevelManager : MonoBehaviour
             }
             if (i == 1)
             {
-                print("you did die");
                 loadNextLevel();
             }
         }

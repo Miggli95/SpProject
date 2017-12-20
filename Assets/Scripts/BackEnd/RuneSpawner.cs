@@ -8,9 +8,11 @@ public class RuneSpawner : MonoBehaviour {
     public float ySpawnRange;
     public float spawnRate = 1.0f;
     public GameObject smallRune;
+    private bool okaySpawn = false;
     private float timeSinceSpawn = 0f;
-	// Use this for initialization
-	void Start () {
+    private Vector3 boxSize = new Vector3(0.25f, 0.25f, 0.25f);
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -28,8 +30,19 @@ public class RuneSpawner : MonoBehaviour {
 	}
     private void spawn()
     {
-        Vector3 randSpawn = new Vector3(this.transform.position.x+Random.Range(-xSpawnRange, xSpawnRange), this.transform.position.y+Random.Range(-ySpawnRange, ySpawnRange), 0f);
         Quaternion randQuant = new Quaternion(0f, 0f, 0f, 0f);
-        Instantiate(smallRune, randSpawn, randQuant);
+        while (!okaySpawn)
+        {
+            var randX = Random.Range(-xSpawnRange, xSpawnRange);
+            var randY = Random.Range(-ySpawnRange, ySpawnRange);
+            Vector3 randSpawn = new Vector3(this.transform.position.x + randX, this.transform.position.y + randY, 0f);
+            if (!Physics.CheckBox(randSpawn, boxSize, randQuant))
+            {
+                Instantiate(smallRune, randSpawn, randQuant);
+                okaySpawn = true;
+            }
+
+        }
+        okaySpawn = false;
     }
 }
