@@ -160,8 +160,6 @@ public abstract class StaticKeyObject : KeyObject, IInteractable
     {
         requirement.Remove(id);
         requirement.TrimExcess();
-        foreach (string s in requirement)
-            Debug.Log(s);
         
     }
 

@@ -971,7 +971,6 @@ public class Controller2D : MonoBehaviour
             var UseResult = PickUpCarry.Use(this);
             if (UseResult && InteractFocus != null) //PickUpCarry.Use() should only return true if the object is a key object. Currently pick up key objects are not planned to have a unique use method.
             {
-                UnityEngine.Debug.Log("Interacted by trying to use a keyobject");
                 InteractFocus.Interact(this);
             }
             else if (!UseResult && PickUpCarry != null && PickUpCarry.getID() != "RitualBook")
@@ -1015,7 +1014,6 @@ public class Controller2D : MonoBehaviour
         PickUpFocusList[PickUpFocusSelected].removeOutline();
         if (PickUpFocusSelected + i >= PickUpFocusList.Count)
         {
-            UnityEngine.Debug.Log(PickUpFocusSelected + " " + PickUpFocusList.Count);
             PickUpFocusSelected = 0;
         }
         else if (PickUpFocusSelected + i < 0)
