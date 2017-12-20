@@ -41,7 +41,6 @@ public class LevelManager : MonoBehaviour
         {
             players.Add(GameObject.FindGameObjectsWithTag("Player")[i]);
         }
-        Debug.Log(players.Count);
     }
 
     public void startLevel()

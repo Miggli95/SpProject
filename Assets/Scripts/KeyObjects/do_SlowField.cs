@@ -13,7 +13,6 @@ public class do_SlowField : pickUpDisruptiveObject {
 
     public override bool Use(Controller2D player)
     {
-        Debug.Log("Used slowfield");
         state = pickUpState.Used;
         Timer = Countdown;
         return false;
