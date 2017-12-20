@@ -25,7 +25,7 @@ public class HubPlayerCounter : MonoBehaviour {
             }
         }
         texty.text = "Start game" + "\n" + "Players: " + i + " / " + manager.connectedControllers;
-        if(i == manager.connectedControllers)
+        if(i == manager.connectedControllers && manager.connectedControllers != 1)
         {
             switch (this.name)
             {
