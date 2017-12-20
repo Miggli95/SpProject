@@ -122,13 +122,13 @@ public class LevelManager : MonoBehaviour
             case "Level8":
                 timerText.gameObject.SetActive(true);
                 timerText.timerActive(true);
-                timerText.setTimer(60f);
+                timerText.setTimer(160f);
                 timerText.setInstuctions("Practice feeding the bear!");
                 break;
             case "Level9":
                 timerText.gameObject.SetActive(true);
                 timerText.timerActive(true);
-                timerText.setTimer(60f);
+                timerText.setTimer(160f);
                 timerText.setInstuctions("Feed the bear for real!");
                 timerText.setStartingPositions("Speedrun");
                 break;
