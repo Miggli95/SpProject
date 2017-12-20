@@ -27,6 +27,9 @@ public class Timer : MonoBehaviour
     private List<bool> simpleControls = null;
     private string lastLevel = "Nothing";
     bool stopTimer = false;
+    private GameObject levelkeeper;
+    private bool christmasmiracle = false;
+    private float saveTime;
     // Use this for initialization
     void Awake()
     {
@@ -424,6 +427,31 @@ public class Timer : MonoBehaviour
     {
         stopTimer = true;
     }
+    public void setchristmasmiracle(bool t)
+    {
+        christmasmiracle = t;
+    }
+    public void setlevelKeeper(GameObject keep)
+    {
+        levelkeeper = keep;
+    }
+    public bool getchristmasmiracle()
+    {
+        return christmasmiracle;
+    }
+    public void activatelevelKeeper(bool t)
+    {
+        levelkeeper.SetActive(t);
+        if (!t)
+        {
+            saveTime = timer;
+        }
+        else
+        {
+            timer = saveTime;
+        }
+    }
 
-    
+
+
 }

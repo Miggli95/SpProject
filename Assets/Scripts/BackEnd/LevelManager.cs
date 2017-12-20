@@ -18,12 +18,16 @@ public class LevelManager : MonoBehaviour
     public GameObject Level2Menu;
     public GameObject Level3Lock;
     public GameObject Level3Menu;
-
+    private GameObject levelKeeper;
+    private Timer timmy;
     void Start()
     {
 
         RecountPlayers();
         InitGame();
+        levelKeeper = GameObject.Find("LevelKeeper");
+        timmy = GameObject.Find("UI Camera").GetComponent<Timer>();
+        
     }
 
 
@@ -36,6 +40,7 @@ public class LevelManager : MonoBehaviour
 
     public void RecountPlayers()
     {
+        timerText = GameObject.FindGameObjectsWithTag("UICamera")[0].GetComponent<Timer>();
         players = new List<GameObject> { };
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
         {
@@ -46,7 +51,7 @@ public class LevelManager : MonoBehaviour
     public void startLevel()
     {
         players.Clear();
-        timerText = GameObject.FindGameObjectsWithTag("UICamera")[0].GetComponent<Timer>();
+        
         timerText.updateManager(this);
         players = new List<GameObject> { };
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("Player").Length; i++)
@@ -150,10 +155,26 @@ public class LevelManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            if (SceneManager.GetActiveScene().name != "Level5(24x16) 2")
-                SceneManager.LoadScene("Level5(24x16) 2");
+            if (timmy.getchristmasmiracle())
+            {
+                GameObject.Find("UI Camera").GetComponent<AudioSource>().enabled = true;
+                timmy.setchristmasmiracle(false);
+                SceneManager.UnloadSceneAsync("Level5(24x16) 2");
+                timmy.activatelevelKeeper(true);
+                destroyApples();
+
+
+            }
             else
-                SceneManager.LoadScene("Hub(24x16)");
+            {
+                // saveActiveScene();
+                GameObject.Find("UI Camera").GetComponent<AudioSource>().enabled = false;
+                timmy.setlevelKeeper(levelKeeper);
+                timmy.setchristmasmiracle(true);
+                SceneManager.LoadScene("Level5(24x16) 2", LoadSceneMode.Additive);
+                timmy.activatelevelKeeper(false);
+
+            }
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
@@ -257,5 +278,25 @@ public class LevelManager : MonoBehaviour
         }
         List<bool> b = new List<bool> { simpleControls[0], simpleControls[1], simpleControls[2], simpleControls[3] };
         timerText.GetComponent<Timer>().SaveControls(b);
+    }
+    private void destroyApples()
+    {
+        GameObject[] apples = new GameObject[GameObject.FindGameObjectsWithTag("Rune").Length];
+        apples = GameObject.FindGameObjectsWithTag("Rune");
+        foreach (GameObject a in apples)
+        {
+            Destroy(a);
+        }
+    }
+    private void saveActiveScene()
+    {
+        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        foreach (GameObject go in allObjects)
+        {
+            if(go.transform.parent=null )
+            {
+                go.transform.parent = levelKeeper.transform;
+            }
+        }
     }
 }
