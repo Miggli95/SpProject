@@ -196,6 +196,18 @@ public class LevelManager : MonoBehaviour
                 timerText.setLastLevel("Level1");
 
         }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if(SceneManager.GetActiveScene().name == "Level10(Super Hardcore)")
+            {
+                SceneManager.LoadScene("Hub(24x16)");
+            }
+            else
+            {
+                SceneManager.LoadScene("Level10(Super Hardcore)");
+            }
+
+        }
         int i = 0;
         if (!dontcheckplayers)
         {
