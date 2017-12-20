@@ -64,11 +64,11 @@ public class Timer : MonoBehaviour
         if (active && SceneManager.GetActiveScene().name == "Level7(BigxSmaller)")
         {
 
-            if (timer > 10f)
-                counterText.text = levelInstructions + "\n" + ((int)timer - 2);
+            if (timer > 11f)
+                counterText.text = levelInstructions + "\n" + ((int)timer - 1);
             else if(timer >0)
-                counterText.text = levelInstructions + "\n" + "<color=#ff0000ff>" + "<size=40>" + ((int)timer - 2) + "</size> </color>";
-            else if (timer < 0)
+                counterText.text = levelInstructions + "\n" + "<color=#ff0000ff>" + "<size=40>" + ((int)timer - 1) + "</size> </color>";
+            else if (timer < 1)
             {
                 counterText.text = levelInstructions + "\n" + "<color=#ff0000ff>" + "<size=40>" + "0" + "</size> </color>";
             }
