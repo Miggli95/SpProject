@@ -206,7 +206,7 @@ public class LevelManager : MonoBehaviour
                 livingPlayers = i;
                 //doscoreboardshit(deadPlayer)
             }
-            if (i == 1)
+            if (i == 1 && GameObject.Find("UI Camera").GetComponent<GameManager>().connectedControllers != 1)
             {
                 loadNextLevel();
             }
