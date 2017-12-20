@@ -42,7 +42,7 @@ public class do_Brain : pickUpDisruptiveObject {
             var HitPlayer = other.GetComponent<Controller2D>();
             if (grace && HitPlayer == usingPlayer)
                 return;
-            HitPlayer.stopMove(1f);
+            HitPlayer.stopMove(1.5f);
             HitPlayer.forceDrop();
             Destroy(this.gameObject);
         }
