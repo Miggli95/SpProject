@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterAnimationController : MonoBehaviour {
 
@@ -18,7 +19,12 @@ public class CharacterAnimationController : MonoBehaviour {
 		animator = gameObject.GetComponent<Animator>();
 		charController = GetComponent<CharacterController>();
 
-		isChristmas = false;
+		Scene currentScene = SceneManager.GetActiveScene ();
+		string currentSceneName = currentScene.name;
+		if (currentSceneName.Equals ("Level5(24x16) 2"))
+			isChristmas = true;
+		else
+			isChristmas = false;
 	}
 
 	// Use this for initialization
@@ -32,8 +38,6 @@ public class CharacterAnimationController : MonoBehaviour {
 		PlayDashAnimation ();
 		PlayJumpAnimation();
 		AnimationLayer ();
-
-		PlayChristmas ();
 	}
 
 
@@ -58,13 +62,7 @@ public class CharacterAnimationController : MonoBehaviour {
 		animator.SetBool ("Jump", charController.isGrounded);
 		animator.SetFloat ("MoveDirY", Mathf.Abs(controller2D.moveDir.y));
 	}
-
-
-	private void PlayChristmas(){
-		if (Input.GetKeyDown (KeyCode.J)) {
-			isChristmas = !isChristmas;
-		}
-	}
+		
 
 	private void AnimationLayer(){
 		if (!isChristmas) {
