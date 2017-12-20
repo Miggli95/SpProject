@@ -155,7 +155,7 @@ public class Timer : MonoBehaviour
     }
     public void playerDied()
     {
-        timer = timer / 2;
+        //timer = timer / 2;
     }
     public void timerActive(bool t)
     {
@@ -442,6 +442,7 @@ public class Timer : MonoBehaviour
     public void activatelevelKeeper(bool t)
     {
         levelkeeper.SetActive(t);
+        christmasmiracle = !christmasmiracle;
         if (!t)
         {
             saveTime = timer;

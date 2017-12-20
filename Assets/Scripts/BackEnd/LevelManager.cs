@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
     public GameObject Level3Menu;
     private GameObject levelKeeper;
     private Timer timmy;
+    private float pressJtimer = 3f;
     void Start()
     {
 
@@ -120,13 +121,15 @@ public class LevelManager : MonoBehaviour
                 break;
             case "Level8":
                 timerText.gameObject.SetActive(true);
-                timerText.timerActive(false);
-                timerText.setInstuctions("Feed the bear!");
+                timerText.timerActive(true);
+                timerText.setTimer(60f);
+                timerText.setInstuctions("Practice feeding the bear!");
                 break;
             case "Level9":
                 timerText.gameObject.SetActive(true);
-                timerText.timerActive(false);
-                timerText.setInstuctions("Feed the bear!");
+                timerText.timerActive(true);
+                timerText.setTimer(60f);
+                timerText.setInstuctions("Feed the bear for real!");
                 timerText.setStartingPositions("Speedrun");
                 break;
             case "Level7(BigxSmaller)":
@@ -153,26 +156,33 @@ public class LevelManager : MonoBehaviour
         {
             loadNextLevel();
         }
+        if(pressJtimer > 0)
+        {
+            pressJtimer -= Time.deltaTime;
+        }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            if (timmy.getchristmasmiracle())
-            {
-                GameObject.Find("UI Camera").GetComponent<AudioSource>().enabled = true;
-                timmy.setchristmasmiracle(false);
+            if(SceneManager.sceneCount > 1 && pressJtimer < 0)
+            { 
                 SceneManager.UnloadSceneAsync("Level5(24x16) 2");
+                GameObject.Find("UI Camera").GetComponent<AudioSource>().enabled = true;
                 timmy.activatelevelKeeper(true);
                 destroyApples();
 
+                pressJtimer = 3f;
+                
+
 
             }
-            else
+            else if(pressJtimer <0)
             {
                 // saveActiveScene();
                 GameObject.Find("UI Camera").GetComponent<AudioSource>().enabled = false;
                 timmy.setlevelKeeper(levelKeeper);
-                timmy.setchristmasmiracle(true);
+                //timmy.setchristmasmiracle(true);
                 SceneManager.LoadScene("Level5(24x16) 2", LoadSceneMode.Additive);
                 timmy.activatelevelKeeper(false);
+                pressJtimer = 3f;
 
             }
         }
@@ -204,9 +214,8 @@ public class LevelManager : MonoBehaviour
             {
                 timerText.playerDied();
                 livingPlayers = i;
-                //doscoreboardshit(deadPlayer)
             }
-            if (i == 1 && GameObject.Find("UI Camera").GetComponent<GameManager>().connectedControllers != 1)
+            if (i == 1 && GameObject.Find("UI Camera").GetComponent<GameManager>().connectedControllers !=1)
             {
                 loadNextLevel();
             }
