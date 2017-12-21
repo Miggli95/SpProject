@@ -239,7 +239,7 @@ public class LevelManager : MonoBehaviour
         players.Clear();
         dontcheckplayers = true;
 
-        if (SceneManager.GetActiveScene().name == "Hub(24x16)")
+        if (SceneManager.GetActiveScene().name == "Hub(24x16)" && timerText.getLastLevel() == "Nothing")
         {
             timerText.setLastLevel("Nothing");
             SceneManager.LoadScene("Level8");
@@ -249,12 +249,22 @@ public class LevelManager : MonoBehaviour
             timerText.setLastLevel("Level1");
             SceneManager.LoadScene("Hub(24x16)");
         }
+        if (SceneManager.GetActiveScene().name == "Hub(24x16)" && timerText.getLastLevel() == "Level1")
+        {
+            timerText.setLastLevel("Level1");
+            SceneManager.LoadScene("Level9");
+        }
         if (SceneManager.GetActiveScene().name == "Level9")
         {
             timerText.setLastLevel("Level2");
             SceneManager.LoadScene("Hub(24x16)");
         }
-        if(SceneManager.GetActiveScene().name== "Level7(BigxSmaller)")
+        if (SceneManager.GetActiveScene().name == "Hub(24x16)" && timerText.getLastLevel() == "Level2")
+        {
+            timerText.setLastLevel("Level3");
+            SceneManager.LoadScene("Level7(BigxSmaller)");
+        }
+        if (SceneManager.GetActiveScene().name== "Level7(BigxSmaller)")
         {
             SceneManager.LoadScene("Credit");
         }

@@ -20,7 +20,7 @@ public class CharacterAnimationController : MonoBehaviour {
 		charController = GetComponent<CharacterController>();
 
 		Scene currentScene = SceneManager.GetActiveScene ();
-		if (GameObject.FindGameObjectWithTag("UICamera").GetComponent<Timer>().getchristmasmiracle())
+		if (SceneManager.sceneCount == 2)
 			isChristmas = true;
 		else
 			isChristmas = false;

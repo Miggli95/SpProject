@@ -31,7 +31,7 @@ public class NewBearMouth : MonoBehaviour
                 {
                     case "30point":
                         score.runeGet(other.name, 30);
-                        //despawnFirst();
+                        despawnFirst();
                         other.GetComponent<Controller2D>().doDeath();
                         this.name = "20point";
                         break;
@@ -55,9 +55,8 @@ public class NewBearMouth : MonoBehaviour
     private void despawnFirst()
     {
         //add more animation/interesting stuff
-        GameObject.Find("BearEvenHungrier").SetActive(false);
-        GameObject.Find("BearHungry").SetActive(true);
-        this.gameObject.SetActive(false);
+        GameObject.Find("BearEvenHungrier").transform.localScale = new Vector3(170f, 170f, 170f);
+        GameObject.Find("BearEvenHungrier").transform.position += new Vector3(1f, 0f,0f);
     }
     private void despawnSecond()
     {
