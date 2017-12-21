@@ -62,16 +62,13 @@ public class NewBearMouth : MonoBehaviour
     {
         //add more animation/interesting stuff
 
-        GameObject.Find("BearHungry").SetActive(false);
-        GameObject.Find("Bear").SetActive(true);
-        this.gameObject.SetActive(false);
+        GameObject.Find("BearEvenHungrier").transform.localScale = new Vector3(140f, 140f, 140f);
+        GameObject.Find("BearEvenHungrier").transform.position += new Vector3(1f, 0f, 0f);
 
     }
     private void despawnThird()
     {
-        //add more animation/interesting stuff
-        GameObject.Find("Bear").SetActive(false);
-        this.gameObject.SetActive(false);
-
+        GameObject.Find("BearEvenHungrier").transform.localScale = new Vector3(110f, 110f, 110f);
+        GameObject.Find("BearEvenHungrier").transform.position += new Vector3(1f, 0f, 0f);
     }
 }

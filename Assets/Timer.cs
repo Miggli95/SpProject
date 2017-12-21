@@ -442,14 +442,17 @@ public class Timer : MonoBehaviour
     public void activatelevelKeeper(bool t)
     {
         levelkeeper.SetActive(t);
+        
         christmasmiracle = !christmasmiracle;
         if (!t)
         {
             saveTime = timer;
+            active = false;
         }
         else
         {
             timer = saveTime;
+            active = true;
         }
     }
 

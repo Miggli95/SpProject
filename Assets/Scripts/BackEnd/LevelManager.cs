@@ -272,6 +272,7 @@ public class LevelManager : MonoBehaviour
         {
             SceneManager.LoadScene("Hub(24x16)");
         }
+        
 
         timerText.setInstuctions("");
 
