@@ -39,7 +39,10 @@ public class SoundManagerScript : MonoBehaviour {
 
     public static  void PlaySound (string clip)
     {
-
+        if (audioSrc == null)
+        {
+            return;
+        }
         switch (clip.ToLower())
         {
             case "dash":
