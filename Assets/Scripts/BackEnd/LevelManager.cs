@@ -196,6 +196,10 @@ public class LevelManager : MonoBehaviour
                 timerText.setLastLevel("Level1");
 
         }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            SceneManager.LoadScene("Level7(BigxSmaller) 1");
+        }
         if (Input.GetKeyDown(KeyCode.B))
         {
             if(SceneManager.GetActiveScene().name == "Level10(Super Hardcore)")
